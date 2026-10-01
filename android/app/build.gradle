@@ -1,0 +1,11 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'org.wildwood.sandbox'
+ compileSdk 36
+ buildToolsVersion '36.1.0'
+ defaultConfig { applicationId 'org.wildwood.sandbox'; minSdk 26; targetSdk 36; versionCode 1; versionName '1.0' }
+ compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+ sourceSets.main.assets.srcDirs = ['build/generated/assets']
+}
+tasks.register('bundleGame', Copy) { from '../../game'; into 'build/generated/assets/game' }
+tasks.named('preBuild').configure { dependsOn 'bundleGame' }

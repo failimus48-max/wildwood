@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' file:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'">
+<title>Wildwood — Offline 3D</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="creator.css"><link rel="stylesheet" href="weather.css"><link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<canvas id="world" aria-label="3D island exploration game"></canvas>
+<canvas id="weather-effects" aria-hidden="true"></canvas>
+<div id="labels" aria-hidden="true"></div>
+<header><div class="brand"><span class="brand-icon">✦</span><div><strong>WILDWOOD</strong><small>YOUR LITTLE ISLAND</small></div></div><div class="status"><span class="dot"></span> Offline · saved on this device</div><button id="help" title="Controls and help">?</button><button id="pause" title="Pause game">Ⅱ</button></header>
+<aside class="quest-panel sandbox-panel"><div class="eyebrow">YOUR SANDBOX <span>✦</span></div><h1>A little world of wonder</h1><p>Be whoever you dream of. Wander, decorate, and shape the skies.</p><div class="world-readout"><span id="clock-time">09:00</span><span id="weather-name">Clear skies</span></div><div class="day-track"><div id="day-marker"></div></div><button id="world-settings">Time & weather <span>☀</span></button><small>All looks and decorations are yours.</small></aside>
+<div class="place"><span id="place-name">SUNLIT COMMONS</span><small id="place-description">A good day to wander.</small></div>
+<aside class="map-panel"><canvas id="map" width="180" height="180" aria-label="Minimap showing your position, the shallow pond, and island landmarks"></canvas><span>ISLAND MAP <b>N ↑</b></span></aside>
+<footer><div class="player-card"><span id="portrait">🦊</span><div><strong id="animal-name">Little Fox</strong><small id="level">Choose your soul</small></div></div><nav><button id="wardrobe">Character creator <kbd>C</kbd></button><button id="home">Go home <kbd>H</kbd></button><button id="sound" aria-pressed="true" title="Fernlight · original ambient woodland music · M to mute">Music: on</button></nav></footer>
+<div id="interaction" hidden><kbd>E</kbd> <span>Talk</span></div><div id="toast" role="status" aria-live="polite"></div><div class="controls-hint">WASD / arrows to move <i>·</i> drag to look <i>·</i> Space to jump</div>
+<div id="modal" class="modal" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button id="close-modal" class="close" aria-label="Close dialog">×</button><div class="eyebrow" id="modal-kicker">WELCOME TO YOUR ISLAND</div><h2 id="modal-title">A world of your own.</h2><div id="modal-content"></div></section></div>
+<div id="error" hidden role="alert"></div>
+<script src="music.js"></script><script src="model.js"></script><script src="creatures.js"></script><script src="creator.js"></script><script src="weather.js"></script><script src="water.js"></script><script src="cottage.js"></script><script src="runestones.js"></script><script src="mobile.js"></script><script src="game.js"></script>
+</body></html>
+
+

@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "entry": "index.html",
+  "files": [
+    {
+      "path": "cottage.js",
+      "bytes": 4410,
+      "sha256": "3d448087d6f7b533abd99d94fb39ff074587bed7b7a73331fb7e102276d1394a"
+    },
+    {
+      "path": "creator.css",
+      "bytes": 8038,
+      "sha256": "8ed9fe88ed6cbb9307da474a8f0981fca21c6f204c5014012df429301c78cd2f"
+    },
+    {
+      "path": "creator.js",
+      "bytes": 11101,
+      "sha256": "6c0d16382140d41c350ee450921dce7c51983a335dc3557d010d9e5f166a5145"
+    },
+    {
+      "path": "creatures.js",
+      "bytes": 16956,
+      "sha256": "ac4665d77916b161fa55a3140d924ecf9136abdedb2477acdf93a45f20ab971c"
+    },
+    {
+      "path": "game.js",
+      "bytes": 24654,
+      "sha256": "2fbeb39e7448af2701915bc96e1099565307b6fff595f2f82631976201a44406"
+    },
+    {
+      "path": "index.html",
+      "bytes": 3290,
+      "sha256": "1f486adfeb8ea49c7c58cc4ff371a1e8a875e1f66a72fedb599917ee47318d34"
+    },
+    {
+      "path": "mobile.css",
+      "bytes": 3118,
+      "sha256": "349e41c20b1b5253dbedefcd3924161183af8056bc89fe4cd97c80cd18bf569c"
+    },
+    {
+      "path": "mobile.js",
+      "bytes": 2219,
+      "sha256": "cf63faa62cb79e0c9202b4ade85cf8c0aa1359cc48261bd52247777a1363b9d2"
+    },
+    {
+      "path": "model.js",
+      "bytes": 7554,
+      "sha256": "732f46ecda818a4675801bfe2df545966d681763cc953f54103ef3826e3051c0"
+    },
+    {
+      "path": "music.js",
+      "bytes": 5362,
+      "sha256": "95095699aab13af2f66a6abc479df94906dac6f2e486d3a746fdded301fc21f0"
+    },
+    {
+      "path": "runestones.js",
+      "bytes": 2857,
+      "sha256": "e0c6acd04723ec667ff5ccef53bb0dbd15ca55581566d5c671a8b22957eb5f8a"
+    },
+    {
+      "path": "style.css",
+      "bytes": 6305,
+      "sha256": "a0c763879c66d986ddf2833574201c1b4daf640cee0449148bf185719d121c8a"
+    },
+    {
+      "path": "water.js",
+      "bytes": 3352,
+      "sha256": "19653b7991a1da54b12a58c5bb705990766040bf3a932fb3b9087e3433bd1d68"
+    },
+    {
+      "path": "weather.css",
+      "bytes": 2265,
+      "sha256": "47780a0e6ecde82606a4f7ce3c9523901a0cdd83b43be604f20b9cbb4a043ddc"
+    },
+    {
+      "path": "weather.js",
+      "bytes": 7005,
+      "sha256": "eea1f366470be3187afbdd82a9e8271a98e2c55a93db924e56e2489e2527135b"
+    }
+  ]
+}
