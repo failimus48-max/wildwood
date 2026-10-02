@@ -31,3 +31,5 @@ Before pushing game changes, run `node tools/bundle.cjs` to regenerate hashes. C
 Java 17+ and Android SDK 36 are required. Run `node tools/bundle.cjs`, then `gradle -p android assembleDebug` using Gradle 8.13. Output: `android/app/build/outputs/apk/debug/app-debug.apk`. This sideload build is debug-signed, not a production store release. Keep the signing key private and consistent when rebuilding if you want Android to install over the prior app without losing saves.
 
 Desktop game saves remain separate from Android saves. Import/export in the creator handles appearance designs, not complete world saves.
+
+The fairytale interface uses locally bundled Berkshire Swash by Astigmatic (SIL Open Font License), with readable book serif dialogue. The font and license travel with offline game updates.

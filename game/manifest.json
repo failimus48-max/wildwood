@@ -28,14 +28,34 @@
       "sha256": "6a4d2752977c7a7d37d8b88e0c31c72c244f7b47e4afb44cf3cffee25e255acc"
     },
     {
+      "path": "fairytale-latin-ext.woff2",
+      "bytes": 11020,
+      "sha256": "28813221a9ef89d233de7917fb80fc670078d342c63032bf1e0c9f15fdd6b708"
+    },
+    {
+      "path": "fairytale-latin.woff2",
+      "bytes": 17348,
+      "sha256": "51831d748cc8e6dccff84ea6cdbcf6018224f017dd336a9e71627abc78717c0a"
+    },
+    {
+      "path": "fairytale.css",
+      "bytes": 1740,
+      "sha256": "87b81340ec355df20a9c08afef62ec8e2bfcd47f9b47fd158f317e79965f193a"
+    },
+    {
+      "path": "font-license.html",
+      "bytes": 4557,
+      "sha256": "e31bbf6e3be743203fe0bcf487bc6d6ab671110e94f354fb9aefa2a55f889b7c"
+    },
+    {
       "path": "game.js",
       "bytes": 26463,
       "sha256": "3374ba00c6c9df1ddca126232ca21170fe35984de4d2d400471c733e9fbe9b1f"
     },
     {
       "path": "index.html",
-      "bytes": 3400,
-      "sha256": "f91ccf6f8de7a1b59ddc4c45c608f691fbd03b986b7e016077fbb8c034af9121"
+      "bytes": 3444,
+      "sha256": "817b685cf9bbaaea24ecab24dde8c02ce746cef8174c55129252f36a8fb6c3b3"
     },
     {
       "path": "mobile.css",
