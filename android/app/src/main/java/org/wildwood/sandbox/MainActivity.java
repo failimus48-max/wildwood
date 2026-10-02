@@ -29,9 +29,10 @@ public class MainActivity extends Activity {
   super.onCreate(state);
   getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
   LinearLayout layout=new LinearLayout(this);layout.setOrientation(LinearLayout.VERTICAL);layout.setBackgroundColor(Color.rgb(25,49,47));
+  layout.setOnApplyWindowInsetsListener((v,insets)->{if(android.os.Build.VERSION.SDK_INT>=30){android.graphics.Insets safe=insets.getInsets(android.view.WindowInsets.Type.systemBars()|android.view.WindowInsets.Type.displayCutout());v.setPadding(safe.left,safe.top,safe.right,safe.bottom);}return insets;});
   LinearLayout bar=new LinearLayout(this);bar.setPadding(12,0,8,0);bar.setGravity(android.view.Gravity.CENTER_VERTICAL);
-  status=new TextView(this);status.setTextColor(Color.rgb(228,238,213));status.setTextSize(11);status.setText("Wildwood · checking for updates");bar.addView(status,new LinearLayout.LayoutParams(0,38,1));
-  update=new Button(this);update.setText("Check updates");update.setTextSize(10);bar.addView(update,new LinearLayout.LayoutParams(-2,40));
+  status=new TextView(this);status.setTextColor(Color.rgb(228,238,213));status.setTextSize(11);status.setText("Wildwood · checking for updates");bar.addView(status,new LinearLayout.LayoutParams(0,dp(40),1));
+  update=new Button(this);update.setText("Check updates");update.setTextSize(10);update.setMinHeight(0);update.setMinimumHeight(0);update.setPadding(dp(8),0,dp(8),0);bar.addView(update,new LinearLayout.LayoutParams(-2,dp(40)));
   web=new WebView(this);layout.addView(bar);layout.addView(web,new LinearLayout.LayoutParams(-1,0,1));setContentView(layout);
   WebSettings settings=web.getSettings();settings.setJavaScriptEnabled(true);settings.setDomStorageEnabled(true);settings.setAllowFileAccess(false);settings.setAllowContentAccess(false);settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);settings.setMediaPlaybackRequiresUserGesture(true);
   String active=getPreferences(0).getString("bundle","");File dir=new File(new File(getFilesDir(),"bundles"),active);
@@ -46,6 +47,7 @@ public class MainActivity extends Activity {
   update.setOnClickListener(v->{if(available!=null){playing=available;available=null;web.reload();update.setText("Check updates");showStatus("Latest version · saved on this device");}else checkUpdates(true);});
   checkUpdates(true);
  }
+ private int dp(int value){return Math.round(value*getResources().getDisplayMetrics().density);}
  private WebResourceResponse local(android.net.Uri uri){
   try {
    if(!"https".equals(uri.getScheme())||!"appassets.androidplatform.net".equals(uri.getHost())||!uri.getPath().startsWith("/game/"))return blocked();

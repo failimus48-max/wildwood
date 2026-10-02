@@ -3,9 +3,14 @@
   "entry": "index.html",
   "files": [
     {
+      "path": "bobo.js",
+      "bytes": 2990,
+      "sha256": "4e6007bf1e8e51af47ed5909288d2ff2f7e1b37e4d3844582b960767533a5906"
+    },
+    {
       "path": "cottage.js",
-      "bytes": 4410,
-      "sha256": "3d448087d6f7b533abd99d94fb39ff074587bed7b7a73331fb7e102276d1394a"
+      "bytes": 4438,
+      "sha256": "b75576746d81038fc40911f8c89f8cf13cc8578ff613caea0cb396790e3a2251"
     },
     {
       "path": "creator.css",
@@ -19,18 +24,18 @@
     },
     {
       "path": "creatures.js",
-      "bytes": 16956,
-      "sha256": "ac4665d77916b161fa55a3140d924ecf9136abdedb2477acdf93a45f20ab971c"
+      "bytes": 17483,
+      "sha256": "6a4d2752977c7a7d37d8b88e0c31c72c244f7b47e4afb44cf3cffee25e255acc"
     },
     {
       "path": "game.js",
-      "bytes": 24654,
-      "sha256": "2fbeb39e7448af2701915bc96e1099565307b6fff595f2f82631976201a44406"
+      "bytes": 26463,
+      "sha256": "3374ba00c6c9df1ddca126232ca21170fe35984de4d2d400471c733e9fbe9b1f"
     },
     {
       "path": "index.html",
-      "bytes": 3290,
-      "sha256": "1f486adfeb8ea49c7c58cc4ff371a1e8a875e1f66a72fedb599917ee47318d34"
+      "bytes": 3400,
+      "sha256": "f91ccf6f8de7a1b59ddc4c45c608f691fbd03b986b7e016077fbb8c034af9121"
     },
     {
       "path": "mobile.css",
@@ -48,9 +53,19 @@
       "sha256": "732f46ecda818a4675801bfe2df545966d681763cc953f54103ef3826e3051c0"
     },
     {
+      "path": "moss.css",
+      "bytes": 16221,
+      "sha256": "ebd11ebf786fbc0750a07d39d17976a59013768fd148da2106c7c22a63214306"
+    },
+    {
       "path": "music.js",
       "bytes": 5362,
       "sha256": "95095699aab13af2f66a6abc479df94906dac6f2e486d3a746fdded301fc21f0"
+    },
+    {
+      "path": "performance.js",
+      "bytes": 315,
+      "sha256": "ea9b1aaf09dece70baebfb594ee9ea3d4ceb5f36f6b26b00b8e99dcc4812871e"
     },
     {
       "path": "runestones.js",
@@ -64,8 +79,8 @@
     },
     {
       "path": "water.js",
-      "bytes": 3352,
-      "sha256": "19653b7991a1da54b12a58c5bb705990766040bf3a932fb3b9087e3433bd1d68"
+      "bytes": 3485,
+      "sha256": "58a02f835bf19cb6fce7efaf5fde03f2fcc976f9d67e2da56e4590cfbcc3a1ef"
     },
     {
       "path": "weather.css",
@@ -74,8 +89,8 @@
     },
     {
       "path": "weather.js",
-      "bytes": 7005,
-      "sha256": "eea1f366470be3187afbdd82a9e8271a98e2c55a93db924e56e2489e2527135b"
+      "bytes": 7064,
+      "sha256": "951b269817cf33a4b2bc397514a894cb5c651a7eb918686d5b84f92a080c68ff"
     }
   ]
 }

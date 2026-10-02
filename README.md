@@ -2,6 +2,14 @@
 
 An offline 3D mythical animal sandbox inspired by Animal Jam and the woodland atmosphere of William and Sly. All game logic, meshes, music and poetry are original. This repository does not include the Animal Jam launcher, proprietary models or extracted font.
 
+The dialog panels have textured stonework and gently swaying moss borders with original curling botanical ornament inspired by William Morris. The theme is generated as local inline SVG in CSS, works offline, and respects reduced-motion preferences.
+
+Bobo is a bespoke plush axolotl NPC by the grassy pond, with a pale pink round face, darker feathery gills, glossy black eyes, embroidered smile, blue patterned body and soft feet, based on the user's reference plush. Talk to Bobo using E or Talk / read. The pond sits entirely off the main path, at (21,12); Bobo waits at (26,14).
+
+## Pixel 8a performance
+
+Touch devices use a 30 FPS target, a 1.25 render pixel-ratio cap (adaptively reduced to 0.85 when measured CPU drawing cost is high), cached NPC meshes refreshed at 12 Hz, cached skies, reduced weather particles and 30 FPS creator previews. World rendering drops to 12 FPS behind menus. The Android header uses density-aware sizing and respects camera cutout/system insets. These settings are tested with a landscape 873 × 393 CSS viewport at 2.75 device scale, approximating a Pixel 8a display. Actual device FPS and thermal behavior have not been measured on a physical Pixel 8a.
+
 ## Play
 
 Desktop: open `game/index.html` in Chrome or Edge. Android: [download Wildwood.apk](downloads/Wildwood.apk?raw=true) and install it. Android 8 or newer and a current Android System WebView with WebGL support are required. The Android app uses landscape orientation.

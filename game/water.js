@@ -1,7 +1,8 @@
 'use strict';
 (() => {
+const pond=window.WildwoodPond={x:21,z:12,radius:4.3,depth:.25};
 class ShallowWater {
- constructor(){this.center=[15,5];this.radius=4.3;this.depth=.25;this.elapsed=0;this.ripples=[];this.droplets=[];this.distance=0;this.lastPosition=null;this.lastJump=0;this.wading=false;this.splashCount=0;}
+ constructor(){this.center=[pond.x,pond.z];this.radius=pond.radius;this.depth=pond.depth;this.elapsed=0;this.ripples=[];this.droplets=[];this.distance=0;this.lastPosition=null;this.lastJump=0;this.wading=false;this.splashCount=0;}
  contains(x,z){return Math.hypot(x-this.center[0],z-this.center[1])<this.radius-.1;}
  height(x,z){let y=this.depth+Math.sin(x*.9+this.elapsed*1.7)*.012+Math.cos(z*1.1-this.elapsed*1.4)*.009;for(const r of this.ripples){const d=Math.hypot(x-r.x,z-r.z),front=r.age*1.2;y+=Math.sin(d*8-r.age*7)*Math.exp(-Math.pow(d-front,2)*9)*.015*(1-r.age/2.5);}return y;}
  splash(x,z,strength=.65){this.splashCount++;this.ripples.push({x,z,age:0,strength});for(let i=0;i<Math.round(10*strength);i++){const angle=Math.random()*6.283,speed=(.25+Math.random()*.65)*strength;this.droplets.push({x,y:this.height(x,z)+.025,z,vx:Math.cos(angle)*speed,vz:Math.sin(angle)*speed,vy:(1.6+Math.random()*1.8)*strength,age:0,size:.04+Math.random()*.035});}if(this.ripples.length>18)this.ripples.shift();}
@@ -14,7 +15,7 @@ class ShallowWater {
   return new Float32Array(m.data);
  }
  particles(){const m=new MythicMesh.Mesh();for(const p of this.droplets)m.ellipsoid(p.x,p.y,p.z,p.size,p.size*1.6,p.size,'#c3e9ed',false,6,4);return new Float32Array(m.data);}
- diagnostics(){return {wading:this.wading,depth:this.depth,splashes:this.splashCount,ripples:this.ripples.length,droplets:this.droplets.length};}
+ diagnostics(){return {center:[...this.center],radius:this.radius,wading:this.wading,depth:this.depth,splashes:this.splashCount,ripples:this.ripples.length,droplets:this.droplets.length};}
 }
 window.ShallowWater=ShallowWater;
 })();

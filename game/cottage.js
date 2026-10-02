@@ -1,7 +1,7 @@
 'use strict';
 (() => {
 class CottageAmbience {
- constructor(){this.lantern=[-5.4,2.18,18.8];this.windows=[[-10,1.7,18.08],[-6,1.7,18.08]];this.flowers=[];const beds=[[-13,21],[-3,21],[11,9],[-19,-8],[-23,-14]];for(let i=0;i<30;i++){const b=beds[i%5],angle=i*2.399;this.flowers.push([b[0]+Math.cos(angle)*(1+i%3*.4),b[1]+Math.sin(angle)*(1+i%4*.25)]);}this.fireflies=Array.from({length:32},(_,i)=>{const b=i<16?[-8,22]:i<24?[-20,-12]:[14,6];return [b[0]+Math.sin(i*2.4)*5,b[1]+Math.cos(i*1.7)*4];});}
+ constructor(){this.lantern=[-5.4,2.18,18.8];this.windows=[[-10,1.7,18.08],[-6,1.7,18.08]];this.flowers=[];const beds=[[-13,21],[-3,21],[17,17],[-19,-8],[-23,-14]];for(let i=0;i<30;i++){const b=beds[i%5],angle=i*2.399;this.flowers.push([b[0]+Math.cos(angle)*(1+i%3*.4),b[1]+Math.sin(angle)*(1+i%4*.25)]);}this.fireflies=Array.from({length:32},(_,i)=>{const b=i<16?[-8,22]:i<24?[-20,-12]:[WildwoodPond.x,WildwoodPond.z];return [b[0]+Math.sin(i*2.4)*5,b[1]+Math.cos(i*1.7)*4];});}
  staticMesh(){const m=new MythicMesh.Mesh();m.ellipsoid(-8,-.75,10.3,7.8,5.1,7.7,'#839e6d',false,28,16);m.ellipsoid(-8,2.75,15.5,3.28,1.35,2.65,'#aa815e',false,24,12);m.box(-8,0,15.55,6.2,3.05,5,'#e5cba1');m.link([-11.12,.05,18.1],[-11.12,3.04,18.1],.12,'#826148');m.link([-4.88,.05,18.1],[-4.88,3.04,18.1],.12,'#826148');m.link([-11.12,3.04,18.1],[-4.88,3.04,18.1],.13,'#826148');
   // Rounded wooden door and a curved door frame.
   m.box(-8,0,18.105,1.4,1.75,.08,'#77845b');m.ellipsoid(-8,1.75,18.105,.7,.66,.045,'#77845b');for(let i=0;i<4;i++)m.link([-8.52+i*.35,.07,18.16],[-8.52+i*.35,1.85,18.16],.018,'#606f4b');for(let i=0;i<16;i++){const a=i/16*Math.PI,b=(i+1)/16*Math.PI;m.link([-8+Math.cos(a)*.78,1.75+Math.sin(a)*.74,18.16],[-8+Math.cos(b)*.78,1.75+Math.sin(b)*.74,18.16],.075,'#8f7353');}m.ellipsoid(-8.45,1.05,18.24,.055,.055,.03,'#d7b56b');m.box(-8,.02,18.85,2,.14,1.25,'#afa68b');m.box(-8,.04,19.7,2.4,.1,.65,'#bfb393');
@@ -21,3 +21,4 @@ class CottageAmbience {
 }
 window.CottageAmbience=CottageAmbience;
 })();
+
