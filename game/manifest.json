@@ -43,19 +43,24 @@
       "sha256": "87b81340ec355df20a9c08afef62ec8e2bfcd47f9b47fd158f317e79965f193a"
     },
     {
+      "path": "foliage.js",
+      "bytes": 4223,
+      "sha256": "078ca6ebed1a430065e85535a46aa7e4bf9c2b22ac2c6b4320e842039cfd9255"
+    },
+    {
       "path": "font-license.html",
       "bytes": 4557,
       "sha256": "e31bbf6e3be743203fe0bcf487bc6d6ab671110e94f354fb9aefa2a55f889b7c"
     },
     {
       "path": "game.js",
-      "bytes": 26463,
-      "sha256": "3374ba00c6c9df1ddca126232ca21170fe35984de4d2d400471c733e9fbe9b1f"
+      "bytes": 27402,
+      "sha256": "f63aaf6e2fdecf7dde47043706e9024596c7d2888891fa3b53ccf80472d0680d"
     },
     {
       "path": "index.html",
-      "bytes": 3444,
-      "sha256": "817b685cf9bbaaea24ecab24dde8c02ce746cef8174c55129252f36a8fb6c3b3"
+      "bytes": 3478,
+      "sha256": "175d4dd1851499a4fed72dd55e78f12f1fed90a0ab032865ab136f42c719eb41"
     },
     {
       "path": "mobile.css",

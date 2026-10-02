@@ -33,3 +33,5 @@ Java 17+ and Android SDK 36 are required. Run `node tools/bundle.cjs`, then `gra
 Desktop game saves remain separate from Android saves. Import/export in the creator handles appearance designs, not complete world saves.
 
 The fairytale interface uses locally bundled Berkshire Swash by Astigmatic (SIL Open Font License), with readable book serif dialogue. The font and license travel with offline game updates.
+
+Woodland foliage: 90 taller rounded trees, 273 fern clumps, folded leaf blades and midribs, shader-driven gentle wind and a bounded pool of fluttering leaves that settle and recycle. Rain and clouds strengthen the breeze slightly. Mobile uses fewer canopy segments and 36 loose leaves (72 on desktop); paused islands freeze the wind and falling leaves.
