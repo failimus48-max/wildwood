@@ -44,8 +44,8 @@
     },
     {
       "path": "foliage.js",
-      "bytes": 8752,
-      "sha256": "cbe8886815388e0aec8f819e06882aeb2c59a8467735373416047b312d483051"
+      "bytes": 11138,
+      "sha256": "0e9a8cacc4ce6c71f21d2d17daa5f4209f0342683d1c3547545a186e8ae12d46"
     },
     {
       "path": "font-license.html",
@@ -54,8 +54,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 28076,
-      "sha256": "42e0d0df502a95bff8ed9ea20a795578caaa25493cec82403134fb9c76669533"
+      "bytes": 28726,
+      "sha256": "3e0bb7d50af27c5a8d775055c41050c3cd31876bab463a652efc28533ad6810e"
     },
     {
       "path": "index.html",

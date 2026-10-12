@@ -41,3 +41,5 @@ Lavender flower spikes and creamy white cup-shaped tulips grow in grass patches 
 Tree varieties now include willow, bare dead trees, deciduous trees, oak, spruce and flowering trees. Canopies use individual folded leaves with seeded variation in outline, width, curl, size, orientation and colour, rather than solid ellipsoid crowns. Willow strands hang down, oaks have lobed blades and broad branches, spruce has tiered needle sprays, and flowering crowns carry pink blossom petals. Dead trees do not shed leaves.
 
 A giant oak in the western grass at (-27, 14) has a thick trunk, spreading roots, and an arched wooden door boarded shut with three nailed planks. It is a scenery landmark.
+
+The ancient oak is now about 26 metres tall with a broad furrowed trunk, raised bark ridges, spreading roots and visible grain in its nailed door boards. At night, amber light peeks through the narrow slat gaps and paints thin strips across the ground; it fades away in daylight.

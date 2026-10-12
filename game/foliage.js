@@ -23,12 +23,20 @@ class WoodlandFoliage{
   }}
   for(let i=0;i<4;i++){const a=i*1.57;m.link([x,.22,z],[x+Math.cos(a)*.65*size,.04,z+Math.sin(a)*.65*size],.1*size,bark);}
  }
- giantOak(x,z){this.tree(x,z,2,'oak');this.giant={x,z,door:'boarded',height:this.trees.at(-1).h};const m=this.mesh;
-  m.link([x,0,z],[x+.1,8,z],1.35,'#80674c',1.25);for(let i=0;i<7;i++){const a=i*.898;m.softLink([x+Math.cos(a)*.6,.45,z+Math.sin(a)*.6],[x+Math.cos(a)*2.1,.03,z+Math.sin(a)*2.1],.25,'#796149');}
-  const y=.1,front=z+1.37,p=(u,v,d=0)=>[x+u,y+v,front+d];m.triangle(p(-.7,0),p(.7,0),p(.7,1.9),'#3b3028');m.triangle(p(-.7,0),p(.7,1.9),p(-.7,1.9),'#3b3028');
-  for(let i=0;i<10;i++){const a=i*Math.PI/10,b=(i+1)*Math.PI/10;m.triangle(p(0,1.9),p(Math.cos(a)*.7,1.9+Math.sin(a)*.7),p(Math.cos(b)*.7,1.9+Math.sin(b)*.7),'#3b3028');}
-  for(let i=0;i<5;i++){const u=-.56+i*.28;m.link(p(u,.1,.025),p(u,2.0+Math.sqrt(Math.max(0,.49-u*u)),.025),.07,'#665239',.055);}
-  for(const [v,slope] of [[.6,.2],[1.35,-.32],[2,.15]]){const a=p(-.86,v,.13),b=p(.86,v+slope,.13),c=p(.86,v+slope+.22,.13),d=p(-.86,v+.22,.13);m.triangle(a,b,c,'#b09468');m.triangle(a,c,d,'#b09468');for(const u of [-.65,.65])m.ellipsoid(...p(u,v+.11+(u+.86)/1.72*slope,.15),.035,.035,.015,'#55483b',false,5,3);}
+ giantOak(x,z){this.tree(x,z,3.3,'oak');this.giant={x,z,door:'boarded',height:this.trees.at(-1).h,radius:2.7,front:z+2.74};const m=this.mesh;
+  // Tapered, irregular bark strips with raised ridges and alternating deep fissures.
+  const bark=['#70553c','#816044','#8d6c4d','#604936','#977557'];
+  for(let i=0;i<28;i++){const angle=i*6.283/28,next=(i+1)*6.283/28;const point=(a,y)=>{const radius=2.65-y*.034+Math.sin(a*7+y*.4)*.1;return [x+Math.cos(a)*radius,y,z+Math.sin(a)*radius];};for(let j=0;j<12;j++){const y=j*1.1,aa=point(angle,y),bb=point(next,y),cc=point(next,y+1.1),dd=point(angle,y+1.1);m.triangle(aa,bb,cc,bark[i%5]);m.triangle(aa,cc,dd,bark[(i+j%3)%5]);}if(i%2===0)for(let j=0;j<8;j++)m.link(point(angle,j*1.55),point(angle+.012,(j+1)*1.55),.045,bark[i%5],.025);}
+  for(let i=0;i<9;i++){const a=i*.698;m.softLink([x+Math.cos(a)*1.8,.7,z+Math.sin(a)*1.8],[x+Math.cos(a)*4.1,.03,z+Math.sin(a)*4.1],.38,'#796149');}
+  for(const [u,v] of [[1.1,4],[-1.2,7],[.65,10]]){const r=2.65-v*.034,zz=z+Math.sqrt(r*r-u*u)+.04;m.ellipsoid(x+u,v,zz,.17,.36,.018,'#4f3b2d',false,10,6);m.ellipsoid(x+u,v,zz+.02,.085,.22,.014,'#967455',false,8,5);}
+  const y=.1,front=this.giant.front,p=(u,v,d=0)=>[x+u,y+v,front+d];m.triangle(p(-.7,0),p(.7,0),p(.7,1.9),'#30251c');m.triangle(p(-.7,0),p(.7,1.9),p(-.7,1.9),'#30251c');for(let i=0;i<10;i++){const a=i*Math.PI/10,b=(i+1)*Math.PI/10;m.triangle(p(0,1.9),p(Math.cos(a)*.7,1.9+Math.sin(a)*.7),p(Math.cos(b)*.7,1.9+Math.sin(b)*.7),'#30251c');}
+  for(let i=0;i<6;i++){const u=-.59+i*.235,h=1.9+Math.sqrt(Math.max(0,.49-u*u));m.box(x+u,y,front+.045,.195,h,.07,i%2?'#705638':'#5e482f');for(let j=0;j<3;j++){const offset=(j-1)*.052;for(let k=0;k<6;k++)m.link(p(u+offset+Math.sin(k*2+i)*.012,k*h/6,.086),p(u+offset+Math.sin((k+1)*2+i)*.012,(k+1)*h/6,.086),.006,j%2?'#927449':'#443323',.004);}}
+  for(const [v,slope] of [[.6,.2],[1.35,-.32],[2,.15]]){const a=p(-.86,v,.13),b=p(.86,v+slope,.13),c=p(.86,v+slope+.22,.13),d=p(-.86,v+.22,.13);m.triangle(a,b,c,'#b09468');m.triangle(a,c,d,'#b09468');for(let j=0;j<3;j++)m.link(p(-.83,v+.04+j*.065,.14),p(.83,v+slope+.04+j*.065,.14),.007,j%2?'#d0b07a':'#79603e',.004);for(const u of [-.65,.65])m.ellipsoid(...p(u,v+.11+(u+.86)/1.72*slope,.15),.035,.035,.015,'#55483b',false,5,3);m.ellipsoid(...p(-.2,v+.09,.146),.08,.027,.008,'#795d3d',false,8,4);}
+ }
+ doorLight(t,day,eye){const m=new MythicMesh.Mesh(),beams=new MythicMesh.Mesh(),glow=[],night=Math.max(0,1-day*1.7);this.doorNight=night;if(!this.giant||night<.01)return {solid:new Float32Array(),glow:new Float32Array()};const {x,z,front}=this.giant,flicker=.94+Math.sin(t*1.3)*.035+Math.sin(t*2.7)*.025,col=[1,.64,.25].map(v=>v*night*flicker);
+  // Each narrow light slit sits between the actual wooden door slats; crossboards mask it.
+  for(let i=0;i<5;i++){const u=-.4725+i*.235,h=1.9+Math.sqrt(Math.max(0,.49-u*u));m.box(x+u,.14,front+.092,.032,h-.06,.005,col,true);const start=[x+u,.065,front+.15],end=[x+u*2,.065,front+3.4];beams.triangle([start[0]-.022,...start.slice(1)],[start[0]+.022,...start.slice(1)],[end[0]+.12,...end.slice(1)],col.map(v=>v*.11),true);beams.triangle([start[0]-.022,...start.slice(1)],[end[0]+.12,...end.slice(1)],[end[0]-.12,...end.slice(1)],col.map(v=>v*.11),true);}
+  for(const v of beams.data)glow.push(v);const halo=MythicMesh.glow([x,1.2,front+.12],'#e9a64e',eye,1.5,night*.12);for(const v of halo)glow.push(v);return {solid:new Float32Array(m.data),glow:new Float32Array(glow)};
  }
  shrub(x,z){this.shrubs++;const m=this.mesh,r=()=>this.random();for(let i=0;i<5;i++){const a=i*2.399+r()*.3,h=.35+r()*.5,end=[x+Math.cos(a)*.35,h,z+Math.sin(a)*.35];m.link([x,.02,z],end,.018,'#64854f',.008);for(let j=1;j<=4;j++){const t=j/4;for(const side of [-1,1])leaf(m,x+(end[0]-x)*t,h*t,z+(end[2]-z)*t,.2+(1-t)*.18,a+side*.85,.3,palette[(i+j)%5]);}}
  }
@@ -46,7 +54,7 @@ class WoodlandFoliage{
   }
  }
  fallingMesh(){const m=new MythicMesh.Mesh();for(const p of this.leaves)if(p.active)leaf(m,p.x,p.y-p.rest*.018,p.z,p.size,p.phase+p.age*.7,p.rest?0:Math.sin(p.age*3+p.phase)*.9,p.color);return new Float32Array(m.data);}
- diagnostics(){return {trees:this.trees.length,shrubs:this.shrubs,individualLeaves:this.individualLeaves,treeTypes:Object.fromEntries(['willow','dead','deciduous','oak','spruce','flowering'].map(type=>[type,this.trees.filter(t=>t.type===type).length])),flowers:{...this.flowers},giantOak:this.giant?{...this.giant}:null,minHeight:Math.min(...this.trees.map(t=>t.h)),maxHeight:Math.max(...this.trees.map(t=>t.h)),fallingLeaves:this.leaves.filter(p=>p.active).length,leafLimit:this.limit,wind:this.wind,time:this.time,vertices:this.mesh.data.length/9};}
+ diagnostics(){return {trees:this.trees.length,shrubs:this.shrubs,individualLeaves:this.individualLeaves,treeTypes:Object.fromEntries(['willow','dead','deciduous','oak','spruce','flowering'].map(type=>[type,this.trees.filter(t=>t.type===type).length])),flowers:{...this.flowers},giantOak:this.giant?{...this.giant,nightLight:this.doorNight||0}:null,minHeight:Math.min(...this.trees.map(t=>t.h)),maxHeight:Math.max(...this.trees.map(t=>t.h)),fallingLeaves:this.leaves.filter(p=>p.active).length,leafLimit:this.limit,wind:this.wind,time:this.time,vertices:this.mesh.data.length/9};}
 }
 window.WoodlandFoliage=WoodlandFoliage;
 })();
