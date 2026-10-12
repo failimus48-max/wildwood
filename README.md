@@ -37,3 +37,7 @@ The fairytale interface uses locally bundled Berkshire Swash by Astigmatic (SIL 
 Woodland foliage: 90 taller rounded trees, 273 fern clumps, folded leaf blades and midribs, shader-driven gentle wind and a bounded pool of fluttering leaves that settle and recycle. Rain and clouds strengthen the breeze slightly. Mobile uses fewer canopy segments and 36 loose leaves (72 on desktop); paused islands freeze the wind and falling leaves.
 
 Lavender flower spikes and creamy white cup-shaped tulips grow in grass patches across the island and beside the commons. They share the gentle foliage wind and use cached geometry for mobile.
+
+Tree varieties now include willow, bare dead trees, deciduous trees, oak, spruce and flowering trees. Canopies use individual folded leaves with seeded variation in outline, width, curl, size, orientation and colour, rather than solid ellipsoid crowns. Willow strands hang down, oaks have lobed blades and broad branches, spruce has tiered needle sprays, and flowering crowns carry pink blossom petals. Dead trees do not shed leaves.
+
+A giant oak in the western grass at (-27, 14) has a thick trunk, spreading roots, and an arched wooden door boarded shut with three nailed planks. It is a scenery landmark.
