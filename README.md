@@ -43,3 +43,5 @@ Tree varieties now include willow, bare dead trees, deciduous trees, oak, spruce
 A giant oak in the western grass at (-27, 14) has a thick trunk, spreading roots, and an arched wooden door boarded shut with three nailed planks. It is a scenery landmark.
 
 The ancient oak is now about 26 metres tall with a broad furrowed trunk, raised bark ridges, spreading roots and visible grain in its nailed door boards. At night, amber light peeks through the narrow slat gaps and paints thin strips across the ground; it fades away in daylight.
+
+Terrain has five rolling hills, smooth height-following movement and camera, fine procedural grass grain, and patchy grass/soil colouring. Paths, the pond and important buildings retain level clearings. Ancient oak roots are angular, forked and taper below the surface into raised earth banks.
