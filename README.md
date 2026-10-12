@@ -45,3 +45,9 @@ A giant oak in the western grass at (-27, 14) has a thick trunk, spreading roots
 The ancient oak is now about 26 metres tall with a broad furrowed trunk, raised bark ridges, spreading roots and visible grain in its nailed door boards. At night, amber light peeks through the narrow slat gaps and paints thin strips across the ground; it fades away in daylight.
 
 Terrain has five rolling hills, smooth height-following movement and camera, fine procedural grass grain, and patchy grass/soil colouring. Paths, the pond and important buildings retain level clearings. Ancient oak roots are angular, forked and taper below the surface into raised earth banks.
+
+Woodland trees now stand roughly 11–22 metres tall relative to the plush characters, with much thicker tapered trunks. Raised bark ridges and irregular radial surfaces replace smooth narrow stems. Each ordinary tree has a varied branching root system: flared bases, uneven bends, tapering forks and tips below the ground surface. Trunk collision radii follow the thicker geometry, while existing paths and clearings stay accessible.
+
+Dense groundcover adds tens of thousands of individually folded grass blades and low broadleaf plants, about 18–42 cm tall to partly cover paws. It is generated once, follows terrain heights and sways in the GPU shader. Mobile uses fewer blades; paths, water, buildings and the oak door approach stay clear.
+
+Tree trunks and root bases carry irregular layered moss patches. Pond shading now uses ripple-derived surface normals, Fresnel sky reflection, sun/moon specular highlights and moving dappled shimmer. Reflections are a lightweight environment approximation rather than mirrored scene objects; splash-driven waves preserve their strength and fade naturally.

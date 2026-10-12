@@ -44,8 +44,8 @@
     },
     {
       "path": "foliage.js",
-      "bytes": 11467,
-      "sha256": "9f4f2106d0de2a36a2a7adf84cdef183cde40a322951db64779b0bb29b04d0b3"
+      "bytes": 13936,
+      "sha256": "f85f0d8e98c2152c810c6ea5101e91df02af2eb70dbed821c742283400f66ade"
     },
     {
       "path": "font-license.html",
@@ -54,13 +54,18 @@
     },
     {
       "path": "game.js",
-      "bytes": 29691,
-      "sha256": "99a95ec8722753156d0e31b46e73d5ab9ad7fa8e20be0b57b4d50caed4e5fddc"
+      "bytes": 30328,
+      "sha256": "42b8b559994632ff0a689ff8b0c0b39319496d977d5756912261987adeec05d8"
+    },
+    {
+      "path": "groundcover.js",
+      "bytes": 1945,
+      "sha256": "44c08afa0520a03d3d9e5dc25482e8315fa8f5962503d2ff23cba7583161b454"
     },
     {
       "path": "index.html",
-      "bytes": 3512,
-      "sha256": "e80179e1cd9805b0fe7707d01b3dc90969ff121d7d75cc7a82bbecd84de9fa6b"
+      "bytes": 3550,
+      "sha256": "02a82560eb0032864f51890fc1ef33da662bec3ef1870d64aed404493a1651be"
     },
     {
       "path": "mobile.css",
@@ -109,8 +114,8 @@
     },
     {
       "path": "water.js",
-      "bytes": 3485,
-      "sha256": "58a02f835bf19cb6fce7efaf5fde03f2fcc976f9d67e2da56e4590cfbcc3a1ef"
+      "bytes": 4466,
+      "sha256": "b8798d23af845ea68cfe40a13d17324291ba6379651d32288c10a08492f5fd43"
     },
     {
       "path": "weather.css",
