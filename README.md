@@ -53,3 +53,5 @@ Dense groundcover adds tens of thousands of individually folded grass blades and
 Tree trunks and root bases carry irregular layered moss patches. Pond shading now uses ripple-derived surface normals, Fresnel sky reflection, sun/moon specular highlights and moving dappled shimmer. Reflections are a lightweight environment approximation rather than mirrored scene objects; splash-driven waves preserve their strength and fade naturally.
 
 Each woodland tree has its own stable trunk-thickness factor, independent of its height, ranging from 70% to 160% of its species baseline. Bark, moss, root width and collision bounds follow that thickness; the ancient oak remains the broad landmark.
+
+Meadow coverage now has four times as many broader, overlapping grass blades (about 24–51 cm tall), with broadleaf weeds, speckled mushrooms and hanging bluebell flowers. Grass is divided into cached spatial chunks: nearby blades use full geometry and distant blades use a broader simplified layer. Plants remain in both detail levels; paths and important approaches stay open.

@@ -54,13 +54,13 @@
     },
     {
       "path": "game.js",
-      "bytes": 30333,
-      "sha256": "af16d512cdf9c80b81763e52675b4fe9f5baa156c4e23bd6ca9a49d4308eea1b"
+      "bytes": 30567,
+      "sha256": "3e1240be4c45164f7133a66748fcf0d3d53b4e6e670b26ce8da8a7551dfd77a9"
     },
     {
       "path": "groundcover.js",
-      "bytes": 1945,
-      "sha256": "44c08afa0520a03d3d9e5dc25482e8315fa8f5962503d2ff23cba7583161b454"
+      "bytes": 3576,
+      "sha256": "6f2f38ee10c69ee8cdd12b79edfbaf7005dba9c7eb7cd86645b136c778c594f7"
     },
     {
       "path": "index.html",
