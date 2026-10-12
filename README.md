@@ -55,3 +55,6 @@ Tree trunks and root bases carry irregular layered moss patches. Pond shading no
 Each woodland tree has its own stable trunk-thickness factor, independent of its height, ranging from 70% to 160% of its species baseline. Bark, moss, root width and collision bounds follow that thickness; the ancient oak remains the broad landmark.
 
 Meadow coverage now has four times as many broader, overlapping grass blades (about 24–51 cm tall), with broadleaf weeds, speckled mushrooms and hanging bluebell flowers. Grass is divided into cached spatial chunks: nearby blades use full geometry and distant blades use a broader simplified layer. Plants remain in both detail levels; paths and important approaches stay open.
+
+Solid scenery collision now includes rock groups, furniture, shrine, NPCs, cottage walls and exposed roots, with height-aware contacts and small movement substeps to prevent tunnelling. Low steps and flexible grass/flowers remain passable; jumping clears low obstacles. The cottage hill is a height-following surface, with dense grass on its back and top, mottled ground texture and leafy bushes.
+Solid object tops support landings; characters step onto low ledges, fall naturally when walking off them, and can jump again after landing. Physics uses bounded substeps so collision and water splashes remain consistent at lower frame rates.
