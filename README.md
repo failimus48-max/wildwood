@@ -51,3 +51,5 @@ Woodland trees now stand roughly 11–22 metres tall relative to the plush chara
 Dense groundcover adds tens of thousands of individually folded grass blades and low broadleaf plants, about 18–42 cm tall to partly cover paws. It is generated once, follows terrain heights and sways in the GPU shader. Mobile uses fewer blades; paths, water, buildings and the oak door approach stay clear.
 
 Tree trunks and root bases carry irregular layered moss patches. Pond shading now uses ripple-derived surface normals, Fresnel sky reflection, sun/moon specular highlights and moving dappled shimmer. Reflections are a lightweight environment approximation rather than mirrored scene objects; splash-driven waves preserve their strength and fade naturally.
+
+Each woodland tree has its own stable trunk-thickness factor, independent of its height, ranging from 70% to 160% of its species baseline. Bark, moss, root width and collision bounds follow that thickness; the ancient oak remains the broad landmark.

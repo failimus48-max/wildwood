@@ -23,7 +23,7 @@ function cone(x,y,z,r,h,col,segments=9,top=0){for(let i=0;i<segments;i++){const 
 function ellipsoid(x,y,z,rx,ry,rz,col,seg=9,rings=5){const pt=(i,j)=>{const a=i/seg*Math.PI*2,b=j/rings*Math.PI;return [x+rx*Math.sin(b)*Math.cos(a),y+ry*Math.cos(b),z+rz*Math.sin(b)*Math.sin(a)];};for(let j=0;j<rings;j++)for(let i=0;i<seg;i++){tri(pt(i,j),pt(i+1,j),pt(i,j+1),col);tri(pt(i+1,j),pt(i+1,j+1),pt(i,j+1),col);}}
 function disk(x,y,z,r,col,n=48){for(let i=0;i<n;i++){const a=i/n*6.283,b=(i+1)/n*6.283;tri([x,y,z],[x+Math.cos(b)*r,y,z+Math.sin(b)*r],[x+Math.cos(a)*r,y,z+Math.sin(a)*r],col);}}
 const obstacles=[],ambience=new CottageAmbience(),runes=new RunestoneGarden(),foliage=new WoodlandFoliage(),terrain=new WoodlandTerrain(runes.stones);
-function tree(x,z,size=1){foliage.tree(x,z,size);obstacles.push({x,z,r:foliage.trees.at(-1).radius+.12});}
+function tree(x,z,size=1){foliage.tree(x,z,size);obstacles.push({x,z,r:foliage.trees.at(-1).radius*1.18+.08});}
 function hut(x,z,color){cone(x,0,z,2.7,3,'#f2d7a0',10,2.7);cone(x,3,z,3.4,2.6,color,10);box(x,0,z+2.64,1.25,2.05,.13,'#6f7957');box(x,1,z+2.75,.3,.15,.12,'#eec37b');for(const a of [-1,1])box(x+a*1.9,1.35,z+1.97,.65,.65,.12,'#91b5ad');obstacles.push({x,z,r:2.8});}
 let seed=81237;function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
 disk(0,-.4,0,250,'#83bbc4',80);cone(0,-.35,0,43,.35,'#e9d9aa',80,42);
