@@ -111,7 +111,7 @@ function sculptDeer(m,c,t,moving,motion){
  tube([[0,1.21+bob,.34,.25],[0,1.65+bob,.53,.19],[0,h-.22,z-.035,.17]],col);
  // Slender forelegs and longer articulated hind legs: thigh, forward stifle, rear hock, pastern.
  for(const side of [-1,1]){
-  m.ellipsoid(side*.24,1.02+bob,-.70,.16,.29,.24,col);
+  m.ellipsoid(side*.225,1.06+bob,-.66,.115,.215,.165,col);
   for(const front of [-1,1]){const gait=phase+(side*front>0?0:Math.PI),stride=Math.sin(gait)*(.18+run*.11)*blend,lift=Math.max(0,Math.cos(gait))*(.08+run*.08)*blend,footZ=front*.67+stride,hip=[side*(front>0?.2:.25),(front>0?1.23:1.3)+bob,front*.54],ankle=[hip[0],.16+lift,footZ];
    const joints=front>0?[[...hip,.075],[hip[0],.83+lift*.25,footZ-.08,.057],[hip[0],.43+lift*.4,footZ-.035,.043],[...ankle,.042]]:[[...hip,.105],[hip[0],.88+lift*.2,-.43+stride*.35,.078],[hip[0],.43+lift*.5,-.74+stride*.6,.046],[...ankle,.041]];
    tube(joints,col);m.ellipsoid(ankle[0],.105+lift,footZ+.025,.095,.105,.13,hoof);m.softLink([ankle[0],.045+lift,footZ+.15],[ankle[0],.165+lift,footZ+.135],.0065,'#302a26');
