@@ -24,8 +24,8 @@
     },
     {
       "path": "creatures.js",
-      "bytes": 30882,
-      "sha256": "b7b7c329e4218a134569104bb2a099f2e5e62dd7b5e1a9a11a40aa6a5fb7a026"
+      "bytes": 31915,
+      "sha256": "d1bb2e49780fece4da2ad7c049f8ec45c08698aca31ad1a13340197aef492484"
     },
     {
       "path": "fairytale-latin-ext.woff2",
@@ -79,8 +79,8 @@
     },
     {
       "path": "model.js",
-      "bytes": 8530,
-      "sha256": "459bc56af969eede80852efe27ca6c8918f1ac86cee54aaa2711cbe700a32771"
+      "bytes": 8797,
+      "sha256": "17374da3e0df3f36ae1d78159968c8656f0adef968d8274879e763c719060800"
     },
     {
       "path": "moss.css",
