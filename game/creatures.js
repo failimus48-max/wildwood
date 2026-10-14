@@ -44,14 +44,18 @@ function details(m,c,headY){const a=c.accentColor,id=c.animal;
  if(id==='axolotl')for(const side of [-1,1])for(let i=0;i<3;i++){const a=[side*.4,headY-.12+i*.15,.65];m.link(a,[side*(.9-i*.1),headY-.3+i*.3,.62],.07,c.accentColor,.025);}
 }
 // Sculpted reference fox: separate anatomy keeps the other species unchanged.
-function advanceFoxMotion(p,dt,moving,running){const ease=1-Math.exp(-Math.min(dt,.5)*(moving?6:3)),blend=p.blend+(Number(moving)-p.blend)*ease,run=p.run+(Number(moving&&running)-p.run)*ease;return {blend,run,phase:p.phase+dt*(7+run*3.2)*blend};}
-function sculptFox(m,c,t,moving,motion){
- const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*8,mix=(a,b)=>a+(b-a)*blend,bob=Math.sin(phase*2)*.035*run;
- const col=c.bodyColor,shade=(h,k)=>'#'+rgb(h).map(v=>Math.round(v*k*255).toString(16).padStart(2,'0')).join(''),inner=shade(col,.52),fur=shade(col,.94),h=mix(1.91,1.42)+bob*.5,z=mix(.22,.64);
+function sculptTools(m){
  // Rounded tube surfaces for tapered legs and a continuous curved brush tail.
  const tube=(points,color)=>{const seg=WildwoodPerformance.mobile?12:18,verts=[],co=rgb(color),cs=Math.cos(m.yaw),sn=Math.sin(m.yaw);for(let j=0;j<points.length;j++){const q=points[j],prev=points[Math.max(0,j-1)],next=points[Math.min(points.length-1,j+1)],axis=normalize(subtract(next.slice(0,3),prev.slice(0,3))),x=normalize(cross(axis,Math.abs(axis[1])>.9?[1,0,0]:[0,1,0])),y=cross(axis,x);for(let i=0;i<=seg;i++){const a=i/seg*6.283,n=x.map((v,k)=>v*Math.cos(a)+y[k]*Math.sin(a));verts.push([...m.point(q.slice(0,3).map((v,k)=>v+n[k]*q[3])),n[0]*cs+n[2]*sn,n[1],-n[0]*sn+n[2]*cs,...co]);}}for(let j=0;j<points.length-1;j++)for(let i=0;i<seg;i++){const a=j*(seg+1)+i,b=a+seg+1;for(const k of [a,b,a+1,a+1,b,b+1])m.data.push(...verts[k]);}};
  // Convex relief with a curved surface, used for ears, eyelids and fur layers.
  const relief=(outline,center,depth,color,emit=false)=>{for(let pass=0;pass<2;pass++)outline=outline.flatMap((p,i)=>{const q=outline[(i+1)%outline.length];return [p.map((v,k)=>v*.9+q[k]*.1),p.map((v,k)=>v*.1+q[k]*.9)];});const rings=4,verts=[],co=rgb(color),cs=Math.cos(m.yaw),sn=Math.sin(m.yaw);for(let j=0;j<=rings;j++){const r=j/rings;for(const p of outline){const v=center.map((v,k)=>v+(p[k]-v)*r);v[2]+=depth*(1-r*r);const n=normalize([(v[0]-center[0])*depth*14,(v[1]-center[1])*depth*14,1]);verts.push([...m.point(v),...(emit?[0,3,0]:[n[0]*cs+n[2]*sn,n[1],-n[0]*sn+n[2]*cs]),...co]);}}const count=outline.length;for(let j=0;j<rings;j++)for(let i=0;i<count;i++){const a=j*count+i,b=j*count+(i+1)%count,d=a+count,e=b+count;for(const k of [a,d,b,b,d,e])m.data.push(...verts[k]);}};
+ return {tube,relief};
+}
+function advanceFoxMotion(p,dt,moving,running){const ease=1-Math.exp(-Math.min(dt,.5)*(moving?6:3)),blend=p.blend+(Number(moving)-p.blend)*ease,run=p.run+(Number(moving&&running)-p.run)*ease;return {blend,run,phase:p.phase+dt*(7+run*3.2)*blend};}
+function sculptFox(m,c,t,moving,motion){
+ const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*8,mix=(a,b)=>a+(b-a)*blend,bob=Math.sin(phase*2)*.035*run;
+ const col=c.bodyColor,shade=(h,k)=>'#'+rgb(h).map(v=>Math.round(v*k*255).toString(16).padStart(2,'0')).join(''),inner=shade(col,.52),fur=shade(col,.94),h=mix(1.91,1.42)+bob*.5,z=mix(.22,.64);
+ const {tube,relief}=sculptTools(m);
  const seated=[[0,.2,-.18,.12],[0,.55,-.18,.42],[0,1.0,-.04,.37],[0,1.43,.08,.29],[0,1.72,.17,.19]],standing=[[0,.78,-1.02,.025],[0,.84,-.75,.34],[0,.9,-.15,.34],[0,1.08,.42,.3],[0,1.32,.68,.18]];
  tube(seated.map((p,j)=>p.map((v,k)=>mix(v,standing[j][k])+(k===1?bob+run*Math.sin(phase)*standing[j][2]*.028:0))),col);
  for(const side of [-1,1]){
@@ -73,11 +77,37 @@ function sculptFox(m,c,t,moving,motion){
  for(let j=0;j<3;j++){const y=mix(1.5-j*.23,1.07-j*.12)+bob,zz=mix(.27,.61),w=.26-j*.035;relief([[-w,y,zz],[-w*.9,y-.15,zz+.035],[-w*.5,y-.2,zz+.06],[0,y-.35,zz+.065],[w*.5,y-.2,zz+.06],[w*.9,y-.15,zz+.035],[w,y,zz]],[0,y-.12,zz+.035],.06,fur);for(const side of [-1,1])relief([[side*w*.75,y-.02,zz],[side*(w+.06),y-.12,zz-.02],[side*(w+.025),y-.19,zz],[side*w*.55,y-.12,zz+.02]],[side*w*.8,y-.11,zz],.035,col);}
  if(c.tail==='natural'){const points=[];for(let j=0;j<=16;j++){const u=j/16,a=-1.8+u*3.5,idle=[.19+Math.cos(a)*.55*c.tailSize,.24+Math.sin(u*Math.PI)*.08,-.17+Math.sin(a)*.63*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.27*c.tailSize+.065*(1-u))],trail=[Math.sin(phase*.45-u*2)*(.12+run*.055)*u,.74-.25*Math.sin(u*2)+bob*(1-u)+run*Math.sin(phase-u*2)*.065*u,-.86-u*1.85*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.26*c.tailSize+.07*(1-u))];points.push(idle.map((v,k)=>mix(v,trail[k])));}tube(points,col);}
 }
+function sculptBunny(m,c,t,moving,motion){
+ const {tube,relief}=sculptTools(m),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,mix=(a,b)=>a+(b-a)*blend,col=c.bodyColor,accent=c.accentColor,shade=(hex,k)=>'#'+rgb(hex).map(v=>Math.round(v*k*255).toString(16).padStart(2,'0')).join(''),seam=shade(col,.66),pink='#bd9190',bob=Math.max(0,Math.sin(phase*2))*(.035+run*.045)*blend,h=mix(1.46,1.2)+bob,z=mix(.16,.49);
+ m.ellipsoid(0,mix(.68,.61)+bob,mix(-.12,-.23),.35,mix(.56,.38),mix(.35,.61),col);
+ m.ellipsoid(0,mix(1.02,.84)+bob,mix(.03,.32),.28,.36,.26,col);
+ for(const side of [-1,1]){
+  m.ellipsoid(side*.29,mix(.37,.4)+bob,mix(-.18,-.53),.23,.31,.28,col);
+  for(const front of [-1,1]){const gait=phase+(front>0?0:Math.PI*.7)+(side>0?.14:0),stride=Math.sin(gait)*(.13+run*.08)*blend,lift=Math.max(0,Math.cos(gait))*(.08+run*.06)*blend,footZ=mix(front>0?.33:-.08,front*.49)+stride,hip=[side*(front>0?.2:.28),mix(front>0?.91:.39,front>0?.72:.49)+bob,mix(front>0?.16:-.23,front*.35)],ankle=[hip[0],.12+lift,footZ];tube([[...hip,front>0?.105:.13],[hip[0],mix(.47,.32)+lift*.4,footZ-.04,.085],[...ankle,.065]],col);m.ellipsoid(hip[0],.11+lift,footZ+.04,front>0?.12:.15,.115,front>0?.15:.23,col);for(const toe of [-1,0,1])m.softLink([hip[0]+toe*.041,.09+lift,footZ+(front>0?.178:.25)],[hip[0]+toe*.041,.175+lift,footZ+(front>0?.153:.22)],.004,seam);}
+ }
+ // The head is deliberately taller than it is wide, with restrained cheek fur.
+ m.ellipsoid(0,h,z,.455,.49,.355,col,false,28,18);
+ m.ellipsoid(0,h-.24,z+.265,.225,.175,.14,col);
+ for(const side of [-1,1]){
+  for(let j=0;j<2;j++)relief([[side*.28,h-.095-j*.04,z+.255],[side*.445,h-.17-j*.042,z+.135],[side*.355,h-.24-j*.025,z+.205],[side*.19,h-.29,z+.29]],[side*.31,h-.19,z+.23],.035,col);
+  // Tall leaf-shaped ears have a rounded outer rim and inset inner panels.
+  const k=c.earSize,tilt=Math.sin(phase)*.012*blend,base=side*.21,tip=side*(.59+tilt),top=h+.43+1.02*k;
+  const outline=[[base-side*.095,h+.22,z-.025],[base+side*.16,h+.24,z-.055],[side*.65,h+.35+.58*k,z-.13],[side*.66,h+.35+.96*k,z-.15],[tip,top,z-.15],[side*.29,h+.38+.76*k,z-.11],[base-side*.075,h+.4,z-.01]],center=[side*.39,h+.36+.4*k,z-.005];relief(outline,center,.085,col);
+  relief(outline.map(p=>[center[0]+(p[0]-center[0])*.67,center[1]+(p[1]-center[1])*.78,p[2]+.055]),[center[0],center[1],center[2]+.055],.055,pink);
+  const eyeOutline=[[side*.105,h-.11,z+.34],[side*.13,h+.04,z+.35],[side*.225,h+.085,z+.307],[side*.285,h+.065,z+.257],[side*.273,h-.035,z+.27],[side*.19,h-.095,z+.323]];relief(eyeOutline,[side*.193,h-.017,z+.324],.018,c.eyeColor,c.glowEyes);
+  m.ellipsoid(side*.085,h-.26,z+.372,.1,.078,.039,col);
+ }
+ relief([[-.056,h-.235,z+.414],[.056,h-.235,z+.414],[.063,h-.259,z+.418],[0,h-.307,z+.421],[-.063,h-.259,z+.418]],[0,h-.261,z+.418],.018,pink);
+ for(const side of [-1,1])m.softLink([0,h-.3,z+.407],[side*.045,h-.334,z+.393],.0045,seam);
+ for(let j=0;j<2;j++){const y=mix(1.02-j*.19,.85-j*.12)+bob,zz=mix(.27,.49),w=.22-j*.025;relief([[-w,y,zz],[-w*.85,y-.13,zz+.03],[-w*.47,y-.16,zz+.05],[0,y-.29,zz+.055],[w*.47,y-.16,zz+.05],[w*.85,y-.13,zz+.03],[w,y,zz]],[0,y-.105,zz+.035],.045,col);for(const side of [-1,1])relief([[side*w*.72,y-.01,zz],[side*(w+.035),y-.12,zz],[side*(w+.016),y-.17,zz+.012],[side*w*.55,y-.12,zz+.03]],[side*w*.8,y-.1,zz+.01],.025,col);}
+ if(c.tail==='natural')m.ellipsoid(0,mix(.47,.57)+bob,mix(-.48,-.92),.18*c.tailSize,.19*c.tailSize,.19*c.tailSize,accent);
+}
 function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={}){const c=WildwoodModel.appearance(config),m=new Mesh(position,yaw,c.size),id=c.animal,col=c.bodyColor,a=c.accentColor,step=moving?Math.sin(t*12)*.13:0;
- const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
+ const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
  if(id==='spiritbunny'){m.ellipsoid(0,.87,0,.65,.67,.75,col);m.ellipsoid(0,1.48,.53,.68,.58,.55,col);for(const side of [-1,1]){m.ellipsoid(side*.34,2.08,.48,.21,.64*c.earSize,.2,col);m.ellipsoid(side*.34,2.12,.66,.095,.45*c.earSize,.04,a);m.ellipsoid(side*.38,.28,.55,.27,.25,.35,col);m.ellipsoid(side*.4,.24,-.42,.27,.24,.3,col);m.ellipsoid(side*.3,1.59,1.025,.12,.15,.05,c.eyeColor,c.glowEyes);m.ellipsoid(side*.3-.035,1.645,1.073,.039,.046,.015,'#f5ffff',true);m.ellipsoid(side*.48,1.35,.96,.11,.055,.027,'#b4e5ef');}m.ellipsoid(0,1.33,1.08,.26,.17,.1,a);m.ellipsoid(0,1.39,1.177,.07,.05,.025,c.eyeColor);}
 
  else if(id==='fox')sculptFox(m,c,t,moving,motion);
+ else if(id==='bunny')sculptBunny(m,c,t,moving,motion);
  else{
   const trueBird=bird&&id!=='gryphon',canine=['fox','wolf','kitsune','fennec'].includes(id),aquatic=id==='axolotl',bodyY=pony?1.03:long?.64:.86,width=id==='bear'?.58:long?.34:.43,length=long?1.03:pony?.94:.82;
   m.loft([[-length,bodyY,.04,.07],[-length*.7,bodyY,width*.9,trueBird?.56:long?.28:.4],[-.15,bodyY+.04,width,trueBird?.67:long?.28:.43],[.35,bodyY+.11,width*.85,trueBird?.52:long?.3:.44],[.68,headY-.2,width*.5,.3],[.79,headY-.1,.05,.08]],col);
@@ -101,7 +131,7 @@ function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={
   if(aquatic)for(const side of [-1,1])for(let i=0;i<3;i++){const end=[side*(.76-i*.04),headY-.24+i*.27,.58];m.softLink([side*.38,headY-.15+i*.16,.6],end,.035,a);for(let j=1;j<=3;j++)m.softLink(end,[end[0]+side*.07*j,end[1]+(j-2)*.06,end[2]-.02*j],.012,a);}
  }
 
- if(id!=='fox'||c.tail!=='natural')tail(m,c,t);wings(m,c,t,moving);horns(m,c,headY);details(m,c,headY);
+ if(!['fox','bunny'].includes(id)||c.tail!=='natural')tail(m,c,t);wings(m,c,t,moving);horns(m,c,headY);details(m,c,headY);
  return new Float32Array(m.data);
 }
 function soul(type,position,t,eye=[4,3,6]){const s=WildwoodModel.souls.find(x=>x.id===type);if(!s)return {solid:new Float32Array(),glow:new Float32Array()};const m=new Mesh(position),g=new Mesh(),color=s.color,co=rgb(color);m.ellipsoid(0,0,0,.19,.22,.19,color,true);m.ellipsoid(0,-.03,.02,.095,.14,.1,'#f5ffff',true);for(let i=0;i<5;i++){const a=t*1.7+i/5*6.283,x=Math.cos(a)*.11,z=Math.sin(a)*.11;m.link([x,-.06,z],[x*.5+Math.sin(t*4+i)*.04,.36+Math.sin(t*3+i)*.08,z*.5],.09,color,0,true);}

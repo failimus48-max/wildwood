@@ -3,7 +3,7 @@
 const landmarkPoints=[[-6,5],[5,9],[10,-3],[-12,-7],[3,-12],[-22,8],[-25,-6],[20,14],[26,4],[18,-14],[-15,23],[4,28],[15,25],[-9,-26],[-25,-20]];
 const palette=['#d88845','#b1a1ce','#779eaf','#d1ac64','#92ab7c'];
 const species=[
- ['bunny','Moon Bunny','🐇','Long ears, soft paws, boundless curiosity.','#c4b4e6'],['fox','Forest Fox','🦊','A bright-eyed wanderer with a plush tail.','#d88845'],
+ ['bunny','Moon Bunny','🐇','Long ears, soft paws, boundless curiosity.','#ddd1bc'],['fox','Forest Fox','🦊','A bright-eyed wanderer with a plush tail.','#d88845'],
  ['wolf','Dire Wolf','🐺','A noble guardian of the hidden trails.','#8198b5'],['cat','Star Cat','🐈','A tiny dreamer with a feline silhouette.','#ba92c9'],
  ['deer','Celestial Deer','🦌','Graceful legs and branching antlers.','#b7a082'],['dragon','Dream Dragon','🐉','Scales, a long tail, and sweeping wings.','#78ae9b'],
  ['unicorn','Cloud Unicorn','🦄','A little pony with a spiral horn.','#e0c7e3'],['gryphon','Gryphon Cub','🦅','A feathered guardian with a golden beak.','#d8ad68'],
