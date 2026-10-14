@@ -60,3 +60,5 @@ Solid scenery collision now includes rock groups, furniture, shrine, NPCs, cotta
 Solid object tops support landings; characters step onto low ledges, fall naturally when walking off them, and can jump again after landing. Physics uses bounded substeps so collision and water splashes remain consistent at lower frame rates.
 
 Character anatomy uses smooth continuous torso, skull and muzzle profiles, smaller eyes, articulated legs and hocks, individual toes or hooves, pointed ears, whiskers and curved tails. Owls and phoenixes have two feet and layered folded feathers. The blue spirit bunny and Bobo keep their reference-inspired plush identity; Bobo gains a smoother neck transition and subtle toe seams. All creator options and saved looks remain supported.
+
+The woodland anatomy pass gives foxes, wolves, kitsunes and fennecs longer lean torsos, smaller heads and eyes, tapered muzzles, pale chest fur, dark stockings and swept cheek fur. Curved tapered tail meshes replace bulb-shaped fox tails. Other natural animals gain smaller heads and tapered limbs, with surface coat variation. Custom colours, wings, horns, patterns and saved looks remain supported.
