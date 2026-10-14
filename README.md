@@ -72,3 +72,5 @@ Dire Wolf now shares the reference sculpture style with a distinct larger build:
 Celestial Deer has a reference-inspired sculpted model with a slender neck, soft almond eyes, broad inset ears, small cloven hooves, pale chest fur and curved branching antlers. Its default warm brown coat has cream fawn spots that follow the torso surface. It blends from a relaxed standing pose into a graceful four-legged gait. Existing default deer looks gain the brown spotted coat; custom looks and alternate mythical options remain supported.
 
 The deer now stands naturally on four legs, with a horizontal torso, slender forelegs and longer hind limbs articulated through forward stifles and rear hocks. A white ventral coat follows the belly surface, and the tail underside is white while its top stays brown. Antlers, fawn spots, custom looks and the graceful gait remain supported.
+
+The deer hind limbs are lengthened further by raising the rear skeleton and torso together, while keeping standing hooves on the ground. Its hocks are less tightly tucked, and the belly coat, spots and tail follow the raised hindquarters.
