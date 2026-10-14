@@ -44,17 +44,19 @@ function details(m,c,headY){const a=c.accentColor,id=c.animal;
  if(id==='axolotl')for(const side of [-1,1])for(let i=0;i<3;i++){const a=[side*.4,headY-.12+i*.15,.65];m.link(a,[side*(.9-i*.1),headY-.3+i*.3,.62],.07,c.accentColor,.025);}
 }
 // Sculpted reference fox: separate anatomy keeps the other species unchanged.
-function sculptFox(m,c,t,moving){
- const col=c.bodyColor,shade=(h,k)=>'#'+rgb(h).map(v=>Math.round(v*k*255).toString(16).padStart(2,'0')).join(''),inner=shade(col,.52),fur=shade(col,.94),h=moving?1.42:1.91,z=moving?.64:.22;
+function advanceFoxMotion(p,dt,moving,running){const ease=1-Math.exp(-Math.min(dt,.5)*(moving?6:3)),blend=p.blend+(Number(moving)-p.blend)*ease,run=p.run+(Number(moving&&running)-p.run)*ease;return {blend,run,phase:p.phase+dt*(7+run*3.2)*blend};}
+function sculptFox(m,c,t,moving,motion){
+ const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*8,mix=(a,b)=>a+(b-a)*blend,bob=Math.sin(phase*2)*.035*run;
+ const col=c.bodyColor,shade=(h,k)=>'#'+rgb(h).map(v=>Math.round(v*k*255).toString(16).padStart(2,'0')).join(''),inner=shade(col,.52),fur=shade(col,.94),h=mix(1.91,1.42)+bob*.5,z=mix(.22,.64);
  // Rounded tube surfaces for tapered legs and a continuous curved brush tail.
  const tube=(points,color)=>{const seg=WildwoodPerformance.mobile?12:18,verts=[],co=rgb(color),cs=Math.cos(m.yaw),sn=Math.sin(m.yaw);for(let j=0;j<points.length;j++){const q=points[j],prev=points[Math.max(0,j-1)],next=points[Math.min(points.length-1,j+1)],axis=normalize(subtract(next.slice(0,3),prev.slice(0,3))),x=normalize(cross(axis,Math.abs(axis[1])>.9?[1,0,0]:[0,1,0])),y=cross(axis,x);for(let i=0;i<=seg;i++){const a=i/seg*6.283,n=x.map((v,k)=>v*Math.cos(a)+y[k]*Math.sin(a));verts.push([...m.point(q.slice(0,3).map((v,k)=>v+n[k]*q[3])),n[0]*cs+n[2]*sn,n[1],-n[0]*sn+n[2]*cs,...co]);}}for(let j=0;j<points.length-1;j++)for(let i=0;i<seg;i++){const a=j*(seg+1)+i,b=a+seg+1;for(const k of [a,b,a+1,a+1,b,b+1])m.data.push(...verts[k]);}};
  // Convex relief with a curved surface, used for ears, eyelids and fur layers.
  const relief=(outline,center,depth,color,emit=false)=>{for(let pass=0;pass<2;pass++)outline=outline.flatMap((p,i)=>{const q=outline[(i+1)%outline.length];return [p.map((v,k)=>v*.9+q[k]*.1),p.map((v,k)=>v*.1+q[k]*.9)];});const rings=4,verts=[],co=rgb(color),cs=Math.cos(m.yaw),sn=Math.sin(m.yaw);for(let j=0;j<=rings;j++){const r=j/rings;for(const p of outline){const v=center.map((v,k)=>v+(p[k]-v)*r);v[2]+=depth*(1-r*r);const n=normalize([(v[0]-center[0])*depth*14,(v[1]-center[1])*depth*14,1]);verts.push([...m.point(v),...(emit?[0,3,0]:[n[0]*cs+n[2]*sn,n[1],-n[0]*sn+n[2]*cs]),...co]);}}const count=outline.length;for(let j=0;j<rings;j++)for(let i=0;i<count;i++){const a=j*count+i,b=j*count+(i+1)%count,d=a+count,e=b+count;for(const k of [a,d,b,b,d,e])m.data.push(...verts[k]);}};
- if(moving)m.loft([[-1.02,.78,.02,.03],[-.75,.84,.34,.34],[-.15,.9,.34,.35],[.4,1.03,.3,.36],[.69,1.25,.18,.24],[.78,1.35,.04,.05]],col);
- else{m.ellipsoid(0,.69,-.18,.43,.64,.4,col);m.ellipsoid(0,1.15,-.03,.35,.55,.31,col);tube([[0,1.05,.02,.27],[0,1.48,.09,.29],[0,1.72,.17,.22]],col);}
+ const seated=[[0,.2,-.18,.12],[0,.55,-.18,.42],[0,1.0,-.04,.37],[0,1.43,.08,.29],[0,1.72,.17,.19]],standing=[[0,.78,-1.02,.025],[0,.84,-.75,.34],[0,.9,-.15,.34],[0,1.08,.42,.3],[0,1.32,.68,.18]];
+ tube(seated.map((p,j)=>p.map((v,k)=>mix(v,standing[j][k])+(k===1?bob+run*Math.sin(phase)*standing[j][2]*.028:0))),col);
  for(const side of [-1,1]){
-  if(!moving)m.ellipsoid(side*.39,.46,-.24,.23,.4,.28,col);
-  for(const front of [-1,1]){const phase=t*8+(side*front>0?0:Math.PI),stride=moving?Math.sin(phase)*.16:0,lift=moving?Math.max(0,Math.cos(phase))*.1:0,footZ=moving?front*.62+stride:front>0?.37:-.12,hip=[side*(front>0?.25:.34),moving?.87:front>0?1.26:.55,moving?front*.5:front>0?.16:-.27],ankle=[side*(front>0?.23:.39),.16+lift,footZ];tube([[...hip,front>0?.115:.17],[hip[0],moving?.47:.64,footZ-.06,.095],[...ankle,.073]],col);m.ellipsoid(ankle[0],.12+lift,footZ+.055,.13,.12,.18,col);for(const toe of [-1,0,1])m.softLink([ankle[0]+toe*.049,.11+lift,footZ+.214],[ankle[0]+toe*.049,.2+lift,footZ+.18],.0045,inner);}
+  m.ellipsoid(side*mix(.39,.31),mix(.46,.72)+bob,mix(-.24,-.62),mix(.23,.17),mix(.4,.24),.28,col);
+  for(const front of [-1,1]){const walking=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.3:0),legPhase=walking+(gallop-walking)*run,stride=Math.sin(legPhase)*(.16+run*.19)*blend,lift=Math.max(0,Math.cos(legPhase))*(.1+run*.13)*blend,footZ=mix(front>0?.37:-.12,front*.62)+stride,hip=[side*(front>0?.25:mix(.34,.31)),mix(front>0?1.26:.55,.87)+bob,mix(front>0?.16:-.27,front*.5)],ankle=[side*(front>0?.23:mix(.39,.31)),.16+lift,footZ],knee=[hip[0],mix(.64,.47)+lift*.35,footZ-.06-front*run*.13*Math.cos(legPhase)];tube([[...hip,front>0?.115:.17],[...knee,.095],[...ankle,.073]],col);m.ellipsoid(ankle[0],.12+lift,footZ+.055,.13,.12,.18,col);for(const toe of [-1,0,1])m.softLink([ankle[0]+toe*.049,.11+lift,footZ+.214],[ankle[0]+toe*.049,.2+lift,footZ+.18],.0045,inner);}
  }
  m.loft([[z-.35,h,.025,.03],[z-.18,h+.03,.39,.34],[z+.09,h,.49,.37],[z+.29,h-.04,.48,.28],[z+.42,h-.15,.31,.2],[z+.61,h-.28,.11,.1],[z+.69,h-.28,.02,.02]],col);
  for(const side of [-1,1]){
@@ -68,14 +70,14 @@ function sculptFox(m,c,t,moving){
  }
  m.ellipsoid(0,h-.28,z+.689,.075,.055,.04,inner);
  // Overlapping pointed chest plates are modelled fur, rather than a painted bib.
- for(let j=0;j<3;j++){const y=moving?1.07-j*.12:1.5-j*.23,zz=moving?.61:.27,w=.26-j*.035;relief([[-w,y,zz],[-w*.9,y-.15,zz+.035],[-w*.5,y-.2,zz+.06],[0,y-.35,zz+.065],[w*.5,y-.2,zz+.06],[w*.9,y-.15,zz+.035],[w,y,zz]],[0,y-.12,zz+.035],.06,fur);for(const side of [-1,1])relief([[side*w*.75,y-.02,zz],[side*(w+.06),y-.12,zz-.02],[side*(w+.025),y-.19,zz],[side*w*.55,y-.12,zz+.02]],[side*w*.8,y-.11,zz],.035,col);}
- if(c.tail==='natural'){const points=[];for(let j=0;j<=16;j++){const u=j/16;if(moving)points.push([Math.sin(t*1.6-u*2)*.12*u,.74-.3*Math.sin(u*2),-.86-u*1.85*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.26*c.tailSize+.07*(1-u))]);else{const a=-1.8+u*3.5;points.push([.19+Math.cos(a)*.55*c.tailSize,.24+Math.sin(u*Math.PI)*.08,-.17+Math.sin(a)*.63*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.27*c.tailSize+.065*(1-u))]);}}tube(points,col);}
+ for(let j=0;j<3;j++){const y=mix(1.5-j*.23,1.07-j*.12)+bob,zz=mix(.27,.61),w=.26-j*.035;relief([[-w,y,zz],[-w*.9,y-.15,zz+.035],[-w*.5,y-.2,zz+.06],[0,y-.35,zz+.065],[w*.5,y-.2,zz+.06],[w*.9,y-.15,zz+.035],[w,y,zz]],[0,y-.12,zz+.035],.06,fur);for(const side of [-1,1])relief([[side*w*.75,y-.02,zz],[side*(w+.06),y-.12,zz-.02],[side*(w+.025),y-.19,zz],[side*w*.55,y-.12,zz+.02]],[side*w*.8,y-.11,zz],.035,col);}
+ if(c.tail==='natural'){const points=[];for(let j=0;j<=16;j++){const u=j/16,a=-1.8+u*3.5,idle=[.19+Math.cos(a)*.55*c.tailSize,.24+Math.sin(u*Math.PI)*.08,-.17+Math.sin(a)*.63*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.27*c.tailSize+.065*(1-u))],trail=[Math.sin(phase*.45-u*2)*(.12+run*.055)*u,.74-.25*Math.sin(u*2)+bob*(1-u)+run*Math.sin(phase-u*2)*.065*u,-.86-u*1.85*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.26*c.tailSize+.07*(1-u))];points.push(idle.map((v,k)=>mix(v,trail[k])));}tube(points,col);}
 }
-function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false}={}){const c=WildwoodModel.appearance(config),m=new Mesh(position,yaw,c.size),id=c.animal,col=c.bodyColor,a=c.accentColor,step=moving?Math.sin(t*12)*.13:0;
- const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='fox'?(moving?1.42:1.91):pony?1.7:bird?1.6:long?1.15:1.35;
+function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={}){const c=WildwoodModel.appearance(config),m=new Mesh(position,yaw,c.size),id=c.animal,col=c.bodyColor,a=c.accentColor,step=moving?Math.sin(t*12)*.13:0;
+ const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
  if(id==='spiritbunny'){m.ellipsoid(0,.87,0,.65,.67,.75,col);m.ellipsoid(0,1.48,.53,.68,.58,.55,col);for(const side of [-1,1]){m.ellipsoid(side*.34,2.08,.48,.21,.64*c.earSize,.2,col);m.ellipsoid(side*.34,2.12,.66,.095,.45*c.earSize,.04,a);m.ellipsoid(side*.38,.28,.55,.27,.25,.35,col);m.ellipsoid(side*.4,.24,-.42,.27,.24,.3,col);m.ellipsoid(side*.3,1.59,1.025,.12,.15,.05,c.eyeColor,c.glowEyes);m.ellipsoid(side*.3-.035,1.645,1.073,.039,.046,.015,'#f5ffff',true);m.ellipsoid(side*.48,1.35,.96,.11,.055,.027,'#b4e5ef');}m.ellipsoid(0,1.33,1.08,.26,.17,.1,a);m.ellipsoid(0,1.39,1.177,.07,.05,.025,c.eyeColor);}
 
- else if(id==='fox')sculptFox(m,c,t,moving);
+ else if(id==='fox')sculptFox(m,c,t,moving,motion);
  else{
   const trueBird=bird&&id!=='gryphon',canine=['fox','wolf','kitsune','fennec'].includes(id),aquatic=id==='axolotl',bodyY=pony?1.03:long?.64:.86,width=id==='bear'?.58:long?.34:.43,length=long?1.03:pony?.94:.82;
   m.loft([[-length,bodyY,.04,.07],[-length*.7,bodyY,width*.9,trueBird?.56:long?.28:.4],[-.15,bodyY+.04,width,trueBird?.67:long?.28:.43],[.35,bodyY+.11,width*.85,trueBird?.52:long?.3:.44],[.68,headY-.2,width*.5,.3],[.79,headY-.1,.05,.08]],col);
@@ -119,5 +121,5 @@ class Preview {
  render(data){if(!data.length)return;const gl=this.gl;gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.DYNAMIC_DRAW);for(const [k,offset] of [['p',0],['n',12],['c',24]]){gl.enableVertexAttribArray(this.loc[k]);gl.vertexAttribPointer(this.loc[k],3,gl.FLOAT,false,36,offset);}gl.drawArrays(gl.TRIANGLES,0,data.length/9);}
  dispose(){this.disposed=true;cancelAnimationFrame(this.frame);this.gl.deleteBuffer(this.buffer);this.gl.deleteProgram(this.program);const extension=this.gl.getExtension('WEBGL_lose_context');if(extension)extension.loseContext();}
 }
-window.MythicMesh={Mesh,creature,soul,glow,Preview};
+window.MythicMesh={Mesh,creature,soul,glow,Preview,advanceFoxMotion};
 })();
