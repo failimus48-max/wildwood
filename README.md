@@ -58,3 +58,5 @@ Meadow coverage now has four times as many broader, overlapping grass blades (ab
 
 Solid scenery collision now includes rock groups, furniture, shrine, NPCs, cottage walls and exposed roots, with height-aware contacts and small movement substeps to prevent tunnelling. Low steps and flexible grass/flowers remain passable; jumping clears low obstacles. The cottage hill is a height-following surface, with dense grass on its back and top, mottled ground texture and leafy bushes.
 Solid object tops support landings; characters step onto low ledges, fall naturally when walking off them, and can jump again after landing. Physics uses bounded substeps so collision and water splashes remain consistent at lower frame rates.
+
+Character anatomy uses smooth continuous torso, skull and muzzle profiles, smaller eyes, articulated legs and hocks, individual toes or hooves, pointed ears, whiskers and curved tails. Owls and phoenixes have two feet and layered folded feathers. The blue spirit bunny and Bobo keep their reference-inspired plush identity; Bobo gains a smoother neck transition and subtle toe seams. All creator options and saved looks remain supported.

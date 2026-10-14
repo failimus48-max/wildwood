@@ -4,10 +4,12 @@
 function bobo({position=[0,0,0],yaw=0,t=0}={}) {
  const m=new MythicMesh.Mesh(position,yaw,1.05),pink='#eed4df',gill='#ce79b0',blue='#b4dce1',cream='#f4eddf';
  const breathe=Math.sin(t*1.6)*.014;
+ m.softLink([0,.76,.15],[0,.94,.62],.42,pink);
  m.ellipsoid(0,.67,-.38,.72,.56,1.1,blue,false,20,12);
  m.ellipsoid(0,1.14+breathe,.8,.95,.84,.8,pink,false,24,14);
  for(const side of [-1,1]) {
   for(const z of [-.93,.64]) {
+   for(const offset of [-.11,.11])m.softLink([side*.56+offset,.13,z+.41],[side*.56+offset,.22,z+.37],.007,'#d8c2c8');
    m.ellipsoid(side*.56,.21,z,.32,.25,.36,pink,false,14,8);
    m.ellipsoid(side*.56,.14,z+.13,.325,.17,.31,cream,false,14,8);
    m.ellipsoid(side*.48,.23,z+.397,.038,.04,.012,'#b0d3d8',false,8,4);

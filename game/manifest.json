@@ -4,8 +4,8 @@
   "files": [
     {
       "path": "bobo.js",
-      "bytes": 2990,
-      "sha256": "4e6007bf1e8e51af47ed5909288d2ff2f7e1b37e4d3844582b960767533a5906"
+      "bytes": 3155,
+      "sha256": "2400ebbc66d20b0dc13b59a73044a43339949c2faa1c0d670e667c1ba12f3274"
     },
     {
       "path": "cottage.js",
@@ -24,8 +24,8 @@
     },
     {
       "path": "creatures.js",
-      "bytes": 17483,
-      "sha256": "6a4d2752977c7a7d37d8b88e0c31c72c244f7b47e4afb44cf3cffee25e255acc"
+      "bytes": 21190,
+      "sha256": "6024948278296dd73a1623f0dd10638461b7793b3f273e5163391daf37f697fd"
     },
     {
       "path": "fairytale-latin-ext.woff2",
