@@ -141,8 +141,10 @@ function sculptDeer(m,c,t,moving,motion){
  if(c.tail==='natural'){const tz=-.84,ty=1.29+bob,k=c.tailSize,sections=[[tz-.42*k,ty+.14,.007,.009],[tz-.31*k,ty+.15,.085*k,.095*k],[tz-.16*k,ty+.10,.115*k,.12*k],[tz,ty,.07,.09]];m.loft(sections,col);patch(sections.map(q=>[q[0],q[1],q[2]*1.012,q[3]*1.012]),-2.96,-.18);}
 }
 function deerFeatherWings(m,c,t,moving,motion){
- const {tube}=sculptTools(m),k=c.wingSize,blend=motion?.blend??Number(moving),flap=Math.sin(t*(blend>.2?4:1.4))*(.045+blend*.075),color=c.wingColor;
- for(const side of [-1,1]){const p=(x,y,z)=>[side*(.29+x*k),1.4+y*k+flap*x,z*k+.14];
+ const {tube}=sculptTools(m),k=c.wingSize,blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,color=c.wingColor,bob=Math.sin(phase*2)*(.012+run*.022)*blend;
+ // Rotate from the shoulder with the stride; the feather tips follow with a softer delayed flex.
+ const flap=Math.sin(t*1.4)*.025*(1-blend)+Math.sin(phase*2-.45)*(.17+run*.09)*blend,sweep=Math.sin(phase)*.07*blend;
+ for(const side of [-1,1]){const p=(x,y,z)=>{const flex=Math.sin(phase*2-.95)*.09*blend*x*x,angle=flap+side*sweep,cs=Math.cos(angle),sn=Math.sin(angle),xx=x*k,yy=y*k;return [side*(.29+xx*cs+yy*sn),1.4+bob+yy*cs-xx*sn+flex,z*k+.14+Math.sin(phase*2-.8)*.055*blend*x];};
   tube([[...p(0,0,0),.09],[...p(.24,.36,-.08),.11],[...p(.51,.72,-.22),.065],[...p(.62,.84,-.29),.008]],color);
   for(let i=0;i<9;i++){const u=i/8,start=p(.12+u*.47,.26+u*.52,-.06-u*.21),end=p(.17+u*.69,.01+u*.66,-.35-u*.22),mid=start.map((v,j)=>(v+end[j])/2);tube([[...start,.035*k],[...mid,(.065-u*.018)*k],[...end,.004]],color);}
   for(let i=0;i<5;i++){const u=i/4,start=p(.05+u*.36,.13+u*.40,-.015-u*.13),end=p(.1+u*.41,.02+u*.35,-.23-u*.12),mid=start.map((v,j)=>(v+end[j])/2);tube([[...start,.025*k],[...mid,.048*k],[...end,.003]],color);}
