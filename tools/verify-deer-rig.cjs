@@ -2,6 +2,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const context={window:{},WildwoodModel:M,WildwoodPerformance:{mobile:true,meshSegments:18,meshRings:10},Float32Array};
 vm.createContext(context);vm.runInContext(fs.readFileSync(require.resolve('../game/creatures.js'),'utf8'),context);
 const {deerRig,creature}=context.window.MythicMesh,distance=(a,b)=>Math.hypot(...a.map((v,i)=>v-b[i]));
+assert.equal(M.preset('deer').wings,'angel','Reference deer should have feathered wings');
+const oldDeer={...M.fresh(),animal:'deer',wings:'none'};delete oldDeer.deerWingsVersion;assert.equal(M.validate(oldDeer).wings,'angel','Existing unwinged deer gains wings once');assert.equal(M.validate({...oldDeer,wings:'bat'}).wings,'bat','Custom wing types survive the update');assert.equal(M.validate({...oldDeer,deerWingsVersion:1}).wings,'none','Removing wings remains persistent');
 for(const blend of [0,.5,1])for(const run of [0,1])for(let frame=0;frame<90;frame++){
  const pose={blend,run,phase:frame/90*Math.PI*2},rig=deerRig(pose);
  assert.equal(rig.legs.length,4);
