@@ -86,3 +86,5 @@ The winged fawn has fuller figurine-inspired legs, with thicker upper limbs, sof
 The deer upper hind legs have a fuller rounded hamstring contour behind the thigh. This volume follows the femur as the leg moves and tapers into the existing slimmer lower leg.
 
 The deer's feathered wings rock from the shoulders in time with walking, with softer delayed feather-tip flex and stronger movement while running. Wing motion eases with the gait blend and follows the body's vertical movement.
+
+The cat now uses a dedicated sculpted model in the same fairytale style as the updated fox, bunny and deer: rounded short-muzzled face, inset almond eyes, shaped ears, whiskers, layered chest fur, tapered legs and rounded paws. Its natural tail curls around its seated pose and lifts while walking. The seated stance blends into a four-legged walk/run gait; existing coat colors, patterns, wings, tails and accessories remain customizable.

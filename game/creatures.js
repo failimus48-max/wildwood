@@ -35,7 +35,7 @@ function horns(m,c,headY){const a=c.accentColor,y=headY+.38;if(c.horns==='unicor
  if(c.horns==='antlers')for(const s of [-1,1]){m.link([s*.27,y,.45],[s*.8,y+1.15,.1],.07,a,.035);for(let i=0;i<3;i++){const p=[s*(.4+i*.15),y+.25+i*.3,.4-i*.08];m.link(p,[s*(.78+i*.2),p[1]+.25,.4],.045,a,.015);}}
 }
 function details(m,c,headY){const a=c.accentColor,id=c.animal;
- if(c.pattern!=='none'&&!(id==='deer'&&c.pattern==='spots'))for(const side of [-1,1])for(let i=0;i<6;i++){const pony=['unicorn','pegasus','deer','kirin'].includes(id),long=['ferret','otter','axolotl'].includes(id),width=id==='bear'?.58:long?.34:.43,z=-.5+i*.19,y=(pony?1.03:long?.64:.86)+.1+Math.sin(i*2)*.08,x=side*(width-.02);if(c.pattern==='spots')m.ellipsoid(x,y,z,.04,.1,.09,a,false,6,3);if(c.pattern==='stripes')m.link([x,y-.18,z],[x,y+.18,z+.07],.045,a,.035);if(c.pattern==='stars'){m.link([x,y-.09,z],[x,y+.09,z],.03,a,.03,true);m.link([x,y,z-.09],[x,y,z+.09],.03,a,.03,true);}if(c.pattern==='runes'){m.link([x,y-.09,z],[x,y+.1,z+.07],.025,a,.025,true);m.link([x,y+.1,z+.07],[x,y-.09,z+.13],.025,a,.025,true);}}
+ if(c.pattern!=='none'&&id!=='cat'&&!(id==='deer'&&c.pattern==='spots'))for(const side of [-1,1])for(let i=0;i<6;i++){const pony=['unicorn','pegasus','deer','kirin'].includes(id),long=['ferret','otter','axolotl'].includes(id),width=id==='bear'?.58:long?.34:.43,z=-.5+i*.19,y=(pony?1.03:long?.64:.86)+.1+Math.sin(i*2)*.08,x=side*(width-.02);if(c.pattern==='spots')m.ellipsoid(x,y,z,.04,.1,.09,a,false,6,3);if(c.pattern==='stripes')m.link([x,y-.18,z],[x,y+.18,z+.07],.045,a,.035);if(c.pattern==='stars'){m.link([x,y-.09,z],[x,y+.09,z],.03,a,.03,true);m.link([x,y,z-.09],[x,y,z+.09],.03,a,.03,true);}if(c.pattern==='runes'){m.link([x,y-.09,z],[x,y+.1,z+.07],.025,a,.025,true);m.link([x,y+.1,z+.07],[x,y-.09,z+.13],.025,a,.025,true);}}
  if(c.accessory==='halo')m.ring(0,headY+1.05,.65,.6,'#ffdd83');
  if(c.accessory==='crown'){m.ring(0,headY+.45,.65,.42,'#e4bd6d');for(let i=0;i<5;i++){const angle=i/5*6.283;m.link([Math.cos(angle)*.4,headY+.45,.65+Math.sin(angle)*.4],[Math.cos(angle)*.4,headY+.8,.65+Math.sin(angle)*.4],.09,'#e4bd6d',0);}}
  if(c.accessory==='crystals')for(let i=0;i<4;i++)m.link([0,1.12,-.6+i*.25],[0,1.6,-.6+i*.25],.16,c.wingColor,0,true);
@@ -77,6 +77,31 @@ function sculptFox(m,c,t,moving,motion){
  for(let j=0;j<3;j++){const y=mix(1.5-j*.23,1.07-j*.12)+bob,zz=mix(wolf?.42:.27,wolf?.78:.61),w=(wolf?.33:.26)-j*.035;relief([[-w,y,zz],[-w*.9,y-.15,zz+.035],[-w*.5,y-.2,zz+.06],[0,y-.35,zz+.065],[w*.5,y-.2,zz+.06],[w*.9,y-.15,zz+.035],[w,y,zz],...(wolf?[[w*.65,y+.035,zz-.01],[0,y+.09,zz-.025],[-w*.65,y+.035,zz-.01]]:[])],[0,y-.12,zz+.035],.06,fur);for(const side of [-1,1])relief([[side*w*.75,y-.02,zz],[side*(w+.06),y-.12,zz-.02],[side*(w+.025),y-.19,zz],[side*w*.55,y-.12,zz+.02]],[side*w*.8,y-.11,zz],.035,col);}
  if(wolf)for(const side of [-1,1])for(let j=0;j<3;j++){const y=mix(1.5,1.18)+bob-j*.13,zz=mix(.04,.45),x=side*(.29+j*.03);relief([[x,y,zz],[x+side*.16,y-.16,zz-.08],[x+side*.1,y-.23,zz-.025],[x-side*.1,y-.15,zz+.08]],[x,y-.12,zz+.015],.055,col);}
  if(c.tail==='natural'){const points=[];for(let j=0;j<=16;j++){const u=j/16,a=-1.8+u*3.5,idle=[.19+Math.cos(a)*.55*c.tailSize,.24+Math.sin(u*Math.PI)*.08,-.17+Math.sin(a)*.63*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.27*c.tailSize+.065*(1-u))],trail=[Math.sin(phase*.45-u*2)*(.12+run*.055)*u,.74-.25*Math.sin(u*2)+bob*(1-u)+run*Math.sin(phase-u*2)*.065*u,-.86-u*1.85*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.26*c.tailSize+.07*(1-u))];points.push(idle.map((v,k)=>mix(v,trail[k])));}tube(points,col);}
+}
+function sculptCat(m,c,t,moving,motion){
+ const {tube,relief}=sculptTools(m),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,mix=(a,b)=>a+(b-a)*blend,col=c.bodyColor,a=c.accentColor,inner='#b78392',nose='#a77582',seam='#574455',bob=Math.sin(phase*2)*(.012+run*.03)*blend,h=mix(1.65,1.28)+bob,z=mix(.18,.64);
+ const seated=[[0,.15,-.16,.07],[0,.46,-.17,.34],[0,.87,-.06,.32],[0,1.22,.06,.25],[0,1.48,.15,.15]],standing=[[0,.77,-.92,.025],[0,.84,-.62,.28],[0,.87,-.11,.30],[0,1.02,.37,.25],[0,1.18,.61,.15]];
+ tube(seated.map((q,j)=>q.map((v,k)=>mix(v,standing[j][k])+(k===1?bob:0))),col);
+ if(c.pattern!=='none')for(const side of [-1,1])for(let i=0;i<6;i++){const u=1+i*.38,j=Math.floor(u),f=u-j,q=seated[j].map((v,k)=>mix(v+(seated[j+1][k]-v)*f,standing[j][k]+(standing[j+1][k]-standing[j][k])*f)),x=side*(q[3]+.003),y=q[1]+bob,zz=q[2];if(c.pattern==='spots')m.ellipsoid(x,y,zz,.025,.055,.065,a,false,8,5);if(c.pattern==='stripes')m.softLink([x,y-.065,zz-.04],[x,y+.065,zz+.04],.027,a);if(c.pattern==='stars'||c.pattern==='runes'){m.softLink([x,y-.06,zz],[x,y+.06,zz],.018,a);m.softLink([x,y,zz-.06],[x,y+(c.pattern==='runes'?.06:0),zz+.06],.018,a);}}
+ for(const side of [-1,1]){
+  m.ellipsoid(side*mix(.31,.25),mix(.38,.69)+bob,mix(-.22,-.57),mix(.21,.16),mix(.3,.23),.23,col);
+  for(const front of [-1,1]){const gait=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.22:0),p=gait+(gallop-gait)*run,stride=Math.sin(p)*(.15+run*.16)*blend,lift=Math.max(0,Math.cos(p))*(.09+run*.12)*blend,footZ=mix(front>0?.34:-.13,front*.54)+stride,hip=[side*(front>0?.20:mix(.31,.25)),mix(front>0?1.05:.48,.83)+bob,mix(front>0?.14:-.24,front*.45)],knee=[hip[0],mix(.56,.43)+lift*.35,footZ-(front<0?.12:.025)],ankle=[hip[0],.13+lift,footZ];
+   tube([[...hip,front>0?.10:.14],[...knee,.08],[...ankle,.065]],col);m.ellipsoid(ankle[0],.10+lift,footZ+.06,.12,.10,.16,col);for(const toe of [-1,1])m.softLink([ankle[0]+toe*.04,.075+lift,footZ+.207],[ankle[0]+toe*.04,.14+lift,footZ+.184],.0035,seam);
+  }
+ }
+ // A round feline cranium and short muzzle distinguish the cat from the longer fox face.
+ m.loft([[z-.30,h,.025,.03],[z-.18,h+.02,.31,.28],[z+.025,h,.41,.32],[z+.23,h-.045,.37,.255],[z+.36,h-.15,.23,.14],[z+.43,h-.18,.045,.04]],col);
+ for(const side of [-1,1]){
+  relief([[side*.14,h-.02,z+.26],[side*.46,h-.10,z+.17],[side*.39,h-.19,z+.23],[side*.26,h-.24,z+.32],[side*.10,h-.22,z+.35]],[side*.28,h-.13,z+.28],.045,col);
+  const k=c.earSize,shape=[[side*.13,h+.16,z-.07],[side*.40,h+.13,z-.10],[side*.43,h+.37*k,z-.12],[side*.36,h+.48*k,z-.11],[side*.19,h+.30,z-.04]],center=[side*.29,h+.32,z-.025];
+  relief(shape,center,.085,col);relief(shape.map(q=>[center[0]+(q[0]-center[0])*.65,center[1]+(q[1]-center[1])*.7,q[2]+.045]),[center[0],center[1],center[2]+.045],.05,inner);
+  relief([[side*.105,h-.07,z+.35],[side*.14,h+.025,z+.34],[side*.25,h+.055,z+.295],[side*.32,h+.015,z+.255],[side*.26,h-.075,z+.30],[side*.17,h-.105,z+.34]],[side*.215,h-.025,z+.315],.022,c.eyeColor,c.glowEyes);
+  m.ellipsoid(side*.079,h-.18,z+.372,.103,.072,.05,a);for(let j=0;j<3;j++)m.softLink([side*.105,h-.17-j*.018,z+.405],[side*(.40+j*.025),h-.22+j*.065,z+.34],.0035,a);
+ }
+ relief([[-.05,h-.145,z+.426],[.05,h-.145,z+.426],[.045,h-.172,z+.436],[0,h-.21,z+.439],[-.045,h-.172,z+.436]],[0,h-.167,z+.435],.012,nose);
+ for(const side of [-1,1])m.softLink([0,h-.21,z+.435],[side*.048,h-.24,z+.409],.004,seam);
+ for(let j=0;j<3;j++){const y=mix(1.28-j*.16,1.00-j*.10)+bob,zz=mix(.29,.59),w=.22-j*.027;relief([[-w,y,zz],[-w*.9,y-.13,zz+.035],[-w*.48,y-.15,zz+.05],[0,y-.25,zz+.065],[w*.48,y-.15,zz+.05],[w*.9,y-.13,zz+.035],[w,y,zz]],[0,y-.09,zz+.045],.045,a);}
+ if(c.tail==='natural'){const points=[];for(let i=0;i<=22;i++){const u=i/22,angle=u*Math.PI*1.5,attach=Math.exp(-u*14),idle=[(.17+Math.sin(angle)*.48*c.tailSize)*(1-attach),.20+Math.sin(u*Math.PI)*.04+.16*attach,(-.23-Math.cos(angle)*.54*c.tailSize)*(1-attach)-.36*attach],trail=[Math.sin(phase*.45-u*2)*.12*u,.80+.80*Math.sin(u*1.7)*c.tailSize+bob,-.72-u*.8*c.tailSize+.24*Math.pow(u,4)];points.push([...idle.map((v,k)=>mix(v,trail[k])),Math.max(.007,(.09-.065*u)*c.tailSize)]);}tube(points,col);}
 }
 function sculptBunny(m,c,t,moving,motion){
  const {tube,relief}=sculptTools(m),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,mix=(a,b)=>a+(b-a)*blend,col=c.bodyColor,accent=c.accentColor,shade=(hex,k)=>'#'+rgb(hex).map(v=>Math.round(v*k*255).toString(16).padStart(2,'0')).join(''),seam=shade(col,.66),pink='#bd9190',bob=Math.max(0,Math.sin(phase*2))*(.035+run*.045)*blend,h=mix(1.46,1.2)+bob,z=mix(.16,.49);
@@ -151,10 +176,11 @@ function deerFeatherWings(m,c,t,moving,motion){
  }
 }
 function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={}){const c=WildwoodModel.appearance(config),m=new Mesh(position,yaw,WildwoodModel.bodyScale(c)),id=c.animal,col=c.bodyColor,a=c.accentColor,step=moving?Math.sin(t*12)*.13:0;
- const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='deer'?1.94:id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
+ const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='deer'?1.94:id==='cat'?(1.65-.37*(motion?.blend??Number(moving))):id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
  if(id==='spiritbunny'){m.ellipsoid(0,.87,0,.65,.67,.75,col);m.ellipsoid(0,1.48,.53,.68,.58,.55,col);for(const side of [-1,1]){m.ellipsoid(side*.34,2.08,.48,.21,.64*c.earSize,.2,col);m.ellipsoid(side*.34,2.12,.66,.095,.45*c.earSize,.04,a);m.ellipsoid(side*.38,.28,.55,.27,.25,.35,col);m.ellipsoid(side*.4,.24,-.42,.27,.24,.3,col);m.ellipsoid(side*.3,1.59,1.025,.12,.15,.05,c.eyeColor,c.glowEyes);m.ellipsoid(side*.3-.035,1.645,1.073,.039,.046,.015,'#f5ffff',true);m.ellipsoid(side*.48,1.35,.96,.11,.055,.027,'#b4e5ef');}m.ellipsoid(0,1.33,1.08,.26,.17,.1,a);m.ellipsoid(0,1.39,1.177,.07,.05,.025,c.eyeColor);}
 
  else if(id==='fox'||id==='wolf')sculptFox(m,c,t,moving,motion);
+ else if(id==='cat')sculptCat(m,c,t,moving,motion);
  else if(id==='bunny')sculptBunny(m,c,t,moving,motion);
  else if(id==='deer')sculptDeer(m,c,t,moving,motion);
  else{
@@ -180,7 +206,7 @@ function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={
   if(aquatic)for(const side of [-1,1])for(let i=0;i<3;i++){const end=[side*(.76-i*.04),headY-.24+i*.27,.58];m.softLink([side*.38,headY-.15+i*.16,.6],end,.035,a);for(let j=1;j<=3;j++)m.softLink(end,[end[0]+side*.07*j,end[1]+(j-2)*.06,end[2]-.02*j],.012,a);}
  }
 
- if(!['fox','wolf','bunny','deer'].includes(id)||c.tail!=='natural')tail(m,c,t);if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else wings(m,c,t,moving);if(id!=='deer'||c.horns!=='antlers')horns(m,c,headY);details(m,c,headY);
+ if(!['fox','wolf','cat','bunny','deer'].includes(id)||c.tail!=='natural')tail(m,c,t);if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else wings(m,c,t,moving);if(id!=='deer'||c.horns!=='antlers')horns(m,c,headY);details(m,c,headY);
  return new Float32Array(m.data);
 }
 function soul(type,position,t,eye=[4,3,6]){const s=WildwoodModel.souls.find(x=>x.id===type);if(!s)return {solid:new Float32Array(),glow:new Float32Array()};const m=new Mesh(position),g=new Mesh(),color=s.color,co=rgb(color);m.ellipsoid(0,0,0,.19,.22,.19,color,true);m.ellipsoid(0,-.03,.02,.095,.14,.1,'#f5ffff',true);for(let i=0;i<5;i++){const a=t*1.7+i/5*6.283,x=Math.cos(a)*.11,z=Math.sin(a)*.11;m.link([x,-.06,z],[x*.5+Math.sin(t*4+i)*.04,.36+Math.sin(t*3+i)*.08,z*.5],.09,color,0,true);}
