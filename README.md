@@ -80,3 +80,5 @@ Deer anatomy is rebuilt around a level-backed torso, a deeper chest, a tapered c
 The deer rear stance is straighter: reduced upper/lower hind-limb lengths bring the stifle closer to the hip-to-hock line, and the hock sits more directly over the hoof. The torso height and planted hoof positions remain the same.
 
 The deer follows the winged fawn reference proportions with a shorter, rounder torso, shorter neck and softer, shorter muzzle. Its default look has compact upright feathered wings with layered individual feathers. Brown fur, antlers, fawn spots and white belly/tail underside remain. Existing deer without wings gain them once; custom wing types are preserved, and wings can still be changed or removed afterward.
+
+The winged fawn has fuller figurine-inspired legs, with thicker upper limbs, softly curved tapered lower legs and larger rounded cloven hooves. The fixed-length joint rig and straighter rear stance are unchanged.

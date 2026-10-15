@@ -117,10 +117,12 @@ function sculptDeer(m,c,t,moving,motion){
  m.loft(torso,col);
  tube([[0,1.31+bob,.35,.23],[0,1.53+bob,.43,.18],[0,1.72+bob,.53,.155],[0,h-.17,z-.055,.14]],col);
  for(const leg of rig.legs){const {front,root,middle,distal,ankle,lift,footZ}=leg;
-  const anchor=[leg.side*(front>0?.12:.10),(front>0?1.46:1.39)+bob,front>0?.30:-.54];tube([[...anchor,.025],[...root,front>0?.06:.085],[...middle,front>0?.055:.068],[...distal,.038],[...ankle,.034]],col);
+  const anchor=[leg.side*(front>0?.12:.10),(front>0?1.46:1.39)+bob,front>0?.30:-.54],points=[[...anchor,.025],[...root,front>0?.10:.12],[...middle,front>0?.085:.095],[...distal,.068],[...ankle,.063]],skin=[];
+  // Soft figurine-like curves around the unchanged shoulder, knee and hock joints.
+  for(let i=0;i<points.length-1;i++)for(let j=0;j<3;j++){const u=j/3,p0=points[Math.max(0,i-1)],p1=points[i],p2=points[i+1],p3=points[Math.min(points.length-1,i+2)];skin.push(p1.map((v,k)=>.5*((2*v)+(-p0[k]+p2[k])*u+(2*p0[k]-5*v+4*p2[k]-p3[k])*u*u+(-p0[k]+3*v-3*p2[k]+p3[k])*u*u*u)));}skin.push(points[points.length-1]);tube(skin,col);
   // Muscle tapers out of the torso; the rear hock has a narrow, near-vertical cannon below it.
-  if(front<0)m.softLink(root,middle,.075,col);
-  for(const toe of [-1,1])m.ellipsoid(ankle[0]+toe*.039,.09+lift,footZ+.03,.039,.09,.105,hoof,false,12,8);
+  if(front<0)m.softLink(root,middle,.10,col);
+  for(const toe of [-1,1])m.ellipsoid(ankle[0]+toe*.047,.105+lift,footZ+.045,.048,.105,.125,hoof,false,14,10);
  }
  // Surface-following ventral coat patch, with the side spots remaining above its edge.
  const white='#f5f0e7',patch=(sections,from,to)=>{const steps=14,verts=[],co=rgb(white),cs=Math.cos(m.yaw),sn=Math.sin(m.yaw);for(let row=0;row<sections.length;row++)for(let j=0;j<=steps;j++){const q=sections[row],prev=sections[Math.max(0,row-1)],next=sections[Math.min(sections.length-1,row+1)],angle=from+(to-from)*j/steps,x=q[2]*Math.cos(angle),y=q[3]*Math.sin(angle),n=normalize(cross([-Math.sin(angle)*q[2],Math.cos(angle)*q[3],0],[Math.cos(angle)*(next[2]-prev[2]),next[1]-prev[1]+Math.sin(angle)*(next[3]-prev[3]),next[0]-prev[0]]));verts.push([...m.point([x,q[1]+y,q[0]]),n[0]*cs+n[2]*sn,n[1],-n[0]*sn+n[2]*cs,...co]);}for(let i=0;i<sections.length-1;i++)for(let j=0;j<steps;j++){const a=i*(steps+1)+j,b=a+steps+1;for(const k of [a,b,a+1,a+1,b,b+1])m.data.push(...verts[k]);}};
