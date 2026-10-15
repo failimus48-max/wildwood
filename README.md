@@ -73,6 +73,6 @@ Celestial Deer has a reference-inspired sculpted model with a slender neck, soft
 
 The deer now stands naturally on four legs, with a horizontal torso, slender forelegs and longer hind limbs articulated through forward stifles and rear hocks. A white ventral coat follows the belly surface, and the tail underside is white while its top stays brown. Antlers, fawn spots, custom looks and the graceful gait remain supported.
 
-The deer hind limbs are lengthened further by raising the rear skeleton and torso together, while keeping standing hooves on the ground. Its hocks are less tightly tucked, and the belly coat, spots and tail follow the raised hindquarters.
 
-Deer haunches are slimmer and sit closer to the torso, reducing the rounded rump silhouette while retaining the longer articulated hind legs.
+
+Deer anatomy is rebuilt around a level-backed torso, a deeper chest, a tapered croup and a connected neck. Forelegs and hind legs use a two-bone joint solver with fixed upper/lower limb lengths, with the hock above a long near-vertical rear cannon. The raised-rump vertex stretch is removed. Belly markings and fawn spots follow the torso surface, and the white tail underside remains.
