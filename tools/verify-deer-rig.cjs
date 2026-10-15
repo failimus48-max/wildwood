@@ -11,7 +11,7 @@ for(const blend of [0,.5,1])for(const run of [0,1])for(let frame=0;frame<90;fram
   assert(Math.abs(distance(leg.middle,leg.distal)-leg.lower)<.0001,'Lower limb stretches');
   assert(leg.root[1]>leg.middle[1]&&leg.middle[1]>leg.distal[1]&&leg.distal[1]>leg.ankle[1],'Limb joints must descend toward the hoof');
   assert(Math.abs(leg.distal[2]-leg.ankle[2])<.08,'Cannon should be close to vertical');
-  if(leg.front<0)assert(leg.middle[2]>leg.root[2]&&leg.middle[2]>leg.distal[2],'Stifle must face forward, above the rear hock');
+  if(leg.front<0){const fraction=(leg.root[1]-leg.middle[1])/(leg.root[1]-leg.distal[1]),axisZ=leg.root[2]+(leg.distal[2]-leg.root[2])*fraction;assert(leg.middle[2]>axisZ,'Stifle must stay forward of the hip-to-hock line');if(blend===0){const reach=distance(leg.root,leg.distal),angle=Math.acos((leg.upper**2+leg.lower**2-reach**2)/(2*leg.upper*leg.lower))*180/Math.PI;assert(angle>125&&angle<160,'Standing rear stance should be less bent without locking the joint');}}
  }
  if(frame%30===0){const mesh=creature(M.preset('deer'),{motion:pose});assert(mesh.length&&mesh.length%9===0&&mesh.every(Number.isFinite));}
 }

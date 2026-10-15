@@ -76,3 +76,5 @@ The deer now stands naturally on four legs, with a horizontal torso, slender for
 
 
 Deer anatomy is rebuilt around a level-backed torso, a deeper chest, a tapered croup and a connected neck. Forelegs and hind legs use a two-bone joint solver with fixed upper/lower limb lengths, with the hock above a long near-vertical rear cannon. The raised-rump vertex stretch is removed. Belly markings and fawn spots follow the torso surface, and the white tail underside remains.
+
+The deer rear stance is straighter: reduced upper/lower hind-limb lengths bring the stifle closer to the hip-to-hock line, and the hock sits more directly over the hoof. The torso height and planted hoof positions remain the same.
