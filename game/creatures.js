@@ -121,7 +121,7 @@ function sculptDeer(m,c,t,moving,motion){
   // Soft figurine-like curves around the unchanged shoulder, knee and hock joints.
   for(let i=0;i<points.length-1;i++)for(let j=0;j<3;j++){const u=j/3,p0=points[Math.max(0,i-1)],p1=points[i],p2=points[i+1],p3=points[Math.min(points.length-1,i+2)];skin.push(p1.map((v,k)=>.5*((2*v)+(-p0[k]+p2[k])*u+(2*p0[k]-5*v+4*p2[k]-p3[k])*u*u+(-p0[k]+3*v-3*p2[k]+p3[k])*u*u*u)));}skin.push(points[points.length-1]);tube(skin,col);
   // Muscle tapers out of the torso; the rear hock has a narrow, near-vertical cannon below it.
-  if(front<0)m.softLink(root,middle,.10,col);
+  if(front<0){const axis=normalize(subtract(middle,root)),back=[0,-axis[2],axis[1]],upper=root.map((v,k)=>v+back[k]*.065),lower=middle.map((v,k)=>v+back[k]*.045);m.softLink(upper,lower,.165,col);}
   for(const toe of [-1,1])m.ellipsoid(ankle[0]+toe*.047,.105+lift,footZ+.045,.048,.105,.125,hoof,false,14,10);
  }
  // Surface-following ventral coat patch, with the side spots remaining above its edge.
