@@ -69,8 +69,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 34213,
-      "sha256": "b3468043c63a20f5f547d7ac6bc8922605f750a65d575a7cc7838bbe5034f419"
+      "bytes": 34656,
+      "sha256": "805b06bc4ff3c4041cff53442984b7ecad773912f750a48034d3d893a50d0cbc"
     },
     {
       "path": "groundcover.js",
@@ -79,8 +79,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 4025,
-      "sha256": "03002fa23213a999cf4097e0220f480f0f657f8ceb55420cb355c65071923497"
+      "bytes": 4067,
+      "sha256": "7c0b0c2e591b2587ec0dce83a9908f946c723e5ae022abea1c3b7017986eb14f"
     },
     {
       "path": "ink-icons.js",
@@ -111,6 +111,11 @@
       "path": "music.js",
       "bytes": 6647,
       "sha256": "b4a994466409643e4b9564d3ad7dfcee73e90c90227171e50b95b2a77c147da7"
+    },
+    {
+      "path": "nightlight-boat.js",
+      "bytes": 4119,
+      "sha256": "a9a69229170073126c731ad16398cb1fa6b6dbb13723163b954ce262a061d6e9"
     },
     {
       "path": "ocean.js",

@@ -1,0 +1,6 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const ctx={WildwoodPerformance:{mobile:true,meshSegments:18,meshRings:10},Float32Array};ctx.window=ctx;vm.createContext(ctx);for(const p of ['creatures','nightlight-boat'])vm.runInContext(fs.readFileSync(require.resolve('../game/'+p+'.js'),'utf8'),ctx);
+const boat=new ctx.NightlightBoat(),eye=[0,7,-45],day=boat.dynamic(1,1,eye),night=boat.dynamic(1,0,eye);
+assert.equal(boat.name,'Nightlight Boat');assert(boat.position[2]<-53,'Boat should sit at the end of the dock');assert(boat.local.length/9<12000,'Boat exceeds mobile geometry budget');assert(day.solid.length&&day.solid.every(Number.isFinite)&&night.glow.every(Number.isFinite));assert(night.glow.length>day.glow.length,'Night must add a star-like hull glow');assert.equal(day.night,0);assert.equal(night.night,1);assert(night.lantern[1]>4,'Lantern must sit at the masthead');
+const a=boat.dynamic(2,0,eye),b=boat.dynamic(3,0,eye);assert.notEqual(a.bob,b.bob,'Boat must bob gently');assert(Math.abs(a.bob)<.064&&Math.abs(b.bob)<.064,'Boat bob is too strong');const paused=boat.dynamic(3,0,eye);assert.equal(paused.solid,b.solid,'Paused boat should reuse its geometry');
+console.log('PASS: crescent sailboat, finite bounded mesh, gentle bob, masthead lantern and stronger night glow');
