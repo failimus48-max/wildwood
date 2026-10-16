@@ -87,4 +87,6 @@ The deer upper hind legs have a fuller rounded hamstring contour behind the thig
 
 The deer's feathered wings rock from the shoulders in time with walking, with softer delayed feather-tip flex and stronger movement while running. Wing motion eases with the gait blend and follows the body's vertical movement.
 
-The cat follows the rounded standing figurine reference: a stockier oval body, round face and circular inset eyes, short rounded muzzle, thick legs and substantial paws. Its natural tail stands upright with a rounded tip and gentle sway, including while idle. Walking and running keep the rounded proportions. Existing coat colors, patterns, wings, tails and accessories remain customizable.
+The cat follows the rounded standing figurine reference: defined shoulders, a tucked waist and smaller haunches, round face and circular inset eyes, short rounded muzzle, thick legs and substantial paws. Its natural tail stands upright with a rounded tip and gentle sway, including while idle. Walking and running keep the rounded proportions. Existing coat colors, patterns, wings, tails and accessories remain customizable.
+
+The cat coat has fine raised fur strands across its torso, subtle color variation, and sparse longer tufts along the shoulders and flanks. Fur follows the body during movement. Mobile uses fewer strands, opaque geometry and no additional texture downloads.

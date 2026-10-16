@@ -80,9 +80,16 @@ function sculptFox(m,c,t,moving,motion){
 }
 function sculptCat(m,c,t,moving,motion){
  const {tube,relief}=sculptTools(m),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,col=c.bodyColor,a=c.accentColor,bob=Math.sin(phase*2)*(.012+run*.025)*blend,h=1.16+bob,z=.66,seam='#64505e',nose='#b38793';
- // Rounded standing figurine proportions: broad chest, compact back and four substantial legs.
- m.ellipsoid(0,.88+bob,-.15,.43,.46,.76,col,false,28,18);
- m.ellipsoid(0,.91+bob,.33,.37,.43,.39,col,false,24,16);
+ // A defined shoulder, tucked waist and smaller haunch replace the uniform oval torso.
+ const coat=[[-.91,.89,.025,.045],[-.77,.88,.26,.29],[-.58,.87,.38,.38],[-.34,.85,.35,.36],[-.08,.86,.33,.34],[.17,.91,.37,.40],[.36,.98,.34,.37],[.54,1.02,.24,.28],[.65,1.06,.06,.13]];
+ m.loft(coat.map(q=>[q[0],q[1]+bob,q[2],q[3]]),col);
+ const section=zz=>{let i=0;while(i<coat.length-2&&zz>coat[i+1][0])i++;const q=coat[i],r=coat[i+1],u=Math.max(0,Math.min(1,(zz-q[0])/(r[0]-q[0])));return q.map((v,k)=>v+(r[k]-v)*u);},surface=(zz,angle,out=0)=>{const q=section(zz);return [Math.cos(angle)*(q[2]+out),q[1]+bob+Math.sin(angle)*(q[3]+out),zz];};
+ const shades=[.965,.985,1,1.018].map(k=>'#'+rgb(col).map(v=>Math.min(255,Math.round(v*k*255)).toString(16).padStart(2,'0')).join(''));
+ // Small overlapping three-dimensional fur ridges, with deterministic variation and no alpha overdraw.
+ const rows=WildwoodPerformance.mobile?32:40,around=WildwoodPerformance.mobile?40:52;
+ for(let row=0;row<rows;row++)for(let j=0;j<around;j++){const seed=Math.sin(row*127.1+j*311.7)*43758.5453,rnd=seed-Math.floor(seed),zz=-.74+(row+.1+rnd*.8)/rows*1.23,angle=(j+(row%2)*.5+rnd*.2)/around*Math.PI*2,width=.004+rnd*.003,length=.038+rnd*.026,aa=width/Math.max(.18,section(zz)[2]),left=surface(zz,angle-aa,.002),right=surface(zz,angle+aa,.002),tip=surface(zz-length,angle+.025*Math.cos(angle),.003),ridge=surface(zz-length*.38,angle,.004+rnd*.003),color=shades[Math.floor(rnd*shades.length)];m.triangle(left,ridge,right,color);m.triangle(left,tip,ridge,color);m.triangle(right,ridge,tip,color);}
+ // Sparse longer tufts break up the back and flank silhouette without a spiky coat.
+ for(const side of [-1,1])for(let i=0;i<9;i++){const zz=-.62+i*.115,angle=side>0?.48:Math.PI-.48,p=surface(zz,angle,.005),q=surface(zz-.075,angle,.042);m.triangle(p,surface(zz+.025,angle+.10,.002),q,col);m.triangle(p,q,surface(zz-.025,angle-.09,.002),shades[1]);}
  for(const side of [-1,1]){
   for(const front of [-1,1]){const walk=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.2:0),p=walk+(gallop-walk)*run,stride=Math.sin(p)*(.13+run*.15)*blend,lift=Math.max(0,Math.cos(p))*(.08+run*.11)*blend,footZ=front*.51+stride,x=side*.27,hip=[x,.89+bob,front*.43],knee=[x,.48+lift*.35,footZ-(front<0?.085:.025)],ankle=[x,.14+lift,footZ];
    tube([[...hip,front>0?.185:.20],[...knee,.14],[...ankle,.115]],col);
@@ -101,7 +108,7 @@ function sculptCat(m,c,t,moving,motion){
  }
  relief([[-.054,h-.11,z+.441],[.054,h-.11,z+.441],[.038,h-.14,z+.452],[0,h-.18,z+.456],[-.038,h-.14,z+.452]],[0,h-.137,z+.451],.012,nose);
  for(const side of [-1,1]){const points=[[0,h-.18,z+.454,.0035],[side*.035,h-.225,z+.438,.0035],[side*.082,h-.242,z+.414,.0035],[side*.115,h-.235,z+.395,.002]];tube(points,seam);}
- if(c.pattern!=='none')for(const side of [-1,1])for(let i=0;i<6;i++){const zz=-.64+i*.19,x=side*(.43*Math.sqrt(1-((zz+.15)/.76)**2)+.003),y=.90+bob;if(c.pattern==='spots')m.ellipsoid(x,y,zz,.022,.055,.065,a,false,8,5);if(c.pattern==='stripes')m.softLink([x,y-.07,zz-.035],[x,y+.07,zz+.035],.025,a);if(c.pattern==='stars'||c.pattern==='runes'){m.softLink([x,y-.06,zz],[x,y+.06,zz],.017,a);m.softLink([x,y,zz-.06],[x,y+(c.pattern==='runes'?.06:0),zz+.06],.017,a);}}
+ if(c.pattern!=='none')for(const side of [-1,1])for(let i=0;i<6;i++){const zz=-.64+i*.19,q=section(zz),x=side*(q[2]+.017),y=q[1]+bob;if(c.pattern==='spots')m.ellipsoid(x,y,zz,.022,.055,.065,a,false,8,5);if(c.pattern==='stripes')m.softLink([x,y-.07,zz-.035],[x,y+.07,zz+.035],.025,a);if(c.pattern==='stars'||c.pattern==='runes'){m.softLink([x,y-.06,zz],[x,y+.06,zz],.017,a);m.softLink([x,y,zz-.06],[x,y+(c.pattern==='runes'?.06:0),zz+.06],.017,a);}}
  if(c.tail==='natural'){const points=[];for(let i=0;i<=20;i++){const u=i/20,sway=Math.sin(t*1.2-u*.7)*.025+Math.sin(phase-u*1.4)*.05*blend,yy=1.02+bob+u*1.40*c.tailSize,zz=-.69-.14*Math.sin(u*Math.PI*.7)*c.tailSize,xx=sway*u,r=(.095-.022*u)*c.tailSize;points.push([xx,yy,zz,r]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,18,12);}
 }
 function sculptBunny(m,c,t,moving,motion){
