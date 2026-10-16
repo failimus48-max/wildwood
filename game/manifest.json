@@ -28,6 +28,11 @@
       "sha256": "35804a39d766a1ce43b17ce41741722ec9a567040b52aa0a1cb59fe88c4bb774"
     },
     {
+      "path": "dock.js",
+      "bytes": 1906,
+      "sha256": "1f76e43e34ed945c82f2b0051ca6cf5522dc8c2a6c56d2319ee430e66d5922ef"
+    },
+    {
       "path": "fairytale-latin-ext.woff2",
       "bytes": 11020,
       "sha256": "28813221a9ef89d233de7917fb80fc670078d342c63032bf1e0c9f15fdd6b708"
@@ -54,8 +59,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 34240,
-      "sha256": "d1a499a93c0a28bd31fe61be51d87c419583dc7aa59292ea543eb6487a81e1fc"
+      "bytes": 34639,
+      "sha256": "a255b83eeff90e99a3d19445afd6b2c20a11d095587bf5baa85760f4c697d79c"
     },
     {
       "path": "groundcover.js",
@@ -64,8 +69,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 3566,
-      "sha256": "6fa6a14aa5800713fa9487f3c4fa3cf3e28ba44a6b2ed7ceefdef554ff6b797d"
+      "bytes": 3597,
+      "sha256": "f55e592b822b2b7f973705edcadcc21763754f568f74ac6cf46b5180ce420036"
     },
     {
       "path": "mobile.css",
@@ -79,8 +84,8 @@
     },
     {
       "path": "model.js",
-      "bytes": 9196,
-      "sha256": "ab2325b879e139581fe9069c218776efa289ff420abae8d9e26634e20a92ce65"
+      "bytes": 9596,
+      "sha256": "b2577cf718890746887807c9a5df131ab548acd9f3802986a663f170dd97b81f"
     },
     {
       "path": "moss.css",
@@ -114,8 +119,8 @@
     },
     {
       "path": "terrain.js",
-      "bytes": 2854,
-      "sha256": "1ef63db91b71f9d1296794f2916180c23520d45d014d482a608187d232fbdcdb"
+      "bytes": 2923,
+      "sha256": "49f0781e85498f69985ece51fc2bc3fe37a60edaf22e48049a8664f70f99aa9f"
     },
     {
       "path": "water.js",
