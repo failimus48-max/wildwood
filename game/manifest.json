@@ -79,8 +79,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 3975,
-      "sha256": "c2a6775260fe86009fb153dd8c62b06d19aca498a52e027c9aa9dab3ce15936d"
+      "bytes": 4025,
+      "sha256": "03002fa23213a999cf4097e0220f480f0f657f8ceb55420cb355c65071923497"
     },
     {
       "path": "ink-icons.js",
@@ -126,6 +126,11 @@
       "path": "performance.js",
       "bytes": 315,
       "sha256": "ea9b1aaf09dece70baebfb594ee9ea3d4ceb5f36f6b26b00b8e99dcc4812871e"
+    },
+    {
+      "path": "rococo-controls.css",
+      "bytes": 2621,
+      "sha256": "413318f3e2dd55f1de50215246ee5eaf3467802838afc9e76e4715de3e26495a"
     },
     {
       "path": "runestones.js",
