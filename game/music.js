@@ -29,6 +29,12 @@ class WoodlandScore {
   for(let channel=0;channel<2;channel++){const data=impulse.getChannelData(channel);let smooth=0;for(let i=0;i<data.length;i++){seed=(seed*1664525+1013904223)>>>0;smooth=.5*smooth+.5*(seed/4294967296*2-1);data[i]=smooth*Math.pow(1-i/data.length,3)*.55;}}
   this.reverb.buffer=impulse;
   this.padWave=context.createPeriodicWave(new Float32Array(6),new Float32Array([0,1,.18,.075,.025,.012]));
+  // A locally generated surf loop swells gently, with silence at the loop boundary.
+  const surf=context.createBuffer(1,Math.floor(context.sampleRate*8),context.sampleRate),data=surf.getChannelData(0);let noiseSeed=78123,low=0;
+  for(let i=0;i<data.length;i++){noiseSeed=(noiseSeed*1664525+1013904223)>>>0;low=low*.92+(noiseSeed/4294967296*2-1)*.08;data[i]=low*Math.pow(Math.sin(Math.PI*i/(data.length-1)),1.5)*3;}
+  this.surfSource=context.createBufferSource();this.surfSource.buffer=surf;this.surfSource.loop=true;
+  this.surfFilter=context.createBiquadFilter();this.surfFilter.type='lowpass';this.surfFilter.frequency.value=850;this.surfFilter.Q.value=.3;
+  this.surfGain=context.createGain();this.surfGain.gain.value=.015;this.surfSource.connect(this.surfFilter);this.surfFilter.connect(this.surfGain);this.surfGain.connect(this.master);this.surfSource.start();this.shoreVolume=.015;this.lastShoreUpdate=-1;
  }
  route(node,pan){const p=this.context.createStereoPanner();p.pan.value=pan;node.connect(p);p.connect(this.dry);p.connect(this.reverb);return p;}
  pad(notes,time){const ctx=this.context,gain=ctx.createGain(),filter=ctx.createBiquadFilter();filter.type='lowpass';filter.frequency.value=1050;filter.Q.value=.25;gain.gain.setValueAtTime(0,time);gain.gain.linearRampToValueAtTime(.085,time+2.5);gain.gain.setValueAtTime(.085,time+6);gain.gain.linearRampToValueAtTime(0,time+11);filter.connect(gain);const pan=this.route(gain,Math.sin(this.bar*.8)*.18);let remaining=notes.length*2;
@@ -42,8 +48,9 @@ class WoodlandScore {
  async pause(){this.active=false;clearTimeout(this.pauseTimer);this.volume(0,.2);this.pauseTimer=setTimeout(()=>this.context.suspend().catch(()=>{}),250);}
  async resume(){clearTimeout(this.pauseTimer);if(this.started){await this.context.resume();this.active=true;this.volume(.28,.8);}}
  chime(){if(this.context.state!=='running')return;for(let i=0;i<3;i++)this.pluck([72,76,79][i],this.context.currentTime+i*.08,0,.16);}
+ shoreline(x,z,weather='clear'){const t=this.context.currentTime;if(t-this.lastShoreUpdate<.3)return;this.lastShoreUpdate=t;const near=Math.max(0,Math.min(1,(Math.hypot(x,z)-21)/18));this.shoreVolume=(.015+near*near*.29)*(weather==='rain'?1.15:1);this.surfGain.gain.setTargetAtTime(this.shoreVolume,t,.9);}
  dispose(){clearInterval(this.timer);clearTimeout(this.pauseTimer);this.timer=null;this.context.close();}
- diagnostics(){return {title:'Fernlight',state:this.context.state,started:this.started,scheduledBars:this.bar,loopSeconds:128,volume:this.master.gain.value};}
+ diagnostics(){return {title:'Fernlight',state:this.context.state,started:this.started,scheduledBars:this.bar,loopSeconds:128,volume:this.master.gain.value,surf:{generated:true,loopSeconds:8,shoreVolume:this.shoreVolume}};}
 }
 window.WoodlandScore=WoodlandScore;
 })();

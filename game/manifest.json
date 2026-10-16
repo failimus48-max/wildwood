@@ -54,8 +54,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 34067,
-      "sha256": "c10aa8b10fdf2e582cfc532de12cd6cf8468e57833c8dbeddfc0e7bde3c51269"
+      "bytes": 34240,
+      "sha256": "d1a499a93c0a28bd31fe61be51d87c419583dc7aa59292ea543eb6487a81e1fc"
     },
     {
       "path": "groundcover.js",
@@ -64,8 +64,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 3550,
-      "sha256": "02a82560eb0032864f51890fc1ef33da662bec3ef1870d64aed404493a1651be"
+      "bytes": 3566,
+      "sha256": "6fa6a14aa5800713fa9487f3c4fa3cf3e28ba44a6b2ed7ceefdef554ff6b797d"
     },
     {
       "path": "mobile.css",
@@ -89,8 +89,13 @@
     },
     {
       "path": "music.js",
-      "bytes": 5362,
-      "sha256": "95095699aab13af2f66a6abc479df94906dac6f2e486d3a746fdded301fc21f0"
+      "bytes": 6647,
+      "sha256": "b4a994466409643e4b9564d3ad7dfcee73e90c90227171e50b95b2a77c147da7"
+    },
+    {
+      "path": "ocean.js",
+      "bytes": 4390,
+      "sha256": "b8d87665ae0171e49c2558df3a6f167cfdeaba19dd1a2b5f8e14e8e64283a35a"
     },
     {
       "path": "performance.js",
