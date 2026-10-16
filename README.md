@@ -87,4 +87,4 @@ The deer upper hind legs have a fuller rounded hamstring contour behind the thig
 
 The deer's feathered wings rock from the shoulders in time with walking, with softer delayed feather-tip flex and stronger movement while running. Wing motion eases with the gait blend and follows the body's vertical movement.
 
-The cat now uses a dedicated sculpted model in the same fairytale style as the updated fox, bunny and deer: rounded short-muzzled face, inset almond eyes, shaped ears, whiskers, layered chest fur, tapered legs and rounded paws. Its natural tail curls around its seated pose and lifts while walking. The seated stance blends into a four-legged walk/run gait; existing coat colors, patterns, wings, tails and accessories remain customizable.
+The cat follows the rounded standing figurine reference: a stockier oval body, round face and circular inset eyes, short rounded muzzle, thick legs and substantial paws. Its natural tail stands upright with a rounded tip and gentle sway, including while idle. Walking and running keep the rounded proportions. Existing coat colors, patterns, wings, tails and accessories remain customizable.

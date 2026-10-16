@@ -79,29 +79,30 @@ function sculptFox(m,c,t,moving,motion){
  if(c.tail==='natural'){const points=[];for(let j=0;j<=16;j++){const u=j/16,a=-1.8+u*3.5,idle=[.19+Math.cos(a)*.55*c.tailSize,.24+Math.sin(u*Math.PI)*.08,-.17+Math.sin(a)*.63*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.27*c.tailSize+.065*(1-u))],trail=[Math.sin(phase*.45-u*2)*(.12+run*.055)*u,.74-.25*Math.sin(u*2)+bob*(1-u)+run*Math.sin(phase-u*2)*.065*u,-.86-u*1.85*c.tailSize,Math.max(.007,Math.sin(u*Math.PI)*.26*c.tailSize+.07*(1-u))];points.push(idle.map((v,k)=>mix(v,trail[k])));}tube(points,col);}
 }
 function sculptCat(m,c,t,moving,motion){
- const {tube,relief}=sculptTools(m),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,mix=(a,b)=>a+(b-a)*blend,col=c.bodyColor,a=c.accentColor,inner='#b78392',nose='#a77582',seam='#574455',bob=Math.sin(phase*2)*(.012+run*.03)*blend,h=mix(1.65,1.28)+bob,z=mix(.18,.64);
- const seated=[[0,.15,-.16,.07],[0,.46,-.17,.34],[0,.87,-.06,.32],[0,1.22,.06,.25],[0,1.48,.15,.15]],standing=[[0,.77,-.92,.025],[0,.84,-.62,.28],[0,.87,-.11,.30],[0,1.02,.37,.25],[0,1.18,.61,.15]];
- tube(seated.map((q,j)=>q.map((v,k)=>mix(v,standing[j][k])+(k===1?bob:0))),col);
- if(c.pattern!=='none')for(const side of [-1,1])for(let i=0;i<6;i++){const u=1+i*.38,j=Math.floor(u),f=u-j,q=seated[j].map((v,k)=>mix(v+(seated[j+1][k]-v)*f,standing[j][k]+(standing[j+1][k]-standing[j][k])*f)),x=side*(q[3]+.003),y=q[1]+bob,zz=q[2];if(c.pattern==='spots')m.ellipsoid(x,y,zz,.025,.055,.065,a,false,8,5);if(c.pattern==='stripes')m.softLink([x,y-.065,zz-.04],[x,y+.065,zz+.04],.027,a);if(c.pattern==='stars'||c.pattern==='runes'){m.softLink([x,y-.06,zz],[x,y+.06,zz],.018,a);m.softLink([x,y,zz-.06],[x,y+(c.pattern==='runes'?.06:0),zz+.06],.018,a);}}
+ const {tube,relief}=sculptTools(m),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,col=c.bodyColor,a=c.accentColor,bob=Math.sin(phase*2)*(.012+run*.025)*blend,h=1.16+bob,z=.66,seam='#64505e',nose='#b38793';
+ // Rounded standing figurine proportions: broad chest, compact back and four substantial legs.
+ m.ellipsoid(0,.88+bob,-.15,.43,.46,.76,col,false,28,18);
+ m.ellipsoid(0,.91+bob,.33,.37,.43,.39,col,false,24,16);
  for(const side of [-1,1]){
-  m.ellipsoid(side*mix(.31,.25),mix(.38,.69)+bob,mix(-.22,-.57),mix(.21,.16),mix(.3,.23),.23,col);
-  for(const front of [-1,1]){const gait=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.22:0),p=gait+(gallop-gait)*run,stride=Math.sin(p)*(.15+run*.16)*blend,lift=Math.max(0,Math.cos(p))*(.09+run*.12)*blend,footZ=mix(front>0?.34:-.13,front*.54)+stride,hip=[side*(front>0?.20:mix(.31,.25)),mix(front>0?1.05:.48,.83)+bob,mix(front>0?.14:-.24,front*.45)],knee=[hip[0],mix(.56,.43)+lift*.35,footZ-(front<0?.12:.025)],ankle=[hip[0],.13+lift,footZ];
-   tube([[...hip,front>0?.10:.14],[...knee,.08],[...ankle,.065]],col);m.ellipsoid(ankle[0],.10+lift,footZ+.06,.12,.10,.16,col);for(const toe of [-1,1])m.softLink([ankle[0]+toe*.04,.075+lift,footZ+.207],[ankle[0]+toe*.04,.14+lift,footZ+.184],.0035,seam);
+  for(const front of [-1,1]){const walk=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.2:0),p=walk+(gallop-walk)*run,stride=Math.sin(p)*(.13+run*.15)*blend,lift=Math.max(0,Math.cos(p))*(.08+run*.11)*blend,footZ=front*.51+stride,x=side*.27,hip=[x,.89+bob,front*.43],knee=[x,.48+lift*.35,footZ-(front<0?.085:.025)],ankle=[x,.14+lift,footZ];
+   tube([[...hip,front>0?.185:.20],[...knee,.14],[...ankle,.115]],col);
+   m.ellipsoid(x,.12+lift,footZ+.065,.15,.12,.18,col,false,20,12);
+   for(const toe of [-1,1])m.softLink([x+toe*.049,.055+lift,footZ+.229],[x+toe*.049,.16+lift,footZ+.199],.0035,seam);
   }
  }
- // A round feline cranium and short muzzle distinguish the cat from the longer fox face.
- m.loft([[z-.30,h,.025,.03],[z-.18,h+.02,.31,.28],[z+.025,h,.41,.32],[z+.23,h-.045,.37,.255],[z+.36,h-.15,.23,.14],[z+.43,h-.18,.045,.04]],col);
+ m.ellipsoid(0,h,z,.49,.43,.38,col,false,32,22);
  for(const side of [-1,1]){
-  relief([[side*.14,h-.02,z+.26],[side*.46,h-.10,z+.17],[side*.39,h-.19,z+.23],[side*.26,h-.24,z+.32],[side*.10,h-.22,z+.35]],[side*.28,h-.13,z+.28],.045,col);
-  const k=c.earSize,shape=[[side*.13,h+.16,z-.07],[side*.40,h+.13,z-.10],[side*.43,h+.37*k,z-.12],[side*.36,h+.48*k,z-.11],[side*.19,h+.30,z-.04]],center=[side*.29,h+.32,z-.025];
-  relief(shape,center,.085,col);relief(shape.map(q=>[center[0]+(q[0]-center[0])*.65,center[1]+(q[1]-center[1])*.7,q[2]+.045]),[center[0],center[1],center[2]+.045],.05,inner);
-  relief([[side*.105,h-.07,z+.35],[side*.14,h+.025,z+.34],[side*.25,h+.055,z+.295],[side*.32,h+.015,z+.255],[side*.26,h-.075,z+.30],[side*.17,h-.105,z+.34]],[side*.215,h-.025,z+.315],.022,c.eyeColor,c.glowEyes);
-  m.ellipsoid(side*.079,h-.18,z+.372,.103,.072,.05,a);for(let j=0;j<3;j++)m.softLink([side*.105,h-.17-j*.018,z+.405],[side*(.40+j*.025),h-.22+j*.065,z+.34],.0035,a);
+  const k=c.earSize,shape=[[side*.18,h+.25,z-.04],[side*.44,h+.19,z-.05],[side*.45,h+.48*k,z-.11],[side*.40,h+.61*k,z-.12],[side*.25,h+.45*k,z-.07]],center=[side*.335,h+.37,z-.035];
+  relief(shape,center,.10,col);relief(shape.map(q=>[center[0]+(q[0]-center[0])*.65,center[1]+(q[1]-center[1])*.68,q[2]+.05]),[center[0],center[1],center[2]+.05],.055,'#aa8299');
+  // Circular inset eyes, a small button nose and gently rounded muzzle pads.
+  m.ellipsoid(side*.205,h+.025,z+.338,.109,.116,.038,seam,false,24,16);
+  m.ellipsoid(side*.205,h+.025,z+.365,.091,.098,.026,c.eyeColor,c.glowEyes,24,16);
+  m.ellipsoid(side*.09,h-.15,z+.351,.14,.105,.081,col,false,24,14);
  }
- relief([[-.05,h-.145,z+.426],[.05,h-.145,z+.426],[.045,h-.172,z+.436],[0,h-.21,z+.439],[-.045,h-.172,z+.436]],[0,h-.167,z+.435],.012,nose);
- for(const side of [-1,1])m.softLink([0,h-.21,z+.435],[side*.048,h-.24,z+.409],.004,seam);
- for(let j=0;j<3;j++){const y=mix(1.28-j*.16,1.00-j*.10)+bob,zz=mix(.29,.59),w=.22-j*.027;relief([[-w,y,zz],[-w*.9,y-.13,zz+.035],[-w*.48,y-.15,zz+.05],[0,y-.25,zz+.065],[w*.48,y-.15,zz+.05],[w*.9,y-.13,zz+.035],[w,y,zz]],[0,y-.09,zz+.045],.045,a);}
- if(c.tail==='natural'){const points=[];for(let i=0;i<=22;i++){const u=i/22,angle=u*Math.PI*1.5,attach=Math.exp(-u*14),idle=[(.17+Math.sin(angle)*.48*c.tailSize)*(1-attach),.20+Math.sin(u*Math.PI)*.04+.16*attach,(-.23-Math.cos(angle)*.54*c.tailSize)*(1-attach)-.36*attach],trail=[Math.sin(phase*.45-u*2)*.12*u,.80+.80*Math.sin(u*1.7)*c.tailSize+bob,-.72-u*.8*c.tailSize+.24*Math.pow(u,4)];points.push([...idle.map((v,k)=>mix(v,trail[k])),Math.max(.007,(.09-.065*u)*c.tailSize)]);}tube(points,col);}
+ relief([[-.054,h-.11,z+.441],[.054,h-.11,z+.441],[.038,h-.14,z+.452],[0,h-.18,z+.456],[-.038,h-.14,z+.452]],[0,h-.137,z+.451],.012,nose);
+ for(const side of [-1,1]){const points=[[0,h-.18,z+.454,.0035],[side*.035,h-.225,z+.438,.0035],[side*.082,h-.242,z+.414,.0035],[side*.115,h-.235,z+.395,.002]];tube(points,seam);}
+ if(c.pattern!=='none')for(const side of [-1,1])for(let i=0;i<6;i++){const zz=-.64+i*.19,x=side*(.43*Math.sqrt(1-((zz+.15)/.76)**2)+.003),y=.90+bob;if(c.pattern==='spots')m.ellipsoid(x,y,zz,.022,.055,.065,a,false,8,5);if(c.pattern==='stripes')m.softLink([x,y-.07,zz-.035],[x,y+.07,zz+.035],.025,a);if(c.pattern==='stars'||c.pattern==='runes'){m.softLink([x,y-.06,zz],[x,y+.06,zz],.017,a);m.softLink([x,y,zz-.06],[x,y+(c.pattern==='runes'?.06:0),zz+.06],.017,a);}}
+ if(c.tail==='natural'){const points=[];for(let i=0;i<=20;i++){const u=i/20,sway=Math.sin(t*1.2-u*.7)*.025+Math.sin(phase-u*1.4)*.05*blend,yy=1.02+bob+u*1.40*c.tailSize,zz=-.69-.14*Math.sin(u*Math.PI*.7)*c.tailSize,xx=sway*u,r=(.095-.022*u)*c.tailSize;points.push([xx,yy,zz,r]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,18,12);}
 }
 function sculptBunny(m,c,t,moving,motion){
  const {tube,relief}=sculptTools(m),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,mix=(a,b)=>a+(b-a)*blend,col=c.bodyColor,accent=c.accentColor,shade=(hex,k)=>'#'+rgb(hex).map(v=>Math.round(v*k*255).toString(16).padStart(2,'0')).join(''),seam=shade(col,.66),pink='#bd9190',bob=Math.max(0,Math.sin(phase*2))*(.035+run*.045)*blend,h=mix(1.46,1.2)+bob,z=mix(.16,.49);
@@ -176,7 +177,7 @@ function deerFeatherWings(m,c,t,moving,motion){
  }
 }
 function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={}){const c=WildwoodModel.appearance(config),m=new Mesh(position,yaw,WildwoodModel.bodyScale(c)),id=c.animal,col=c.bodyColor,a=c.accentColor,step=moving?Math.sin(t*12)*.13:0;
- const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='deer'?1.94:id==='cat'?(1.65-.37*(motion?.blend??Number(moving))):id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
+ const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='deer'?1.94:id==='cat'?1.16:id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
  if(id==='spiritbunny'){m.ellipsoid(0,.87,0,.65,.67,.75,col);m.ellipsoid(0,1.48,.53,.68,.58,.55,col);for(const side of [-1,1]){m.ellipsoid(side*.34,2.08,.48,.21,.64*c.earSize,.2,col);m.ellipsoid(side*.34,2.12,.66,.095,.45*c.earSize,.04,a);m.ellipsoid(side*.38,.28,.55,.27,.25,.35,col);m.ellipsoid(side*.4,.24,-.42,.27,.24,.3,col);m.ellipsoid(side*.3,1.59,1.025,.12,.15,.05,c.eyeColor,c.glowEyes);m.ellipsoid(side*.3-.035,1.645,1.073,.039,.046,.015,'#f5ffff',true);m.ellipsoid(side*.48,1.35,.96,.11,.055,.027,'#b4e5ef');}m.ellipsoid(0,1.33,1.08,.26,.17,.1,a);m.ellipsoid(0,1.39,1.177,.07,.05,.025,c.eyeColor);}
 
  else if(id==='fox'||id==='wolf')sculptFox(m,c,t,moving,motion);
