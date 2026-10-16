@@ -3,6 +3,16 @@
   "entry": "index.html",
   "files": [
     {
+      "path": "antique-map.css",
+      "bytes": 911,
+      "sha256": "150e90562f64c37d047e3993fd05a2c5dc6ae30f0d65aee1d89c666e2034c56a"
+    },
+    {
+      "path": "antique-map.js",
+      "bytes": 6189,
+      "sha256": "3e928c81a0e9dc406f2fc0d47ebaca7f7fef4e06249b246118780d12a8e456e4"
+    },
+    {
       "path": "bobo.js",
       "bytes": 3155,
       "sha256": "2400ebbc66d20b0dc13b59a73044a43339949c2faa1c0d670e667c1ba12f3274"
@@ -59,8 +69,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 34639,
-      "sha256": "a255b83eeff90e99a3d19445afd6b2c20a11d095587bf5baa85760f4c697d79c"
+      "bytes": 34086,
+      "sha256": "eb8fd3aee3cc6b4c654bf71b17938009a4d041390ff3da461763d2f034d05534"
     },
     {
       "path": "groundcover.js",
@@ -69,8 +79,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 3597,
-      "sha256": "f55e592b822b2b7f973705edcadcc21763754f568f74ac6cf46b5180ce420036"
+      "bytes": 3892,
+      "sha256": "8025232e92f5ef6f42f520eb90a2a2fd9f174c2f3ff416a8d580b179bfac62e8"
     },
     {
       "path": "mobile.css",

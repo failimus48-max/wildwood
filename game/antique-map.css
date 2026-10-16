@@ -1,0 +1,4 @@
+.map-panel{padding:5px 5px 8px;border-radius:8px 3px 9px 4px;background:#d4b681;background-image:none;border:1px solid #8c6b42;box-shadow:0 5px 20px #24170c40,inset 0 0 9px #74502d55;color:#705232}
+.map-panel::after{display:none}.map-panel canvas{width:210px;height:210px;border-radius:4px}.map-panel>span{font:italic 10px Georgia,serif;letter-spacing:.3px;text-align:center;padding:4px 4px 0}.map-panel b{float:none;color:#705232;font-weight:400}.map-panel.is-closed{display:none}#map-toggle{font:24px Georgia,serif;color:#705232;background:#eddbb5;border:1px solid #b79b6c}
+.map-panel.map-modal-hidden{display:none!important}
+@media(pointer:coarse),(max-width:700px){.map-panel.is-open{display:block;z-index:8;top:58px;bottom:auto;right:auto;left:50%;transform:translateX(-50%)}.map-panel canvas{width:min(210px,55dvh);height:min(210px,55dvh)}.map-panel>span{font-size:9px}.map-panel.is-closed{display:none}}
