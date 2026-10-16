@@ -100,3 +100,5 @@ The wider interface matches the antique map: original sepia line icons replace c
 Main-screen controls have subtle sepia rococo scroll borders: round engraved curls on the header icons and portrait, with lighter corner flourishes on navigation, weather and touch buttons. The decoration uses small local SVG backgrounds, adds no animation, and ignores pointer input so hit areas and labels remain usable.
 
 The Nightlight Boat is moored beyond the dock tip: a three-dimensional crescent hull, gently billowed star-crested sail and warm masthead lantern. It bobs softly with the sea clock and pauses with the island. At night, pale star-like halos gather around the hull and moon tips while the lantern glows more strongly. Its name appears by the boat. Solid geometry is cached between small pose updates and uses fewer than 12,000 vertices. `node tools/verify-nightlight-boat.cjs` checks geometry, bobbing and day/night glow; the dock mode in `tools/verify-ocean.cjs` also checks the nighttime view in game.
+
+The Nightlight Boat uses an icy-blue palette, with a pale blue crescent hull, frosted sail, silver-blue fittings and cool blue lantern/star halos at night.
