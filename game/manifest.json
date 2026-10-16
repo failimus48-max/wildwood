@@ -29,8 +29,8 @@
     },
     {
       "path": "creator.js",
-      "bytes": 11101,
-      "sha256": "6c0d16382140d41c350ee450921dce7c51983a335dc3557d010d9e5f166a5145"
+      "bytes": 11141,
+      "sha256": "0607bb7467eed6e8f8ca8674bd3148d8ea9fa3cd56c8ae17acaef5fb2f490e3a"
     },
     {
       "path": "creatures.js",
@@ -69,8 +69,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 34086,
-      "sha256": "eb8fd3aee3cc6b4c654bf71b17938009a4d041390ff3da461763d2f034d05534"
+      "bytes": 34213,
+      "sha256": "b3468043c63a20f5f547d7ac6bc8922605f750a65d575a7cc7838bbe5034f419"
     },
     {
       "path": "groundcover.js",
@@ -79,8 +79,13 @@
     },
     {
       "path": "index.html",
-      "bytes": 3892,
-      "sha256": "8025232e92f5ef6f42f520eb90a2a2fd9f174c2f3ff416a8d580b179bfac62e8"
+      "bytes": 3975,
+      "sha256": "c2a6775260fe86009fb153dd8c62b06d19aca498a52e027c9aa9dab3ce15936d"
+    },
+    {
+      "path": "ink-icons.js",
+      "bytes": 5284,
+      "sha256": "b2f990229ded671340080fd54c9d0db0b6893193302b4b4dab64e19489417590"
     },
     {
       "path": "mobile.css",
@@ -111,6 +116,11 @@
       "path": "ocean.js",
       "bytes": 4390,
       "sha256": "b8d87665ae0171e49c2558df3a6f167cfdeaba19dd1a2b5f8e14e8e64283a35a"
+    },
+    {
+      "path": "parchment-ui.css",
+      "bytes": 6429,
+      "sha256": "de4a26d1f5305b2fba67c75fe6bc364d3b77c378e67363edce1d5db6c539cc82"
     },
     {
       "path": "performance.js",
@@ -144,8 +154,8 @@
     },
     {
       "path": "weather.js",
-      "bytes": 7064,
-      "sha256": "951b269817cf33a4b2bc397514a894cb5c651a7eb918686d5b84f92a080c68ff"
+      "bytes": 7178,
+      "sha256": "78e8882cc9ecf34c8ebe3da6cd192674959b51c6c2f5900d35607c29d8cfbfef"
     }
   ]
 }
