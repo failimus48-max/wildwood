@@ -201,7 +201,7 @@ function deerFeatherWings(m,c,t,moving,motion){
 }
 // Photo-proportioned blue tit: continuous sloping back, compact head and narrow flight feathers.
 function sculptBlueTit(m,c,t,moving,motion){
- const blend=motion?.blend??Number(moving),phase=motion?.phase??t*10,run=motion?.run??0,bob=Math.sin(phase*2)*(.014+run*.022)*blend,col=c.bodyColor,blue=c.wingColor,white=c.accentColor,ink='#233a50';
+ const blend=motion?.blend??Number(moving),phase=motion?.phase??t*10,run=motion?.run??0,bob=-Math.max(0,-Math.sin(phase))*.020*blend,col=c.bodyColor,blue=c.wingColor,white=c.accentColor,ink='#233a50';
  const start=m.data.length;
  const round=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<3;k++){const u=k/3,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*(2*v+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
  m.loft(round([[-.92,.53,.008,.018],[-.78,.55,.13,.13],[-.61,.55,.22,.22],[-.40,.56,.29,.285],[-.15,.60,.33,.33],[.08,.68,.325,.35],[.28,.81,.29,.33],[.43,.96,.245,.275],[.55,1.00,.225,.24],[.67,.975,.17,.18],[.76,.94,.075,.08],[.79,.93,.008,.012]]).map(q=>[q[0],q[1]+bob,q[2],q[3]]),col);
@@ -217,7 +217,7 @@ function sculptBlueTit(m,c,t,moving,motion){
   // Eyes are the only rounded facial additions; cheeks and cap have no extra geometry.
   m.ellipsoid(side*.204,1.045+bob,.598,.038,.043,.037,c.eyeColor,c.glowEyes,20,14);
   m.ellipsoid(side*.226,1.060+bob,.621,.009,.010,.006,'#f8fbff',true,10,6);
-  const p=phase+(side>0?0:Math.PI),lift=Math.max(0,Math.cos(p))*.045*blend,stride=Math.sin(p)*.075*blend,x=side*.145,z=-.10+stride;
+  const lift=Math.max(0,Math.sin(phase))*.025*blend,stride=-Math.sin(phase)*.040*blend,x=side*.145,z=-.10+stride;
   m.softLink([x,.31+bob,-.11],[x,.065+lift,z+.055],.022,'#7f929f');
   for(const toe of [-1,0,1])m.softLink([x,.048+lift,z+.04],[x+toe*.073,.025+lift,z+.19-Math.abs(toe)*.04],.014,'#738591');
   m.softLink([x,.043+lift,z+.04],[x+side*.035,.025+lift,z-.09],.013,'#738591');
@@ -325,6 +325,8 @@ function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={
  }
 
  if(!['fox','wolf','cat','bunny','deer','unicorn','owl','ferret','bluetit'].includes(id)||c.tail!=='natural'){const start=m.data.length;tail(m,c,t);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else {const start=m.data.length;if(id==='unicorn'&&c.wings==='angel')deerFeatherWings(m,{...c,wingSize:c.wingSize*1.9},t,moving,motion);else if(!['owl','bluetit'].includes(id)||c.wings!=='angel')wings(m,c,t,moving);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if((id!=='deer'||c.horns!=='antlers')&&(id!=='unicorn'||c.horns!=='unicorn'))horns(m,c,headY);details(m,c,headY);
+ // Both feet leave the ground together; carry every part and adornment through the same hop.
+ if(id==='bluetit'){const phase=motion?.phase??t*10,blend=motion?.blend??Number(moving),run=motion?.run??0,height=Math.pow(Math.max(0,Math.sin(phase)),2)*(.20+run*.10)*blend*m.size;for(let i=1;i<m.data.length;i+=9)m.data[i]+=height;}
  return new Float32Array(m.data);
 }
 function soul(type,position,t,eye=[4,3,6]){const s=WildwoodModel.souls.find(x=>x.id===type);if(!s)return {solid:new Float32Array(),glow:new Float32Array()};const m=new Mesh(position),g=new Mesh(),color=s.color,co=rgb(color);m.ellipsoid(0,0,0,.19,.22,.19,color,true);m.ellipsoid(0,-.03,.02,.095,.14,.1,'#f5ffff',true);for(let i=0;i<5;i++){const a=t*1.7+i/5*6.283,x=Math.cos(a)*.11,z=Math.sin(a)*.11;m.link([x,-.06,z],[x*.5+Math.sin(t*4+i)*.04,.36+Math.sin(t*3+i)*.08,z*.5],.09,color,0,true);}

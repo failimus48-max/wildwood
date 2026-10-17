@@ -134,3 +134,5 @@ Blue Tit is a new small playable songbird, following the round figurine referenc
 Blue Tit proportions now follow the real bird reference: a compact head blending into a longer body, continuous sloping back, shorter visible legs, thin lengthwise folded wings and a longer narrow tail. The blue crown follows the skull surface, with dark eye stripe and collar framing white cheeks. The species stays small.
 
 The Blue Tit face is now a single continuous skull. Removed the raised cheek discs, collar and separate crown geometry; cheek, crown and soft grey-blue facial markings are painted directly onto the skin. Larger dark eyes sit in clear pale areas with small highlights, distinct from the subtle eye stripe.
+
+Blue Tit travels with synchronized two-footed hops instead of alternating steps. Both feet push off, tuck and land together; the entire body, eyes, wings, tail and adornments rise in the same hop. A small crouch softens landing, and running gives taller hops. Movement blends back to a still stance.
