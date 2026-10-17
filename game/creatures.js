@@ -109,30 +109,29 @@ function sculptIvoryCat(m,c,t,moving,motion){
  const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,b=blend*blend*(3-2*blend),mix=(a,z)=>a+(z-a)*b,bob=Math.sin(phase*2)*(.012+run*.018)*blend,col=c.bodyColor,inner=c.accentColor,seam='#9b7d70',nose='#bc9184',h=mix(.86,1.37)+bob,z=mix(.57,.66);
  const {tube:rawTube,relief}=sculptTools(m),tube=(p,color)=>rawTube(p,color,[1,0,0]);
  const smooth=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<4;k++){const u=k/4,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*(2*v+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
- const rest=[[-.89,.31,.01,.03],[-.70,.39,.27,.34],[-.36,.43,.32,.38],[.02,.43,.31,.35],[.32,.47,.27,.31],[.51,.62,.23,.27],[.60,.74,.17,.21],[.67,.80,.02,.03]],stand=[[-.89,.95,.01,.025],[-.70,1.01,.25,.27],[-.36,1.04,.28,.29],[.02,1.02,.27,.28],[.32,1.03,.235,.285],[.51,1.15,.20,.25],[.60,1.28,.16,.20],[.67,1.33,.02,.03]];
+ const rest=[[-.98,.29,.01,.025],[-.77,.36,.23,.29],[-.40,.38,.265,.31],[.02,.38,.245,.29],[.32,.43,.22,.27],[.51,.59,.175,.24],[.60,.73,.14,.19],[.67,.80,.02,.025]],stand=[[-.98,.99,.01,.025],[-.77,1.04,.22,.25],[-.40,1.04,.215,.24],[.02,1.02,.195,.21],[.32,1.05,.225,.265],[.51,1.17,.165,.235],[.60,1.29,.135,.18],[.67,1.34,.02,.025]];
  m.loft(smooth(rest.map((p,j)=>p.map((v,k)=>mix(v,stand[j][k])+(k===1?bob:0)))),col);
  for(const side of [-1,1]){
   for(const front of [-1,1]){
-   const walk=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.25:0),p=walk+(gallop-walk)*run,stride=Math.sin(p)*(.12+run*.14)*blend,lift=Math.max(0,Math.cos(p))*(.07+run*.09)*blend,x=side*mix(.18,.195),footZ=mix(front>0?.40:-.51,front>0?.47:-.62)+stride,root=[x*.83,mix(front>0?.29:.32,front>0?1.05:1.03)+bob,front>0?.37:-.60],knee=[x,mix(.115,.52)+lift*.35,footZ+(front<0?mix(-.03,.09):-.025)],ankle=[x,.10+lift,footZ];
-   tube(smooth([[...root,front>0?mix(.08,.105):mix(.14,.145)],[...knee,mix(.075,.072)],[...ankle,mix(.08,.055)]]),col);
-   m.ellipsoid(x,.09+lift,footZ+.07,mix(.14,.085),.09,mix(.15,.135),col,false,20,12);
+   const walk=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.25:0),p=walk+(gallop-walk)*run,stride=Math.sin(p)*(.12+run*.14)*blend,lift=Math.max(0,Math.cos(p))*(.07+run*.09)*blend,x=side*mix(.18,.195),footZ=mix(front>0?.40:-.51,front>0?.47:-.62)+stride,root=[x*.83,mix(front>0?.29:.32,front>0?1.05:1.03)+bob,front>0?.37:-.60],knee=[x,mix(.115,front>0?.61:.72)+lift*.35,footZ+(front<0?mix(-.03,.09):-.045)],hock=[x,mix(.105,front>0?.22:.30)+lift*.65,footZ+(front<0?mix(0,-.055):-.015)],ankle=[x,.09+lift,footZ];
+   tube(smooth([[...root,front>0?mix(.07,.095):mix(.12,.125)],[...knee,mix(.065,front>0?.068:.092)],[...hock,mix(.06,.052)],[...ankle,mix(.065,.045)]]),col);
+   m.ellipsoid(x,.07+lift,footZ+.055,mix(.115,.075),.07,mix(.13,.115),col,false,20,12);
   }
-  m.ellipsoid(side*mix(.16,.14),mix(.28,.87)+bob,-.57,mix(.18,.14),mix(.25,.25),mix(.28,.23),col,false,22,14);
+  m.ellipsoid(side*mix(.13,.11),mix(.26,.92)+bob,-.64,mix(.16,.10),mix(.22,.21),mix(.23,.17),col,false,22,14);
  }
  // One tapered skull and a short muzzle, unlike the existing round-faced Star Cat.
- const skull=smooth([[z-.22,h+.01,.015,.03],[z-.10,h+.025,.24,.26],[z+.08,h,.285,.265],[z+.21,h-.055,.25,.21],[z+.30,h-.12,.14,.115],[z+.36,h-.13,.025,.03]]);m.loft(skull,col);
- const faceZ=(x,y)=>{let zz=z+.20;for(let j=0;j<skull.length-1;j++)for(let k=0;k<=8;k++){const u=k/8,q=skull[j].map((v,i)=>v+(skull[j+1][i]-v)*u);if((x/q[2])**2+((y-q[1])/q[3])**2<=1)zz=Math.max(zz,q[0]);}return zz;};
+ const skull=smooth([[z-.22,h+.01,.015,.025],[z-.10,h+.025,.20,.225],[z+.08,h,.235,.23],[z+.21,h-.055,.205,.18],[z+.30,h-.12,.12,.085],[z+.35,h-.13,.025,.025]]);m.loft(skull,col);
+ const faceZ=(x,y)=>{let zz=z+.20,prev=null,prevF=Infinity;for(let j=0;j<skull.length-1;j++)for(let k=0;k<=8;k++){const u=k/8,q=skull[j].map((v,i)=>v+(skull[j+1][i]-v)*u),f=(x/q[2])**2+((y-q[1])/q[3])**2;if(f<=1)zz=Math.max(zz,q[0]);else if(prev&&prevF<=1)zz=Math.max(zz,prev[0]+(q[0]-prev[0])*(1-prevF)/(f-prevF));prev=q;prevF=f;}return zz;};
  for(const side of [-1,1]){
-  const k=c.earSize,shape=[[side*.12,h+.16,z-.045],[side*.30,h+.15,z-.065],[side*.36,h+.38*k,z-.10],[side*.31,h+.47*k,z-.10],[side*.16,h+.34*k,z-.055]],center=[side*.245,h+.28*k,z-.04];
+  const k=c.earSize,shape=[[side*.10,h+.145,z-.045],[side*.265,h+.14,z-.065],[side*.315,h+.35*k,z-.10],[side*.275,h+.445*k,z-.10],[side*.14,h+.31*k,z-.055]],center=[side*.215,h+.26*k,z-.04];
   relief(shape,center,-.035,col);relief(shape,center,.075,col);relief(shape.map(p=>[center[0]+(p[0]-center[0])*.70,center[1]+(p[1]-center[1])*.72,p[2]+.065]),[center[0],center[1],center[2]+.065],.025,inner);
-  const ey=mix(.022,.044),shapeEye=[[side*.085,h-.07,z+.34],[side*.14,h-.025+ey,z+.32],[side*.23,h-.01+ey*.4,z+.255],[side*.21,h-.04-ey*.6,z+.28],[side*.14,h-.06-ey*.5,z+.33]];
-  relief(shapeEye.map(p=>[p[0],p[1],faceZ(p[0],p[1])+.003]),[side*.155,h-.035,faceZ(side*.155,h-.035)+.003],.006,c.eyeColor,c.glowEyes);
-  m.ellipsoid(side*.063,h-.145,z+.296,.077,.058,.038,col,false,20,12);
+  const ey=mix(.014,.032),shapeEye=[[side*.075,h-.07,z+.34],[side*.12,h-.025+ey,z+.32],[side*.20,h-.01+ey*.4,z+.255],[side*.18,h-.04-ey*.6,z+.28],[side*.12,h-.06-ey*.5,z+.33]];
+  relief(shapeEye.map(p=>[p[0],p[1],faceZ(p[0],p[1])+.003]),[side*.135,h-.035,faceZ(side*.135,h-.035)+.003],.006,c.eyeColor,c.glowEyes);
  }
  relief([[-.035,h-.12,z+.344],[.035,h-.12,z+.344],[0,h-.16,z+.365]],[0,h-.136,z+.352],.006,nose);
  for(const side of [-1,1])tube([[0,h-.158,z+.355,.0025],[side*.028,h-.19,z+.344,.0025],[side*.061,h-.198,z+.324,.002],[side*.084,h-.189,z+.305,.001]],seam);
  if(c.tail==='natural'){
-  const points=[];for(let i=0;i<=24;i++){const u=i/24,rest=[.29+Math.sin(u*Math.PI)*.035,.27+u*.68,-.65+.29*Math.sin(u*Math.PI*.85)],upright=[Math.sin(t*1.2-u)*.045*u+Math.sin(phase-u)*.04*u,1.12+u*1.30,-.70-.14*Math.sin(u*Math.PI)];points.push([mix(rest[0],upright[0])*c.tailSize,mix(rest[1],upright[1])+bob,mix(rest[2],upright[2]),(.071-.023*u)*c.tailSize]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,16,10);
+  const points=[];for(let i=0;i<=24;i++){const u=i/24,rest=[.29+Math.sin(u*Math.PI)*.035,.27+u*.68,-.65+.29*Math.sin(u*Math.PI*.85)],upright=[Math.sin(t*1.2-u)*.045*u+Math.sin(phase-u)*.04*u,1.12+u*1.30,-.70-.14*Math.sin(u*Math.PI)];points.push([mix(rest[0],upright[0])*c.tailSize,mix(rest[1],upright[1])+bob,mix(rest[2],upright[2]),(.058-.018*u)*c.tailSize]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,16,10);
  }
 }
 function sculptBunny(m,c,t,moving,motion){
