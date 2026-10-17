@@ -205,17 +205,18 @@ function sculptBlueTit(m,c,t,moving,motion){
  const start=m.data.length;
  const round=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<3;k++){const u=k/3,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*(2*v+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
  m.loft(round([[-.92,.53,.008,.018],[-.78,.55,.13,.13],[-.61,.55,.22,.22],[-.40,.56,.29,.285],[-.15,.60,.33,.33],[.08,.68,.325,.35],[.28,.81,.29,.33],[.43,.96,.245,.275],[.55,1.00,.225,.24],[.67,.975,.17,.18],[.76,.94,.075,.08],[.79,.93,.008,.012]]).map(q=>[q[0],q[1]+bob,q[2],q[3]]),col);
- // Colour follows the continuous skin rather than separate back/head spheres.
- const yellow=rgb(col),green=rgb('#8d9f71'),pale=rgb(white);for(let i=start;i<m.data.length;i+=9){const y=m.data[i+1]/m.size-m.position[1]/m.size-bob,z=((m.data[i]-m.position[0])*Math.sin(m.yaw)+(m.data[i+2]-m.position[2])*Math.cos(m.yaw))/m.size;const head=Math.max(0,Math.min(1,(y-.81)*10))*Math.max(0,Math.min(1,(z-.23)*8)),back=Math.max(0,Math.min(1,(y-.76)*9))*(1-head);for(let k=0;k<3;k++)m.data[i+6+k]=yellow[k]*(1-head-back)+pale[k]*head+green[k]*back;}
- // Thin crown patch conforms to the head instead of sitting on top like a cap.
- const cap=(u,v)=>{const a=u*1.0,b=v*Math.PI*2;return [Math.sin(a)*Math.cos(b)*.246,1.008+bob+Math.cos(a)*.255,.50+Math.sin(a)*Math.sin(b)*.270];};for(let j=0;j<6;j++)for(let i=0;i<24;i++){const a=cap(j/6,i/24),b=cap((j+1)/6,i/24),d=cap(j/6,(i+1)/24),e=cap((j+1)/6,(i+1)/24);m.triangle(a,b,d,blue);m.triangle(d,b,e,blue);}
+ // All facial markings are colour on the single continuous skull surface.
+ const yellow=rgb(col),green=rgb('#8d9f71'),pale=rgb(white),crown=rgb(blue),mask=rgb('#738594'),smooth=(a,b,x)=>{const u=Math.max(0,Math.min(1,(x-a)/(b-a)));return u*u*(3-2*u);};
+ for(let i=start;i<m.data.length;i+=9){
+  const dx=m.data[i]-m.position[0],dz=m.data[i+2]-m.position[2],x=(dx*Math.cos(m.yaw)-dz*Math.sin(m.yaw))/m.size,y=(m.data[i+1]-m.position[1])/m.size-bob,z=(dx*Math.sin(m.yaw)+dz*Math.cos(m.yaw))/m.size;
+  const head=smooth(.80,.94,y)*smooth(.22,.37,z),back=smooth(.76,.90,y)*(1-head),cap=smooth(1.135,1.205,y)*smooth(.24,.36,z)*(1-smooth(.66,.75,z));
+  const side=smooth(.09,.19,Math.abs(x)),eyeClear=1-.92*Math.exp(-Math.pow((z-.598)/.085,2)-Math.pow((y-1.045)/.065,2)),stripe=Math.exp(-Math.pow((y-(1.045-(z-.50)*.055))/.022,2))*smooth(.29,.38,z)*(1-smooth(.70,.77,z))*side*.38*eyeClear,collar=Math.exp(-Math.pow((y-.87)/.035,2))*smooth(.25,.40,z)*(1-smooth(.64,.73,z))*side*.22;
+  for(let k=0;k<3;k++){const base=yellow[k]*(1-head-back)+pale[k]*head+green[k]*back,paint=base*(1-cap)+crown[k]*cap,amount=Math.min(.45,stripe+collar);m.data[i+6+k]=paint*(1-amount)+mask[k]*amount;}
+ }
  for(const side of [-1,1]){
-  m.ellipsoid(side*.206,.984+bob,.49,.062,.174,.204,ink,false,22,16);
-  m.ellipsoid(side*.237,.973+bob,.52,.033,.132,.166,white,false,22,16);
-  m.softLink([side*.13,1.023+bob,.71],[side*.245,1.055+bob,.52],.023,ink);
-  m.softLink([side*.245,1.055+bob,.52],[side*.195,1.08+bob,.31],.024,ink);
-  m.ellipsoid(side*.243,1.055+bob,.557,.033,.035,.029,c.eyeColor,c.glowEyes,16,10);
-  m.ellipsoid(side*.262,1.068+bob,.574,.007,.008,.005,'#f8fbff',true,8,6);
+  // Eyes are the only rounded facial additions; cheeks and cap have no extra geometry.
+  m.ellipsoid(side*.204,1.045+bob,.598,.038,.043,.037,c.eyeColor,c.glowEyes,20,14);
+  m.ellipsoid(side*.226,1.060+bob,.621,.009,.010,.006,'#f8fbff',true,10,6);
   const p=phase+(side>0?0:Math.PI),lift=Math.max(0,Math.cos(p))*.045*blend,stride=Math.sin(p)*.075*blend,x=side*.145,z=-.10+stride;
   m.softLink([x,.31+bob,-.11],[x,.065+lift,z+.055],.022,'#7f929f');
   for(const toe of [-1,0,1])m.softLink([x,.048+lift,z+.04],[x+toe*.073,.025+lift,z+.19-Math.abs(toe)*.04],.014,'#738591');
@@ -228,7 +229,6 @@ function sculptBlueTit(m,c,t,moving,motion){
    for(let row=0;row<2;row++)for(let i=0;i<5;i++)feather(point(.295,.91-row*.065-i*.024,.10-i*.094),point(.31,.78-row*.06-i*.025,-.10-i*.095),.044*k,.018*k,row===1&&i<4?white:blue);
   }
  }
- m.ellipsoid(0,.865+bob,.60,.075,.08,.064,ink,false,16,10);
  m.link([0,.958+bob,.775],[0,.948+bob,.935],.042,ink,0);
  if(c.tail==='natural')for(let i=0;i<6;i++)m.softLink([(i-2.5)*.024,.57+bob,-.71],[(i-2.5)*.026,.58+bob,-.79-.93*c.tailSize],.022,blue);
 }
