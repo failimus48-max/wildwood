@@ -23,3 +23,5 @@ nav button .ink-icon{width:18px;height:18px;margin-right:6px}.touch-actions butt
 #touch-stick{background:#795b373d;border-color:#ddc18f9c}#touch-stick span{background:#eedbb3d9;border:1px solid #ac8d60;box-shadow:inset 0 0 10px #94704044,0 2px 5px #261a1233}
 #map-toggle{color:var(--ink);background-image:var(--parchment)}button:focus-visible{outline-color:#765132}.creator-dialog input:focus-visible,.creator-dialog select:focus-visible{outline-color:#8e6d43}
 @media(pointer:coarse),(max-width:700px){nav button .ink-icon{width:15px;height:15px;margin-right:3px}#portrait .ink-icon{width:24px;height:24px}.touch-actions button{font-size:11px}.touch-actions button .ink-icon{width:20px;height:20px}.touch-actions button{padding:4px;min-height:48px}}
+
+@media(pointer:coarse),(max-width:700px){#interaction.boat-prompt{bottom:120px}}

@@ -3,28 +3,32 @@
 class NightlightBoat {
  constructor(){
   this.name='Nightlight Boat';this.position=[0,-.08,-56.7];this.lastTime=-Infinity;
-  const m=new MythicMesh.Mesh(),segments=40,curve=(a,inside,z)=>[Math.cos(a)*3.05,1.85-Math.sin(a)*(inside?1.24:2.05),z*Math.sin(a)**.45];
-  // A deep crescent hull, with raised moon horns at the bow and stern.
-  for(let i=0;i<segments;i++){const a=i/segments*Math.PI,b=(i+1)/segments*Math.PI;for(const side of [-1,1]){const p=curve(a,false,side*.65),q=curve(b,false,side*.65),r=curve(a,true,side*.65),s=curve(b,true,side*.65);m.triangle(p,q,r,'#bde9fa',true);m.triangle(q,s,r,'#bde9fa',true);m.link(r,s,.027,'#82b9d5',.027,true);}for(const inner of [false,true]){const p=curve(a,inner,-.65),q=curve(b,inner,-.65),r=curve(a,inner,.65),s=curve(b,inner,.65);m.triangle(p,r,q,inner?'#91bbce':'#a6cede',inner);m.triangle(q,r,s,inner?'#91bbce':'#a6cede',inner);}}
-  // Deck boards lie inside the crescent bowl, below its frost-blue rim.
-  for(let i=0;i<12;i++)m.box(-1.38+i*.25,.43,0,.23,.08,1.04,i%2?'#84a8ba':'#9bbdcf');
-  m.link([0,.5,0],[0,4.42,0],.06,'#779db6',.038);m.link([0,1.05,0],[2.14,1.12,0],.035,'#779db6',.025);
+  const m=new MythicMesh.Mesh(),segments=48,bezier=(a,b,c,d,t)=>a*(1-t)**3+3*b*(1-t)**2*t+3*c*(1-t)*t*t+d*t**3;
+  // Upright crescent: a tall back curves around a broad, open lower seat.
+  const curve=(t,inside,z)=>[bezier(.65,inside?-1.65:-3.8,inside?-1.25:-3.6,2.7,t),bezier(5.3,inside?4.35:5.2,inside?.9:-2.2,.85,t),z*Math.sin(t*Math.PI)**.35];
+  for(let i=0;i<segments;i++){const a=i/segments,b=(i+1)/segments;for(const side of [-1,1]){const p=curve(a,false,side*.78),q=curve(b,false,side*.78),r=curve(a,true,side*.78),v=curve(b,true,side*.78);m.triangle(p,q,r,'#bde9fa',true);m.triangle(q,v,r,'#bde9fa',true);m.link(r,v,.027,'#82b9d5',.027,true);}for(const inner of [false,true]){const p=curve(a,inner,-.78),q=curve(b,inner,-.78),r=curve(a,inner,.78),v=curve(b,inner,.78);m.triangle(p,r,q,inner?'#91bbce':'#a6cede',inner);m.triangle(q,r,v,inner?'#91bbce':'#a6cede',inner);}}
+  // A wide cushioned bench nestles inside the lower moon; its center is the usable seat.
+  for(let i=0;i<12;i++)m.box(-.72+i*.25,1.02,0,.23,.12,1.40,i%2?'#84a8ba':'#9bbdcf');
+  m.ellipsoid(.65,1.17,0,1.37,.10,.73,'#d5f0ff',false,24,12);
+  this.seat=[.65,1.25,.03];this.lanternLocal=[2.25,5.42,0];
+  m.link([2.25,1.1,0],[2.25,5.18,0],.06,'#779db6',.038);m.link([2.25,2.05,0],[3.62,2.12,0],.035,'#779db6',.025);
   // A softly billowed triangular sail, stitched with a star-shaped crest.
-  const sail=(u,v)=>[.10+u*2.12,4.15-u*2.98-v*3.02,.04+Math.sin(u*Math.PI)*Math.sin(v*Math.PI)*.45],n=12;
+  const sail=(u,v)=>[2.35+u*1.32,4.85-u*2.68-v*2.72,.04+Math.sin(u*Math.PI)*Math.sin(v*Math.PI)*.45],n=12;
   for(let i=0;i<n;i++)for(let j=0;j<n-i;j++){const p=sail(i/n,j/n),q=sail((i+1)/n,j/n),r=sail(i/n,(j+1)/n);m.triangle(p,q,r,'#d5efff');m.triangle(r,q,p,'#bad9ef');if(i+j<n-1){const s=sail((i+1)/n,(j+1)/n);m.triangle(q,s,r,'#d5efff');m.triangle(r,s,q,'#bad9ef');}}
-  for(const [a,b] of [[[.1,4.15,.04],[2.22,1.17,.04]],[[2.22,1.17,.04],[.1,1.13,.04]],[[.1,1.13,.04],[.1,4.15,.04]]])m.link(a,b,.013,'#8db8d2',.013);
-  const star=(x,y,z,r,col)=>{const p=[];for(let i=0;i<8;i++){const a=i*Math.PI/4,k=i%2?r*.26:r;p.push([x+Math.sin(a)*k,y+Math.cos(a)*k,z]);}for(let i=0;i<8;i++)m.triangle([x,y,z],p[i],p[(i+1)%8],col,true);};star(.7,2.15,.48,.3,'#8bc8e8');
+  for(const [a,b] of [[[2.35,4.85,.04],[3.67,2.17,.04]],[[3.67,2.17,.04],[2.35,2.13,.04]],[[2.35,2.13,.04],[2.35,4.85,.04]]])m.link(a,b,.013,'#8db8d2',.013);
+  const star=(x,y,z,r,col)=>{const p=[];for(let i=0;i<8;i++){const a=i*Math.PI/4,k=i%2?r*.26:r;p.push([x+Math.sin(a)*k,y+Math.cos(a)*k,z]);}for(let i=0;i<8;i++)m.triangle([x,y,z],p[i],p[(i+1)%8],col,true);};star(2.75,3.15,.48,.22,'#8bc8e8');
   // An icy-blue lantern crowns the mast, beneath a silver-blue star finial.
-  const y=4.72;m.box(0,y-.26,0,.36,.05,.36,'#6e91ac');m.box(0,y+.23,0,.42,.06,.42,'#6e91ac');for(const x of [-.14,.14])for(const z of [-.14,.14])m.link([x,y-.22,z],[x,y+.23,z],.018,'#6e91ac');m.ellipsoid(0,y,0,.105,.20,.105,'#dcf6ff',true,10,7);m.link([0,y+.27,0],[0,y+.47,0],.035,'#8ebcda',.02);star(0,y+.56,.01,.14,'#c5edff');
+  const y=5.42,x0=2.25;m.box(x0,y-.26,0,.36,.05,.36,'#6e91ac');m.box(x0,y+.23,0,.42,.06,.42,'#6e91ac');for(const x of [-.14,.14])for(const z of [-.14,.14])m.link([x+x0,y-.22,z],[x+x0,y+.23,z],.018,'#6e91ac');m.ellipsoid(x0,y,0,.105,.20,.105,'#dcf6ff',true,10,7);m.link([x0,y+.27,0],[x0,y+.47,0],.035,'#8ebcda',.02);star(x0,y+.56,.01,.14,'#c5edff');
   this.local=new Float32Array(m.data);this.solid=null;
  }
+ seatPosition(t){const p=this.pose(t),cs=Math.cos(p.roll),sn=Math.sin(p.roll),[x,y,z]=this.seat;return [x*cs-y*sn,this.position[1]+p.bob+x*sn+y*cs,this.position[2]+z];}
  pose(t){return {bob:Math.sin(t*.68)*.045+Math.sin(t*.83)*.018,roll:Math.sin(t*.52)*.013};}
  dynamic(t,day,eye){const night=Math.max(0,Math.min(1,1-day*1.7)),pose=this.pose(t),cs=Math.cos(pose.roll),sn=Math.sin(pose.roll),point=p=>[p[0]*cs-p[1]*sn,this.position[1]+pose.bob+p[0]*sn+p[1]*cs,this.position[2]+p[2]];
   if(!this.solid||Math.abs(t-this.lastTime)>.08){const data=new Float32Array(this.local);for(let i=0;i<data.length;i+=9){const p=point([data[i],data[i+1],data[i+2]]);data.set(p,i);if(data[i+4]<2){const x=data[i+3],y=data[i+4];data[i+3]=x*cs-y*sn;data[i+4]=x*sn+y*cs;}}const ropes=new MythicMesh.Mesh();for(const side of [-1,1]){const a=[side*2.5,.8,-52.9],b=point([side*2.1,.75,.55]);let prev=a;for(let i=1;i<=8;i++){const u=i/8,p=a.map((v,k)=>v+(b[k]-v)*u-(k===1?Math.sin(u*Math.PI)*.35:0));ropes.link(prev,p,.018,'#abc5d3',.018);prev=p;}}const joined=new Float32Array(data.length+ropes.data.length);joined.set(data);joined.set(ropes.data,data.length);this.solid=joined;this.lastTime=t;}
-  const glow=[],add=d=>{for(const v of d)glow.push(v);};add(MythicMesh.glow(point([0,4.72,0]),'#a5e4ff',eye,.85,.08+night*.45));if(night>.01){add(MythicMesh.glow(point([0,.55,0]),'#9cdcff',eye,3.3,night*.14));for(const side of [-1,1])add(MythicMesh.glow(point([side*2.82,1.35,0]),'#b1e9ff',eye,.55,night*(.23+Math.sin(t*.9+side)**2*.08)));}
+  const glow=[],add=d=>{for(const v of d)glow.push(v);};add(MythicMesh.glow(point(this.lanternLocal),'#a5e4ff',eye,.85,.08+night*.45));if(night>.01){add(MythicMesh.glow(point([0,.55,0]),'#9cdcff',eye,3.3,night*.14));for(const side of [-1,1])add(MythicMesh.glow(point(side<0?[.65,5.3,0]:[2.7,.85,0]),'#b1e9ff',eye,.55,night*(.23+Math.sin(t*.9+side)**2*.08)));}
   return {solid:this.solid,glow:new Float32Array(glow),night,lantern:point([0,4.72,0]),bob:pose.bob};
  }
- diagnostics(day=1){return {name:this.name,position:[...this.position],mastheadLantern:true,nightGlow:Math.max(0,1-day*1.7),vertices:this.local.length/9,moored:true};}
+ diagnostics(day=1){return {name:this.name,position:[...this.position],mastheadLantern:true,uprightCrescent:true,seat:[...this.seat],nightGlow:Math.max(0,1-day*1.7),vertices:this.local.length/9,moored:true};}
 }
 window.NightlightBoat=NightlightBoat;
 })();

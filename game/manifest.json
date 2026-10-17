@@ -69,8 +69,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 34656,
-      "sha256": "805b06bc4ff3c4041cff53442984b7ecad773912f750a48034d3d893a50d0cbc"
+      "bytes": 35839,
+      "sha256": "0910132779a998b195c3226123d994971dc662d07330048e27a73f44016a05f2"
     },
     {
       "path": "groundcover.js",
@@ -114,8 +114,8 @@
     },
     {
       "path": "nightlight-boat.js",
-      "bytes": 4128,
-      "sha256": "25d119c93cdf7e21024e744072a1935a74eb996bfec58c02ae1d6c1beebbe1c2"
+      "bytes": 4659,
+      "sha256": "4ba4c7484f0ad8be524fee17e55e84d2f2290dc22700aebd0cecf0b14bd413d3"
     },
     {
       "path": "ocean.js",
@@ -124,8 +124,8 @@
     },
     {
       "path": "parchment-ui.css",
-      "bytes": 6429,
-      "sha256": "de4a26d1f5305b2fba67c75fe6bc364d3b77c378e67363edce1d5db6c539cc82"
+      "bytes": 6511,
+      "sha256": "6a944102867dd530a46bc6fce59ede6831b837594bb3afe2fdb670b1d74871d7"
     },
     {
       "path": "performance.js",
