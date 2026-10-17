@@ -7,6 +7,8 @@ for(const blend of [0,.5,1])for(const run of [0,1])for(let i=0;i<24;i++)check(lo
 for(const [key,values] of Object.entries(M.choices))for(const value of values)for(const blend of [0,1])check({...look,[key]:value},{blend,run:0,phase:.7});
 for(const size of [.65,1.7])check({...look,size,earSize:size,tailSize:size,wingSize:size,wings:'angel'},{blend:.5,run:1,phase:2});
 const a=check(look,{blend:0,run:0,phase:0}),b=check(look,{blend:.001,run:0,phase:0});assert.equal(a.length,b.length);let max=0;for(let i=0;i<a.length;i+=9)for(let j=0;j<3;j++)max=Math.max(max,Math.abs(a[i+j]-b[i+j]));assert(max<.005,'Standing-to-walk transition snaps');
+const rig=context.window.MythicMesh.unicornRig,dist=(a,b)=>Math.hypot(...a.map((v,i)=>v-b[i]));
+for(const blend of [0,.5,1])for(const run of [0,1])for(let i=0;i<90;i++)for(const leg of rig({blend,run,phase:i*Math.PI/45}).legs){assert(leg.root[1]>1.85,'Unicorn legs must retain the tall reference stance');assert(Math.abs(dist(leg.root,leg.middle)-leg.upper)<.0001,'Upper unicorn leg stretches');assert(Math.abs(dist(leg.middle,leg.distal)-leg.lower)<.0001,'Lower unicorn leg stretches');assert(leg.root[1]>leg.middle[1]&&leg.middle[1]>leg.distal[1]&&leg.distal[1]>leg.ankle[1],'Unicorn joints must descend naturally');}
 assert.equal(look.horns,'unicorn');assert.equal(look.bodyColor,'#ece6d2');
 const saved=M.validate({...M.fresh(),...look,soul:'frost',bodyColor:'#526a89',tail:'nine',wings:'bat'});assert.equal(saved.animal,'unicorn');assert.equal(saved.bodyColor,'#526a89');assert.equal(saved.tail,'nine');assert.equal(saved.wings,'bat');assert.equal(saved.soul,'frost');
 console.log('PASS: unicorn idle/walk/run meshes, smooth stance transition, every appearance option and saved customization');
