@@ -34,8 +34,8 @@
     },
     {
       "path": "creatures.js",
-      "bytes": 69061,
-      "sha256": "57c7d978b278358cc6ff9a24f701074b0cc7b0ef8cffa3fb130b21520d76689d"
+      "bytes": 69755,
+      "sha256": "b98a777b4840918da1c3e40f9c3cb2c1eb5a753dc92ba47c259d7e4e0dc8045f"
     },
     {
       "path": "dock.js",

@@ -230,9 +230,19 @@ function sculptUnicorn(m,c,t,moving,motion){
  if(c.horns==='unicorn'){const points=[],spiral=[];for(let i=0;i<=48;i++){const u=i/48,r=.105*(1-u),angle=u*Math.PI*12,cy=h+.20+u*.85,cz=z+.24+u*.48;if(i%3===0)points.push([0,cy,cz,Math.max(.002,r)]);spiral.push([Math.cos(angle)*r,cy+Math.sin(angle)*r*.49,cz-Math.sin(angle)*r*.87,Math.max(.002,.010*(1-u))]);}tube(points,'#c1aa7b');tube(spiral,'#9e8962');}
  if(c.tail==='natural')for(let j=0;j<strands;j++){const a=j/strands*Math.PI*2,points=[];for(let i=0;i<=10;i++){const u=i/10;points.push([Math.cos(a)*.095+Math.sin(u*6+j*.32+phase*.3)*.10*u,1.40+bob-u*(1.55+.16*c.tailSize),-.86-u*.40*c.tailSize+Math.sin(u*5+j*.24)*.10,Math.max(.003,(.052-u*.048)*(1+(j%3)*.12))]);}tube(points,shade(mane,.94+(j%4)*.025));}
 }
+function ponyRig(motion={}){
+ const rig=unicornRig(motion),blend=motion.blend||0;
+ for(const leg of rig.legs){
+  // The reference pony stands nearly straight through its knees and hocks.
+  leg.distal[2]=leg.ankle[2]-(leg.front>0?.01:.045);
+  const u=(leg.root[1]-leg.middle[1])/(leg.root[1]-leg.distal[1]),line=leg.root[2]+(leg.distal[2]-leg.root[2])*u,oldBend=leg.middle[2]-line;
+  leg.middle[2]=line+(leg.front>0?.015:.055)*(1-blend)+oldBend*.40*blend;
+ }
+ return rig;
+}
 // Cream porcelain pony, with short equine ears, a curved neck and side-swept mane.
 function sculptPony(m,c,t,moving,motion){
- const {tube:rawTube,relief}=sculptTools(m),tube=(p,color)=>rawTube(p,color,[1,0,0]),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,rig=unicornRig({blend,run,phase}),bob=rig.bob*.85,col=c.bodyColor,mane=c.accentColor,h=2.40+bob,z=.62,shade=(hex,k)=>'#'+rgb(hex).map(v=>Math.min(255,Math.round(v*k*255)).toString(16).padStart(2,'0')).join('');
+ const {tube:rawTube,relief}=sculptTools(m),tube=(p,color)=>rawTube(p,color,[1,0,0]),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,rig=ponyRig({blend,run,phase}),bob=rig.bob*.85,col=c.bodyColor,mane=c.accentColor,h=2.40+bob,z=.62,shade=(hex,k)=>'#'+rgb(hex).map(v=>Math.min(255,Math.round(v*k*255)).toString(16).padStart(2,'0')).join('');
  const smooth=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<4;k++){const u=k/4,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*(2*v+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
  m.loft(smooth([[-.98,1.52+bob,.015,.025],[-.78,1.56+bob,.32,.33],[-.45,1.53+bob,.36,.34],[-.12,1.50+bob,.30,.28],[.20,1.53+bob,.31,.34],[.43,1.62+bob,.25,.36],[.60,1.72+bob,.14,.25],[.67,1.78+bob,.02,.04]]),col);
  const neck=[];for(let i=0;i<=18;i++){const u=i/18;neck.push([0,1.62+bob+u*.79,.30+u*.26+Math.sin(u*Math.PI)*.105,.26-u*.11]);}tube(neck,col);
@@ -250,9 +260,9 @@ function sculptPony(m,c,t,moving,motion){
   m.softLink([side*.005,h-.325,z+.507],[side*.095,h-.325,z+.465],.0025,'#9f8a74');
  }
  const strands=WildwoodPerformance.mobile?16:24;
- for(let j=0;j<strands;j++){const f=(j%(strands/2))/(strands/2-1),points=[];for(let i=0;i<=14;i++){const u=i/14,v=1-u,y=1.62+v*.79,r=.26-v*.11,cx=.30+v*.26+Math.sin(v*Math.PI)*.105;points.push([(j<strands*.5?-1:1)*(.10+Math.sin(u*Math.PI)*(.13+f*.12))+Math.sin(u*7+j*.35)*.015,y+bob+.15*(1-u)-f*.23,cx-r*.70-.012+f*.11,Math.max(.003,.036*(1-u*.72))]);}tube(points,shade(mane,.94+(j%4)*.025));}
+ for(let j=0;j<strands;j++){const f=(j%(strands/2))/(strands/2-1),side=j<strands*.5?-1:1,points=[];for(let i=0;i<=28;i++){const u=i/28,y=2.60-u*(1.20+f*.25),v=Math.max(0,Math.min(1,(y-1.62)/.79)),r=.26-v*.11,cx=.30+v*.26+Math.sin(v*Math.PI)*.105,curl=Math.pow(u,.8)*.075,angle=u*15+Math.floor(j/4)*.7;points.push([side*(.10+Math.sin(u*Math.PI*.8)*(.16+f*.15))+Math.sin(angle)*curl,y+bob,cx-r*.70-.012+f*.09-Math.max(0,1.62-y)*1.35+Math.cos(angle)*curl,Math.max(.003,.036*(1-u*.76))]);}tube(points,shade(mane,.94+(j%4)*.025));}
  for(let j=0;j<6;j++){const points=[];for(let i=0;i<=9;i++){const u=i/9;points.push([-.09+j*.033+Math.sin(u*4+j)*.012,h+.29-u*.40,z-.005+u*.31,Math.max(.003,.025*(1-u*.82))]);}tube(points,shade(mane,.96+(j%3)*.02));}
- if(c.tail==='natural')for(let j=0;j<strands;j++){const a=j/strands*Math.PI*2,points=[];for(let i=0;i<=14;i++){const u=i/14;points.push([Math.cos(a)*.085+Math.sin(u*Math.PI)*.09+Math.sin(phase*.5-u*2)*.055*u*blend,1.66+bob-u*(.94+.16*c.tailSize),-.85-Math.sin(u*Math.PI)*.22*c.tailSize+Math.sin(a)*.06,Math.max(.003,.047*(1-u*.92))]);}tube(points,shade(mane,.94+(j%4)*.025));}
+ if(c.tail==='natural')for(let j=0;j<strands;j++){const a=j/strands*Math.PI*2,points=[];for(let i=0;i<=14;i++){const u=i/14;points.push([Math.cos(a)*.085+Math.sin(u*Math.PI)*.09+Math.sin(phase*.5-u*2)*.055*u*blend+Math.sin(u*13+Math.floor(j/4)*.6)*.065*u,1.66+bob-u*(1.18+.10*c.tailSize),-.85-Math.sin(u*Math.PI)*.22*c.tailSize+Math.sin(a)*.06+Math.cos(u*13+Math.floor(j/4)*.6)*.060*u,Math.max(.003,.047*(1-u*.92))]);}tube(points,shade(mane,.94+(j%4)*.025));}
 }
 function deerFeatherWings(m,c,t,moving,motion){
  const {tube}=sculptTools(m),k=c.wingSize,blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,color=c.wingColor,bob=Math.sin(phase*2)*(.012+run*.022)*blend;
@@ -413,5 +423,5 @@ class Preview {
  render(data){if(!data.length)return;const gl=this.gl;gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.DYNAMIC_DRAW);for(const [k,offset] of [['p',0],['n',12],['c',24]]){gl.enableVertexAttribArray(this.loc[k]);gl.vertexAttribPointer(this.loc[k],3,gl.FLOAT,false,36,offset);}gl.drawArrays(gl.TRIANGLES,0,data.length/9);}
  dispose(){this.disposed=true;cancelAnimationFrame(this.frame);this.gl.deleteBuffer(this.buffer);this.gl.deleteProgram(this.program);const extension=this.gl.getExtension('WEBGL_lose_context');if(extension)extension.loseContext();}
 }
-window.MythicMesh={Mesh,creature,soul,glow,Preview,advanceFoxMotion,deerRig,unicornRig,ivoryCatGait};
+window.MythicMesh={Mesh,creature,soul,glow,Preview,advanceFoxMotion,deerRig,unicornRig,ponyRig,ivoryCatGait};
 })();

@@ -148,3 +148,5 @@ Ivory Cat walks with a four-beat feline gait: hind paw then forepaw on each side
 Porcelain Pony is a new separate playable character based on the cream figurines: long fine legs with pale stockings, compact hooves, a slender barrel, upright curved neck, short equine ears, dark eyes, a downward-tapered muzzle and a flowing side-swept mane, forelock and tail. It walks/runs using the articulated equine limb rig. Its default look has no horn or wings; all creator customization remains available.
 
 Porcelain Pony has fuller hindquarters and thicker thighs, hocks, cannons and back hooves to match the reference. The skull, cheeks and muzzle are broader and softer, with slightly larger dark eyes, tiny highlights and ears/forelock repositioned for the bigger face.
+
+Porcelain Pony now has longer curled mane locks cascading down its neck and over the shoulders/back, plus a longer softly wavy tail. Its dedicated pony rig reduces the resting knee bend and aligns the lower legs more vertically; joint flex returns gradually during walking/running. The unicorn rig and other characters remain unchanged.
