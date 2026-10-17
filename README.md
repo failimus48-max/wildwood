@@ -140,3 +140,5 @@ Blue Tit travels with synchronized two-footed hops instead of alternating steps.
 Ivory Cat is a separate selectable character alongside Star Cat, following the cream porcelain references. At rest it forms a low loaf with tucked paws and a curved tail beside its body. Moving smoothly raises it into a slender standing cat with long fine legs, almond eyes, large softly pointed ears and an upright tail; walking and running use coordinated steps. Colours, size, soul and optional wings, tails, horns and accessories remain customizable. The original Star Cat model is unchanged.
 
 Ivory Cat anatomy is refined toward the reference photos: a longer slimmer torso with a tucked waist, narrower chest and neck, a smaller tapered skull and integrated short muzzle, slimmer paws and tail, and articulated stifles/hocks on the hind legs. The low tucked resting pose still blends into the standing gait.
+
+Ivory Cat eyes now have curved upper and lower lids with gently tapered corners and a slight outer tilt, matching the soft almond shape in the references. The resting eyes are a little narrower than the alert standing eyes.

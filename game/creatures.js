@@ -125,8 +125,9 @@ function sculptIvoryCat(m,c,t,moving,motion){
  for(const side of [-1,1]){
   const k=c.earSize,shape=[[side*.10,h+.145,z-.045],[side*.265,h+.14,z-.065],[side*.315,h+.35*k,z-.10],[side*.275,h+.445*k,z-.10],[side*.14,h+.31*k,z-.055]],center=[side*.215,h+.26*k,z-.04];
   relief(shape,center,-.035,col);relief(shape,center,.075,col);relief(shape.map(p=>[center[0]+(p[0]-center[0])*.70,center[1]+(p[1]-center[1])*.72,p[2]+.065]),[center[0],center[1],center[2]+.065],.025,inner);
-  const ey=mix(.014,.032),shapeEye=[[side*.075,h-.07,z+.34],[side*.12,h-.025+ey,z+.32],[side*.20,h-.01+ey*.4,z+.255],[side*.18,h-.04-ey*.6,z+.28],[side*.12,h-.06-ey*.5,z+.33]];
-  relief(shapeEye.map(p=>[p[0],p[1],faceZ(p[0],p[1])+.003]),[side*.135,h-.035,faceZ(side*.135,h-.035)+.003],.006,c.eyeColor,c.glowEyes);
+  // Symmetric curved lids form a soft almond, with only a slight rise at the outer corner.
+  const eyeHeight=mix(.019,.031),shapeEye=[];for(const upper of [true,false])for(let i=0;i<=12;i++){const u=upper?i/12:1-i/12,x=side*(.067+u*.137),baseline=h-.044+u*.018,y=baseline+Math.sin(Math.PI*u)*eyeHeight*(upper?1:-.72);shapeEye.push([x,y,faceZ(x,y)+.003]);}
+  relief(shapeEye,[side*.1355,h-.035,faceZ(side*.1355,h-.035)+.003],.005,c.eyeColor,c.glowEyes);
  }
  relief([[-.035,h-.12,z+.344],[.035,h-.12,z+.344],[0,h-.16,z+.365]],[0,h-.136,z+.352],.006,nose);
  for(const side of [-1,1])tube([[0,h-.158,z+.355,.0025],[side*.028,h-.19,z+.344,.0025],[side*.061,h-.198,z+.324,.002],[side*.084,h-.189,z+.305,.001]],seam);
