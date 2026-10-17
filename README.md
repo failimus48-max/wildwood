@@ -104,3 +104,5 @@ The Nightlight Boat is moored beyond the dock tip: a three-dimensional crescent 
 The Nightlight Boat uses an icy-blue palette, with a pale blue crescent hull, frosted sail, silver-blue fittings and cool blue lantern/star halos at night.
 
 The Nightlight Boat now has an upright crescent silhouette inspired by the moon-seat reference, with a tall curved back and a wide cushioned bench in its lower curve. At the dock tip, press E or use Talk / read to rest in the seat, then interact again to return; movement, Jump or Go home also returns you to the dock. The seat and camera follow its gentle bob while the saved location stays safely on the dock. Icy-blue coloring, the sail, top lantern and nighttime glow remain. Dock-mode browser checks cover mobile and keyboard seating/return in addition to the dock tests.
+
+A second icy-blue lantern hangs on a fine chain from the upper tip of the upright crescent. Its silver-blue frame and luminous glass bob with the boat, with a stronger soft halo at night. The masthead lantern remains in place.
