@@ -116,3 +116,5 @@ The unicorn has substantially longer legs to match the reference silhouette: its
 Cloud Unicorn now defaults to cream feathered wings attached at its raised shoulders. Layered feathers sway with its walking/running rhythm. Existing unwinged unicorn saves gain the wings once; custom wing types are preserved, and choosing no wings afterward remains persistent.
 
 The unicorn feathered wings are about 41% larger, with taller feathers and a broader spread that still pivots from the shoulders.
+
+Snowy Owl replaces the old Moon Owl with a reference-inspired cream figurine: rounded head without ear tufts, pale facial discs, small blue eyes, a horn-coloured beak, sloping pear-shaped breast, scalloped folded feather wings, long layered tail and feathered legs with three forward toes. Its steps alternate with gentle body/wing motion. Custom colours, wing types and saved looks remain supported; the former default purple owl palette upgrades to ivory.

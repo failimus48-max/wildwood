@@ -199,6 +199,39 @@ function deerFeatherWings(m,c,t,moving,motion){
   for(let i=0;i<5;i++){const u=i/4,start=p(.05+u*.36,.13+u*.40,-.015-u*.13),end=p(.1+u*.41,.02+u*.35,-.23-u*.12),mid=start.map((v,j)=>(v+end[j])/2);tube([[...start,.025*k],[...mid,.048*k],[...end,.003]],color);}
  }
 }
+// Snowy owl figurine: upright facial disc, sloping back and overlapping folded flight feathers.
+function sculptOwl(m,c,t,moving,motion){
+ const blend=motion?.blend??Number(moving),phase=motion?.phase??t*7,run=motion?.run??0,bob=Math.sin(phase*2)*(.018+run*.018)*blend,col=c.bodyColor,a=c.accentColor;
+ const {tube}=sculptTools(m),shade=(h,k)=>'#'+rgb(h).map(v=>Math.round(Math.min(1,v*k)*255).toString(16).padStart(2,'0')).join('');
+ // Flattened, rounded feather with an actual raised quill and tapered tip.
+ const feather=(start,end,width,depth,color,normal)=>{const axis=normalize(subtract(end,start)),across=normalize(cross(axis,normal)),n=normalize(cross(across,axis)),seg=10,rings=8,verts=[],co=rgb(color),cs=Math.cos(m.yaw),sn=Math.sin(m.yaw);for(let j=0;j<=rings;j++){const u=j/rings,profile=Math.pow(Math.sin(Math.PI*u),.35)*(1-u*.35);for(let i=0;i<=seg;i++){const angle=i/seg*Math.PI*2,xx=Math.cos(angle)*width*profile,zz=Math.sin(angle)*depth*profile,p=start.map((v,k)=>v+(end[k]-v)*u+across[k]*xx+n[k]*zz),nn=normalize(across.map((v,k)=>v*Math.cos(angle)*depth+n[k]*Math.sin(angle)*width));verts.push([...m.point(p),nn[0]*cs+nn[2]*sn,nn[1],-nn[0]*sn+nn[2]*cs,...co]);}}for(let j=0;j<rings;j++)for(let i=0;i<seg;i++){const q=j*(seg+1)+i,r=q+seg+1;for(const k of [q,r,q+1,q+1,r,r+1])m.data.push(...verts[k]);}};
+ // A continuous pear-shaped breast rises into the rounded head, without ear tufts.
+ tube([[0,.52+bob,-.39,.025],[0,.79+bob,-.18,.30],[0,1.15+bob,.02,.43],[0,1.45+bob,.23,.43],[0,1.78+bob,.39,.34],[0,2.0+bob,.43,.27],[0,2.11+bob,.43,.02]],col,[1,0,0]);
+ m.ellipsoid(0,1.87+bob,.44,.355,.36,.32,col,false,24,16);
+ for(const side of [-1,1]){
+  // Subtle pale facial discs and small blue irises, under a softly lowered brow.
+  m.ellipsoid(side*.155,1.86+bob,.704,.164,.218,.055,shade(col,1.025),false,20,14);
+  m.ellipsoid(side*.162,1.895+bob,.756,.083,.071,.022,'#6b6a75',false,16,10);
+  m.ellipsoid(side*.162,1.892+bob,.777,.061,.057,.014,c.eyeColor,c.glowEyes,16,10);
+  m.ellipsoid(side*.157,1.896+bob,.790,.027,.039,.009,'#222939',false,12,8);
+  m.ellipsoid(side*.176,1.916+bob,.798,.011,.013,.004,'#f3f5ef',true,8,5);
+  m.softLink([side*.08,1.955+bob,.751],[side*.25,1.943+bob,.739],.018,col);
+  const stride=Math.sin(phase+(side>0?0:Math.PI))*.15*blend,lift=Math.max(0,Math.cos(phase+(side>0?0:Math.PI)))*.12*blend,x=side*.235;
+  tube([[x,.85+bob,-.03,.14],[x,.48+lift*.3,.0+stride*.4,.09],[x,.10+lift,.12+stride,.045]],col,[1,0,0]);
+  for(const toe of [-1,0,1]){const root=[x,.075+lift,.13+stride],tip=[x+toe*.12,.045+lift,.36+stride-Math.abs(toe)*.06];m.softLink(root,tip,.034,'#c8ae87');m.link(tip,[tip[0],tip[1]-.015,tip[2]+.035],.018,'#94836a',0);}
+  m.softLink([x,.07+lift,.13+stride],[x+side*.055,.045+lift,-.035+stride],.025,'#c8ae87');
+  if(c.wings==='angel'){
+   const flex=Math.sin(phase*2-.4)*.022*blend,k=c.wingSize,point=(y,z,layer=0)=>[side*(.34+layer+flex),1.30+bob+(y-1.30)*k,-.03+(z+.03)*k];
+   // Long primaries, secondaries, then scalloped coverts overlap like the reference.
+   for(let i=0;i<7;i++)feather(point(1.47-i*.045,.13-i*.065,.025),point(.35+i*.06,-1.00+i*.055,.015),.105,.038,i%3===0?a:c.wingColor,[side,0,0]);
+   for(let i=0;i<6;i++)feather(point(1.54-i*.03,.23-i*.095,.058),point(.78-i*.045,-.45-i*.09,.065),.10,.04,i%2?c.wingColor:a,[side,0,0]);
+   for(let row=0;row<2;row++)for(let i=0;i<6;i++)feather(point(1.57-row*.11-i*.065,.24-i*.12,.085+row*.018),point(1.32-row*.13-i*.065,.12-i*.12,.09+row*.018),.077,.025,i%3===0?a:col,[side,0,0]);
+  }
+ }
+ // Short down-curved horn-coloured beak sits between the facial discs.
+ tube([[0,1.85+bob,.751,.056],[0,1.76+bob,.831,.045],[0,1.665+bob,.803,.003]],'#bba47d',[1,0,0]);
+ if(c.tail==='natural')for(let i=0;i<5;i++)feather([(i-2)*.055,.92+bob,-.36],[(i-2)*.085,.10+bob,-1.12*c.tailSize],.085,.026,i%2?a:c.wingColor,[0,1,0]);
+}
 function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={}){const c=WildwoodModel.appearance(config),m=new Mesh(position,yaw,WildwoodModel.bodyScale(c)),id=c.animal,col=c.bodyColor,a=c.accentColor,step=moving?Math.sin(t*12)*.13:0;
  const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='unicorn'?2.90:id==='deer'?1.94:id==='cat'?1.16:id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
  if(id==='spiritbunny'){m.ellipsoid(0,.87,0,.65,.67,.75,col);m.ellipsoid(0,1.48,.53,.68,.58,.55,col);for(const side of [-1,1]){m.ellipsoid(side*.34,2.08,.48,.21,.64*c.earSize,.2,col);m.ellipsoid(side*.34,2.12,.66,.095,.45*c.earSize,.04,a);m.ellipsoid(side*.38,.28,.55,.27,.25,.35,col);m.ellipsoid(side*.4,.24,-.42,.27,.24,.3,col);m.ellipsoid(side*.3,1.59,1.025,.12,.15,.05,c.eyeColor,c.glowEyes);m.ellipsoid(side*.3-.035,1.645,1.073,.039,.046,.015,'#f5ffff',true);m.ellipsoid(side*.48,1.35,.96,.11,.055,.027,'#b4e5ef');}m.ellipsoid(0,1.33,1.08,.26,.17,.1,a);m.ellipsoid(0,1.39,1.177,.07,.05,.025,c.eyeColor);}
@@ -208,6 +241,7 @@ function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={
  else if(id==='bunny')sculptBunny(m,c,t,moving,motion);
  else if(id==='deer')sculptDeer(m,c,t,moving,motion);
  else if(id==='unicorn')sculptUnicorn(m,c,t,moving,motion);
+ else if(id==='owl')sculptOwl(m,c,t,moving,motion);
  else{
   const trueBird=bird&&id!=='gryphon',canine=['fox','wolf','kitsune','fennec'].includes(id),aquatic=id==='axolotl',bodyY=pony?1.03:long?.64:.86,width=id==='bear'?.58:long?.34:.43,length=long?1.03:pony?.94:.82;
   m.loft([[-length,bodyY,.04,.07],[-length*.7,bodyY,width*.9,trueBird?.56:long?.28:.4],[-.15,bodyY+.04,width,trueBird?.67:long?.28:.43],[.35,bodyY+.11,width*.85,trueBird?.52:long?.3:.44],[.68,headY-.2,width*.5,.3],[.79,headY-.1,.05,.08]],col);
@@ -231,7 +265,7 @@ function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={
   if(aquatic)for(const side of [-1,1])for(let i=0;i<3;i++){const end=[side*(.76-i*.04),headY-.24+i*.27,.58];m.softLink([side*.38,headY-.15+i*.16,.6],end,.035,a);for(let j=1;j<=3;j++)m.softLink(end,[end[0]+side*.07*j,end[1]+(j-2)*.06,end[2]-.02*j],.012,a);}
  }
 
- if(!['fox','wolf','cat','bunny','deer','unicorn'].includes(id)||c.tail!=='natural'){const start=m.data.length;tail(m,c,t);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else {const start=m.data.length;if(id==='unicorn'&&c.wings==='angel')deerFeatherWings(m,{...c,wingSize:c.wingSize*1.9},t,moving,motion);else wings(m,c,t,moving);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if((id!=='deer'||c.horns!=='antlers')&&(id!=='unicorn'||c.horns!=='unicorn'))horns(m,c,headY);details(m,c,headY);
+ if(!['fox','wolf','cat','bunny','deer','unicorn','owl'].includes(id)||c.tail!=='natural'){const start=m.data.length;tail(m,c,t);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else {const start=m.data.length;if(id==='unicorn'&&c.wings==='angel')deerFeatherWings(m,{...c,wingSize:c.wingSize*1.9},t,moving,motion);else if(id!=='owl'||c.wings!=='angel')wings(m,c,t,moving);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if((id!=='deer'||c.horns!=='antlers')&&(id!=='unicorn'||c.horns!=='unicorn'))horns(m,c,headY);details(m,c,headY);
  return new Float32Array(m.data);
 }
 function soul(type,position,t,eye=[4,3,6]){const s=WildwoodModel.souls.find(x=>x.id===type);if(!s)return {solid:new Float32Array(),glow:new Float32Array()};const m=new Mesh(position),g=new Mesh(),color=s.color,co=rgb(color);m.ellipsoid(0,0,0,.19,.22,.19,color,true);m.ellipsoid(0,-.03,.02,.095,.14,.1,'#f5ffff',true);for(let i=0;i<5;i++){const a=t*1.7+i/5*6.283,x=Math.cos(a)*.11,z=Math.sin(a)*.11;m.link([x,-.06,z],[x*.5+Math.sin(t*4+i)*.04,.36+Math.sin(t*3+i)*.08,z*.5],.09,color,0,true);}
