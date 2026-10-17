@@ -122,3 +122,5 @@ Snowy Owl replaces the old Moon Owl with a reference-inspired cream figurine: ro
 Starlight Ferret now follows the smooth ivory reference figurine: a continuous arched back and raised neck, tiny rounded ears, tapered head, short substantial limbs and an elongated gently curved tail. Walking/running blends into alternating steps with body and tail motion. Custom looks remain available, and the former default tan palette upgrades to ivory.
 
 The reference ferret has a shorter, rounder skull and blunt muzzle, smaller ears moved back above the skull, a fuller neck and rounder mid-body. The face now projects roughly one third less from the neck than the previous version.
+
+The ferret now has a low, nearly level back instead of a hump, a slimmer elongated torso, shorter legs and a lower neck/head carriage. Its compact face and ivory finish are retained.

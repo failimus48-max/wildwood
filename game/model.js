@@ -12,7 +12,7 @@ const species=[
  ['owl','Snowy Owl','🦉','Ivory plumage, blue eyes and layered folded feathers.','#eeeada'],['axolotl','Star Axolotl','✺','A smiling water spirit with feathery gills.','#e6a3b9'],
  ['bat','Dusk Bat','🦇','Huge ears and a pair of night wings.','#a48bbd'],['bear','Spirit Bear','🐻','A cuddly, round-eared guardian.','#b99175'],
  ['tiger','Moon Tiger','🐯','A feline explorer with striped fur.','#d9aa67'],['otter','River Otter','🦦','A playful swimmer with a smooth long tail.','#a68d78'],
- ['ferret','Starlight Ferret','✦','An ivory figurine with an arched back and flowing tail.','#eee9e5'],['spiritbunny','Blue Spirit Bunny','💠','A plush blue spirit bunny inspired by Blub.','#6bcce8'],
+ ['ferret','Starlight Ferret','✦','A long, low ivory ferret with a level back and flowing tail.','#eee9e5'],['spiritbunny','Blue Spirit Bunny','💠','A plush blue spirit bunny inspired by Blub.','#6bcce8'],
  ['pegasus','Pegasus','🪽','A little winged pony born to dream.','#e2dacc'],['chimerabunny','Chimera Bunny','✧','Rabbit ears, twin horns, and a dragon tail.','#a795ce'],
  ['fennec','Fennec Spirit','🦊','A desert fox with magnificent big ears.','#dfc28a'],['snowleopard','Snow Leopard','🐾','A spotted cat with an extra-fluffy tail.','#b9c6d0']
 ].map(([id,name,icon,description,color])=>({id,name,icon,description,color}));
