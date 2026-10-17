@@ -213,8 +213,10 @@ function sculptFerret(m,c,t,moving,motion){
    m.ellipsoid(x,.07+lift,z+.12+stride,.095,.07,.145,col,false,20,12);
   }
   const k=c.earSize;m.ellipsoid(side*.185,1.225+bob,.875,.075*k,.105*k,.058*k,col,false,20,14);m.ellipsoid(side*.185,1.225+bob,.922,.038*k,.06*k,.012,a,false,16,10);
-  // Tiny inset eyes keep the quiet sculptural face of the supplied figurine.
-  m.ellipsoid(side*.217, .97+bob,1.155,.023,.025,.012,c.eyeColor,c.glowEyes,12,8);
+  // Rounded dark eyes with two small catchlights for a gentle glossy expression.
+  m.ellipsoid(side*.208,.97+bob,1.17,.052,.060,.050,c.eyeColor,c.glowEyes,20,14);
+  m.ellipsoid(side*.235,.993+bob,1.207,.012,.014,.009,'#fff9ef',true,10,6);
+  m.ellipsoid(side*.239,.953+bob,1.205,.005,.006,.004,'#bfcbd5',true,8,5);
  }
  m.ellipsoid(0,.84+bob,1.353,.040,.03,.016,a,false,14,8);
  if(c.tail==='natural'){
