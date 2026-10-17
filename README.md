@@ -124,3 +124,5 @@ Starlight Ferret now follows the smooth ivory reference figurine: a continuous a
 The reference ferret has a shorter, rounder skull and blunt muzzle, smaller ears moved back above the skull, a fuller neck and rounder mid-body. The face now projects roughly one third less from the neck than the previous version.
 
 The ferret now has a low, nearly level back instead of a hump, a slimmer elongated torso, shorter legs and a lower neck/head carriage. Its compact face and ivory finish are retained.
+
+The ferret has shorter, softer little legs and smaller rounded paws. Its body, head and tail sit 0.20 units lower, with smaller steps and paw lift to suit its compact stance.
