@@ -34,8 +34,8 @@
     },
     {
       "path": "creatures.js",
-      "bytes": 64855,
-      "sha256": "4508498375da552389d406e0c4759bdebb2facd09f0af3e668bed75943b93124"
+      "bytes": 68933,
+      "sha256": "7215d629a4b1a8cf6f1e4607900928f5ee6d89c529c286ba5efce9c3e59fbc9c"
     },
     {
       "path": "dock.js",
@@ -99,8 +99,8 @@
     },
     {
       "path": "model.js",
-      "bytes": 10942,
-      "sha256": "b13f1d70598c773c5b866358d0e276921ab11c9b8b9e5521b87d86fab82b8fcb"
+      "bytes": 11133,
+      "sha256": "3e4c318c514ba3664b38836bbeba2b383dc284921a9f9e30bfb610cfe8e11fde"
     },
     {
       "path": "moss.css",

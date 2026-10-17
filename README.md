@@ -144,3 +144,5 @@ Ivory Cat anatomy is refined toward the reference photos: a longer slimmer torso
 Ivory Cat eyes now have curved upper and lower lids with gently tapered corners and a slight outer tilt, matching the soft almond shape in the references. The resting eyes are a little narrower than the alert standing eyes.
 
 Ivory Cat walks with a four-beat feline gait: hind paw then forepaw on each side, a longer planted phase and a smooth lifted recovery. Paws follow narrow tracks, wrists and hocks flex during the swing, the shoulders and hips roll gently, and the head stays steadier. The upright tail counter-sways with a delay. Running blends toward paired bounds with longer reach and higher paw lift.
+
+Porcelain Pony is a new separate playable character based on the cream figurines: long fine legs with pale stockings, compact hooves, a slender barrel, upright curved neck, short equine ears, dark eyes, a downward-tapered muzzle and a flowing side-swept mane, forelock and tail. It walks/runs using the articulated equine limb rig. Its default look has no horn or wings; all creator customization remains available.
