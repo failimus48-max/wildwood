@@ -104,6 +104,37 @@ function sculptCat(m,c,t,moving,motion){
  if(c.pattern!=='none')for(const side of [-1,1])for(let i=0;i<6;i++){const zz=-.64+i*.19,x=side*(.43*Math.sqrt(1-((zz+.15)/.76)**2)+.003),y=.90+bob;if(c.pattern==='spots')m.ellipsoid(x,y,zz,.022,.055,.065,a,false,8,5);if(c.pattern==='stripes')m.softLink([x,y-.07,zz-.035],[x,y+.07,zz+.035],.025,a);if(c.pattern==='stars'||c.pattern==='runes'){m.softLink([x,y-.06,zz],[x,y+.06,zz],.017,a);m.softLink([x,y,zz-.06],[x,y+(c.pattern==='runes'?.06:0),zz+.06],.017,a);}}
  if(c.tail==='natural'){const points=[];for(let i=0;i<=20;i++){const u=i/20,sway=Math.sin(t*1.2-u*.7)*.025+Math.sin(phase-u*1.4)*.05*blend,yy=1.02+bob+u*1.40*c.tailSize,zz=-.69-.14*Math.sin(u*Math.PI*.7)*c.tailSize,xx=sway*u,r=(.095-.022*u)*c.tailSize;points.push([xx,yy,zz,r]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,18,12);}
 }
+// Separate cream figurine cat: tucked loaf at rest, slender standing anatomy in motion.
+function sculptIvoryCat(m,c,t,moving,motion){
+ const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,b=blend*blend*(3-2*blend),mix=(a,z)=>a+(z-a)*b,bob=Math.sin(phase*2)*(.012+run*.018)*blend,col=c.bodyColor,inner=c.accentColor,seam='#9b7d70',nose='#bc9184',h=mix(.86,1.37)+bob,z=mix(.57,.66);
+ const {tube:rawTube,relief}=sculptTools(m),tube=(p,color)=>rawTube(p,color,[1,0,0]);
+ const smooth=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<4;k++){const u=k/4,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*(2*v+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
+ const rest=[[-.89,.31,.01,.03],[-.70,.39,.27,.34],[-.36,.43,.32,.38],[.02,.43,.31,.35],[.32,.47,.27,.31],[.51,.62,.23,.27],[.60,.74,.17,.21],[.67,.80,.02,.03]],stand=[[-.89,.95,.01,.025],[-.70,1.01,.25,.27],[-.36,1.04,.28,.29],[.02,1.02,.27,.28],[.32,1.03,.235,.285],[.51,1.15,.20,.25],[.60,1.28,.16,.20],[.67,1.33,.02,.03]];
+ m.loft(smooth(rest.map((p,j)=>p.map((v,k)=>mix(v,stand[j][k])+(k===1?bob:0)))),col);
+ for(const side of [-1,1]){
+  for(const front of [-1,1]){
+   const walk=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.25:0),p=walk+(gallop-walk)*run,stride=Math.sin(p)*(.12+run*.14)*blend,lift=Math.max(0,Math.cos(p))*(.07+run*.09)*blend,x=side*mix(.18,.195),footZ=mix(front>0?.40:-.51,front>0?.47:-.62)+stride,root=[x*.83,mix(front>0?.29:.32,front>0?1.05:1.03)+bob,front>0?.37:-.60],knee=[x,mix(.115,.52)+lift*.35,footZ+(front<0?mix(-.03,.09):-.025)],ankle=[x,.10+lift,footZ];
+   tube(smooth([[...root,front>0?mix(.08,.105):mix(.14,.145)],[...knee,mix(.075,.072)],[...ankle,mix(.08,.055)]]),col);
+   m.ellipsoid(x,.09+lift,footZ+.07,mix(.14,.085),.09,mix(.15,.135),col,false,20,12);
+  }
+  m.ellipsoid(side*mix(.16,.14),mix(.28,.87)+bob,-.57,mix(.18,.14),mix(.25,.25),mix(.28,.23),col,false,22,14);
+ }
+ // One tapered skull and a short muzzle, unlike the existing round-faced Star Cat.
+ const skull=smooth([[z-.22,h+.01,.015,.03],[z-.10,h+.025,.24,.26],[z+.08,h,.285,.265],[z+.21,h-.055,.25,.21],[z+.30,h-.12,.14,.115],[z+.36,h-.13,.025,.03]]);m.loft(skull,col);
+ const faceZ=(x,y)=>{let zz=z+.20;for(let j=0;j<skull.length-1;j++)for(let k=0;k<=8;k++){const u=k/8,q=skull[j].map((v,i)=>v+(skull[j+1][i]-v)*u);if((x/q[2])**2+((y-q[1])/q[3])**2<=1)zz=Math.max(zz,q[0]);}return zz;};
+ for(const side of [-1,1]){
+  const k=c.earSize,shape=[[side*.12,h+.16,z-.045],[side*.30,h+.15,z-.065],[side*.36,h+.38*k,z-.10],[side*.31,h+.47*k,z-.10],[side*.16,h+.34*k,z-.055]],center=[side*.245,h+.28*k,z-.04];
+  relief(shape,center,-.035,col);relief(shape,center,.075,col);relief(shape.map(p=>[center[0]+(p[0]-center[0])*.70,center[1]+(p[1]-center[1])*.72,p[2]+.065]),[center[0],center[1],center[2]+.065],.025,inner);
+  const ey=mix(.022,.044),shapeEye=[[side*.085,h-.07,z+.34],[side*.14,h-.025+ey,z+.32],[side*.23,h-.01+ey*.4,z+.255],[side*.21,h-.04-ey*.6,z+.28],[side*.14,h-.06-ey*.5,z+.33]];
+  relief(shapeEye.map(p=>[p[0],p[1],faceZ(p[0],p[1])+.003]),[side*.155,h-.035,faceZ(side*.155,h-.035)+.003],.006,c.eyeColor,c.glowEyes);
+  m.ellipsoid(side*.063,h-.145,z+.296,.077,.058,.038,col,false,20,12);
+ }
+ relief([[-.035,h-.12,z+.344],[.035,h-.12,z+.344],[0,h-.16,z+.365]],[0,h-.136,z+.352],.006,nose);
+ for(const side of [-1,1])tube([[0,h-.158,z+.355,.0025],[side*.028,h-.19,z+.344,.0025],[side*.061,h-.198,z+.324,.002],[side*.084,h-.189,z+.305,.001]],seam);
+ if(c.tail==='natural'){
+  const points=[];for(let i=0;i<=24;i++){const u=i/24,rest=[.29+Math.sin(u*Math.PI)*.035,.27+u*.68,-.65+.29*Math.sin(u*Math.PI*.85)],upright=[Math.sin(t*1.2-u)*.045*u+Math.sin(phase-u)*.04*u,1.12+u*1.30,-.70-.14*Math.sin(u*Math.PI)];points.push([mix(rest[0],upright[0])*c.tailSize,mix(rest[1],upright[1])+bob,mix(rest[2],upright[2]),(.071-.023*u)*c.tailSize]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,16,10);
+ }
+}
 function sculptBunny(m,c,t,moving,motion){
  const {tube,relief}=sculptTools(m),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,mix=(a,b)=>a+(b-a)*blend,col=c.bodyColor,accent=c.accentColor,shade=(hex,k)=>'#'+rgb(hex).map(v=>Math.round(v*k*255).toString(16).padStart(2,'0')).join(''),seam=shade(col,.66),pink='#bd9190',bob=Math.max(0,Math.sin(phase*2))*(.035+run*.045)*blend,h=mix(1.46,1.2)+bob,z=mix(.16,.49);
  m.ellipsoid(0,mix(.68,.61)+bob,mix(-.12,-.23),.35,mix(.56,.38),mix(.35,.61),col);
@@ -290,11 +321,12 @@ function sculptOwl(m,c,t,moving,motion){
  if(c.tail==='natural')for(let i=0;i<5;i++)feather([(i-2)*.055,.92+bob,-.36],[(i-2)*.085,.10+bob,-1.12*c.tailSize],.085,.026,i%2?a:c.wingColor,[0,1,0]);
 }
 function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={}){const c=WildwoodModel.appearance(config),m=new Mesh(position,yaw,WildwoodModel.bodyScale(c)),id=c.animal,col=c.bodyColor,a=c.accentColor,step=moving?Math.sin(t*12)*.13:0;
- const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='bluetit'?1.05:id==='unicorn'?2.90:id==='deer'?1.94:id==='cat'?1.16:id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
+ const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='ivorycat'?(.86+.51*(motion?.blend??Number(moving))):id==='bluetit'?1.05:id==='unicorn'?2.90:id==='deer'?1.94:id==='cat'?1.16:id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
  if(id==='spiritbunny'){m.ellipsoid(0,.87,0,.65,.67,.75,col);m.ellipsoid(0,1.48,.53,.68,.58,.55,col);for(const side of [-1,1]){m.ellipsoid(side*.34,2.08,.48,.21,.64*c.earSize,.2,col);m.ellipsoid(side*.34,2.12,.66,.095,.45*c.earSize,.04,a);m.ellipsoid(side*.38,.28,.55,.27,.25,.35,col);m.ellipsoid(side*.4,.24,-.42,.27,.24,.3,col);m.ellipsoid(side*.3,1.59,1.025,.12,.15,.05,c.eyeColor,c.glowEyes);m.ellipsoid(side*.3-.035,1.645,1.073,.039,.046,.015,'#f5ffff',true);m.ellipsoid(side*.48,1.35,.96,.11,.055,.027,'#b4e5ef');}m.ellipsoid(0,1.33,1.08,.26,.17,.1,a);m.ellipsoid(0,1.39,1.177,.07,.05,.025,c.eyeColor);}
 
  else if(id==='fox'||id==='wolf')sculptFox(m,c,t,moving,motion);
  else if(id==='cat')sculptCat(m,c,t,moving,motion);
+ else if(id==='ivorycat')sculptIvoryCat(m,c,t,moving,motion);
  else if(id==='bunny')sculptBunny(m,c,t,moving,motion);
  else if(id==='deer')sculptDeer(m,c,t,moving,motion);
  else if(id==='unicorn')sculptUnicorn(m,c,t,moving,motion);
@@ -324,7 +356,7 @@ function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={
   if(aquatic)for(const side of [-1,1])for(let i=0;i<3;i++){const end=[side*(.76-i*.04),headY-.24+i*.27,.58];m.softLink([side*.38,headY-.15+i*.16,.6],end,.035,a);for(let j=1;j<=3;j++)m.softLink(end,[end[0]+side*.07*j,end[1]+(j-2)*.06,end[2]-.02*j],.012,a);}
  }
 
- if(!['fox','wolf','cat','bunny','deer','unicorn','owl','ferret','bluetit'].includes(id)||c.tail!=='natural'){const start=m.data.length;tail(m,c,t);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else {const start=m.data.length;if(id==='unicorn'&&c.wings==='angel')deerFeatherWings(m,{...c,wingSize:c.wingSize*1.9},t,moving,motion);else if(!['owl','bluetit'].includes(id)||c.wings!=='angel')wings(m,c,t,moving);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if((id!=='deer'||c.horns!=='antlers')&&(id!=='unicorn'||c.horns!=='unicorn'))horns(m,c,headY);details(m,c,headY);
+ if(!['fox','wolf','cat','bunny','deer','unicorn','owl','ferret','bluetit','ivorycat'].includes(id)||c.tail!=='natural'){const start=m.data.length;tail(m,c,t);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else {const start=m.data.length;if(id==='unicorn'&&c.wings==='angel')deerFeatherWings(m,{...c,wingSize:c.wingSize*1.9},t,moving,motion);else if(!['owl','bluetit'].includes(id)||c.wings!=='angel')wings(m,c,t,moving);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if((id!=='deer'||c.horns!=='antlers')&&(id!=='unicorn'||c.horns!=='unicorn'))horns(m,c,headY);details(m,c,headY);
  // Both feet leave the ground together; carry every part and adornment through the same hop.
  if(id==='bluetit'){const phase=motion?.phase??t*10,blend=motion?.blend??Number(moving),run=motion?.run??0,height=Math.pow(Math.max(0,Math.sin(phase)),2)*(.20+run*.10)*blend*m.size;for(let i=1;i<m.data.length;i+=9)m.data[i]+=height;}
  return new Float32Array(m.data);
