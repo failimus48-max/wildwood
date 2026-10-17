@@ -108,3 +108,5 @@ The Nightlight Boat now has an upright crescent silhouette inspired by the moon-
 A second icy-blue lantern hangs on a fine chain from the upper tip of the upright crescent. Its silver-blue frame and luminous glass bob with the boat, with a stronger soft halo at night. The masthead lantern remains in place.
 
 The lantern hanging from the crescent tip has warm orange luminous glass and an amber-orange halo, contrasting with the boat’s icy-blue hull.
+
+Cloud Unicorn now has a dedicated reference-inspired cream model with a long curved neck, fine equine legs and hooves, large leaf-shaped ears, a slim muzzle, inset almond eyes, a flowing strand mane and tail, and a tapered spiraled horn. Select Cloud Unicorn in the character creator to use the new default look. Walking/running uses the fixed-length deer limb rig, and custom colors, wings, tails, horns and soul choices remain available. The unicorn uses a stable tube frame for its long neck and hair without changing the other species.
