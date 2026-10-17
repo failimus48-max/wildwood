@@ -12,4 +12,6 @@ assert(mesh(look).length>mesh({...look,wings:'none'}).length,'Folded wings must 
 const saved=M.validate({...M.fresh(),...look,bodyColor:'#8899aa',eyeColor:'#456789',wings:'bat',tail:'pom',soul:'frost'});
 assert.equal(saved.animal,'bluetit');assert.equal(saved.bodyColor,'#8899aa');assert.equal(saved.eyeColor,'#456789');assert.equal(saved.wings,'bat');assert.equal(saved.tail,'pom');assert.equal(saved.soul,'frost');
 const idle=mesh(look),transition=mesh(look,.001);assert.equal(idle.length,transition.length);let delta=0,maxY=0;for(let i=0;i<idle.length;i+=9){maxY=Math.max(maxY,idle[i+1]);for(let j=0;j<3;j++)delta=Math.max(delta,Math.abs(idle[i+j]-transition[i+j]));}assert(delta<.005);assert(maxY<.9,'Blue tit should stay small beside other animals');
-console.log('PASS: small blue tit proportions, gait, appearance choices, removable folded wings and saved customization');
+const turned=creature(look,{position:[7,2,-9],yaw:1.3,motion:{blend:0,run:0,phase:0}});assert.equal(turned.length,idle.length);for(let i=0;i<idle.length;i+=9)for(let k=6;k<9;k++)assert(Math.abs(turned[i+k]-idle[i+k])<.00001,'Plumage colours must stay on the same skin when turning or moving');
+let minZ=Infinity,maxZ=-Infinity;for(let i=0;i<idle.length;i+=9){minZ=Math.min(minZ,idle[i+2]);maxZ=Math.max(maxZ,idle[i+2]);}assert((maxZ-minZ)/maxY>1.9,'Photo proportions need a long body and tail rather than a round toy silhouette');
+console.log('PASS: small blue tit photo proportions, attached plumage colours, gait, appearance choices, removable folded wings and saved customization');

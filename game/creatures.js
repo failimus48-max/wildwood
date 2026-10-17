@@ -199,35 +199,38 @@ function deerFeatherWings(m,c,t,moving,motion){
   for(let i=0;i<5;i++){const u=i/4,start=p(.05+u*.36,.13+u*.40,-.015-u*.13),end=p(.1+u*.41,.02+u*.35,-.23-u*.12),mid=start.map((v,j)=>(v+end[j])/2);tube([[...start,.025*k],[...mid,.048*k],[...end,.003]],color);}
  }
 }
-// Small songbird figurine, with a round breast, blue cap and layered folded wings.
+// Photo-proportioned blue tit: continuous sloping back, compact head and narrow flight feathers.
 function sculptBlueTit(m,c,t,moving,motion){
- const blend=motion?.blend??Number(moving),phase=motion?.phase??t*10,run=motion?.run??0,bob=Math.sin(phase*2)*(.02+run*.025)*blend,col=c.bodyColor,blue=c.wingColor,white=c.accentColor,ink='#243442';
- m.ellipsoid(0,.63+bob,-.06,.36,.40,.50,col,false,24,16);
- m.ellipsoid(0,.75+bob,-.27,.305,.23,.405,'#8d9f71',false,22,14);
- m.ellipsoid(0,1.055+bob,.36,.285,.285,.30,white,false,24,16);
- m.ellipsoid(0,1.225+bob,.32,.254,.13,.25,blue,false,22,14);
+ const blend=motion?.blend??Number(moving),phase=motion?.phase??t*10,run=motion?.run??0,bob=Math.sin(phase*2)*(.014+run*.022)*blend,col=c.bodyColor,blue=c.wingColor,white=c.accentColor,ink='#233a50';
+ const start=m.data.length;
+ const round=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<3;k++){const u=k/3,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*(2*v+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
+ m.loft(round([[-.92,.53,.008,.018],[-.78,.55,.13,.13],[-.61,.55,.22,.22],[-.40,.56,.29,.285],[-.15,.60,.33,.33],[.08,.68,.325,.35],[.28,.81,.29,.33],[.43,.96,.245,.275],[.55,1.00,.225,.24],[.67,.975,.17,.18],[.76,.94,.075,.08],[.79,.93,.008,.012]]).map(q=>[q[0],q[1]+bob,q[2],q[3]]),col);
+ // Colour follows the continuous skin rather than separate back/head spheres.
+ const yellow=rgb(col),green=rgb('#8d9f71'),pale=rgb(white);for(let i=start;i<m.data.length;i+=9){const y=m.data[i+1]/m.size-m.position[1]/m.size-bob,z=((m.data[i]-m.position[0])*Math.sin(m.yaw)+(m.data[i+2]-m.position[2])*Math.cos(m.yaw))/m.size;const head=Math.max(0,Math.min(1,(y-.81)*10))*Math.max(0,Math.min(1,(z-.23)*8)),back=Math.max(0,Math.min(1,(y-.76)*9))*(1-head);for(let k=0;k<3;k++)m.data[i+6+k]=yellow[k]*(1-head-back)+pale[k]*head+green[k]*back;}
+ // Thin crown patch conforms to the head instead of sitting on top like a cap.
+ const cap=(u,v)=>{const a=u*1.0,b=v*Math.PI*2;return [Math.sin(a)*Math.cos(b)*.246,1.008+bob+Math.cos(a)*.255,.50+Math.sin(a)*Math.sin(b)*.270];};for(let j=0;j<6;j++)for(let i=0;i<24;i++){const a=cap(j/6,i/24),b=cap((j+1)/6,i/24),d=cap(j/6,(i+1)/24),e=cap((j+1)/6,(i+1)/24);m.triangle(a,b,d,blue);m.triangle(d,b,e,blue);}
  for(const side of [-1,1]){
-  m.ellipsoid(side*.205,1.025+bob,.435,.095,.135,.15,white,false,20,12);
-  m.softLink([side*.18,1.09+bob,.573],[side*.282,1.10+bob,.39],.029,ink);
-  m.softLink([side*.282,1.10+bob,.39],[side*.265,1.10+bob,.26],.029,ink);
-  m.ellipsoid(side*.234,1.095+bob,.505,.039,.042,.030,c.eyeColor,c.glowEyes,16,10);
-  m.ellipsoid(side*.250,1.111+bob,.524,.009,.010,.006,'#ffffff',true,8,6);
-  m.softLink([side*.27,.97+bob,.31],[side*.26,.93+bob,.40],.025,ink);
-  m.softLink([side*.26,.93+bob,.40],[side*.11,.89+bob,.48],.025,ink);
-  const p=phase+(side>0?0:Math.PI),lift=Math.max(0,Math.cos(p))*.065*blend,stride=Math.sin(p)*.09*blend,x=side*.16,z=-.03+stride;
-  m.softLink([x,.36+bob,-.06],[x,.075+lift,z+.07],.027,'#83919b');
-  for(const toe of [-1,0,1])m.softLink([x,.052+lift,z+.06],[x+toe*.085,.033+lift,z+.22-Math.abs(toe)*.045],.019,'#7c8991');
-  m.softLink([x,.05+lift,z+.06],[x+side*.045,.03+lift,z-.08],.016,'#7c8991');
+  m.ellipsoid(side*.206,.984+bob,.49,.062,.174,.204,ink,false,22,16);
+  m.ellipsoid(side*.237,.973+bob,.52,.033,.132,.166,white,false,22,16);
+  m.softLink([side*.13,1.023+bob,.71],[side*.245,1.055+bob,.52],.023,ink);
+  m.softLink([side*.245,1.055+bob,.52],[side*.195,1.08+bob,.31],.024,ink);
+  m.ellipsoid(side*.243,1.055+bob,.557,.033,.035,.029,c.eyeColor,c.glowEyes,16,10);
+  m.ellipsoid(side*.262,1.068+bob,.574,.007,.008,.005,'#f8fbff',true,8,6);
+  const p=phase+(side>0?0:Math.PI),lift=Math.max(0,Math.cos(p))*.045*blend,stride=Math.sin(p)*.075*blend,x=side*.145,z=-.10+stride;
+  m.softLink([x,.31+bob,-.11],[x,.065+lift,z+.055],.022,'#7f929f');
+  for(const toe of [-1,0,1])m.softLink([x,.048+lift,z+.04],[x+toe*.073,.025+lift,z+.19-Math.abs(toe)*.04],.014,'#738591');
+  m.softLink([x,.043+lift,z+.04],[x+side*.035,.025+lift,z-.09],.013,'#738591');
   if(c.wings==='angel'){
-   const k=c.wingSize,flex=Math.sin(phase*2-.5)*.012*blend,point=(y,z,layer=0)=>[side*(.30+layer+flex),.75+bob+(y-.75)*k,-.11+(z+.11)*k];
-   m.ellipsoid(side*(.30+flex),.69+bob,-.17,.105,.235*k,.39*k,blue,false,20,12);
-   for(let i=0;i<7;i++)m.softLink(point(.88-i*.027,.03-i*.047,.028),point(.45+i*.018,-.60+i*.042,.026),.045,blue);
-   for(let row=0;row<2;row++)for(let i=0;i<5;i++)m.softLink(point(.89-row*.09-i*.026,.06-i*.09,.065),point(.76-row*.10-i*.025,-.045-i*.09,.078),.042,row===1&&i<4?white:blue);
+   const k=c.wingSize,flex=Math.sin(phase*2-.5)*.008*blend,point=(x,y,z)=>[side*(x+flex),.68+bob+(y-.68)*k,-.20+(z+.20)*k];
+   const feather=(a,b,width,depth,color)=>{const axis=normalize(subtract(b,a)),across=normalize(cross(axis,[side,0,0])),normal=normalize(cross(across,axis)),mid=a.map((v,i)=>(v+b[i])/2),len=Math.hypot(...subtract(b,a))/2,temp=new Mesh();temp.ellipsoid(0,0,0,width,len,depth,color,false,12,8);const cs=Math.cos(m.yaw),sn=Math.sin(m.yaw);for(let i=0;i<temp.data.length;i+=9){const d=temp.data,pos=mid.map((v,j)=>v+across[j]*d[i]+axis[j]*d[i+1]+normal[j]*d[i+2]),n=across.map((v,j)=>v*d[i+3]+axis[j]*d[i+4]+normal[j]*d[i+5]);m.data.push(...m.point(pos),n[0]*cs+n[2]*sn,n[1],-n[0]*sn+n[2]*cs,...d.slice(i+6,i+9));}};
+   // Tapered folded wing runs along the back toward the tail, not down the belly.
+   for(let i=0;i<8;i++)feather(point(.28,.89-i*.026,.10-i*.038),point(.12+i*.012,.63-i*.012,-.91+i*.043),.040*k,.018*k,blue);
+   for(let row=0;row<2;row++)for(let i=0;i<5;i++)feather(point(.295,.91-row*.065-i*.024,.10-i*.094),point(.31,.78-row*.06-i*.025,-.10-i*.095),.044*k,.018*k,row===1&&i<4?white:blue);
   }
  }
- m.ellipsoid(0,.875+bob,.46,.073,.075,.048,ink,false,16,10);
- m.link([0,1.055+bob,.625],[0,1.032+bob,.79],.052,ink,0);
- if(c.tail==='natural')for(let i=0;i<5;i++)m.softLink([(i-2)*.035,.54+bob,-.39],[(i-2)*.045,.49+bob,-.43-.63*c.tailSize],.033,blue);
+ m.ellipsoid(0,.865+bob,.60,.075,.08,.064,ink,false,16,10);
+ m.link([0,.958+bob,.775],[0,.948+bob,.935],.042,ink,0);
+ if(c.tail==='natural')for(let i=0;i<6;i++)m.softLink([(i-2.5)*.024,.57+bob,-.71],[(i-2.5)*.026,.58+bob,-.79-.93*c.tailSize],.022,blue);
 }
 // Low, long-bodied ferret with a level back and a compact rounded face.
 function sculptFerret(m,c,t,moving,motion){

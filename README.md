@@ -130,3 +130,5 @@ The ferret has shorter, softer little legs and smaller rounded paws. Its body, h
 The ferret has larger rounded black eyes with warm white catchlights and a tiny secondary glint. The previous default grey eyes upgrade to black; custom eye colours remain available.
 
 Blue Tit is a new small playable songbird, following the round figurine reference with a compact head, tiny pointed beak, plump breast, short legs and toes, layered folded wings and narrow straight feather tail. It has blue crown/wings, white cheeks with a dark eye stripe, a yellow breast and a muted green back. Species scale is 0.62; custom size, colours, wings, tails, adornments and souls remain available. Its steps, body bob and folded wings move together.
+
+Blue Tit proportions now follow the real bird reference: a compact head blending into a longer body, continuous sloping back, shorter visible legs, thin lengthwise folded wings and a longer narrow tail. The blue crown follows the skull surface, with dark eye stripe and collar framing white cheeks. The species stays small.
