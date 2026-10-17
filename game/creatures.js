@@ -234,23 +234,24 @@ function sculptUnicorn(m,c,t,moving,motion){
 function sculptPony(m,c,t,moving,motion){
  const {tube:rawTube,relief}=sculptTools(m),tube=(p,color)=>rawTube(p,color,[1,0,0]),blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,rig=unicornRig({blend,run,phase}),bob=rig.bob*.85,col=c.bodyColor,mane=c.accentColor,h=2.40+bob,z=.62,shade=(hex,k)=>'#'+rgb(hex).map(v=>Math.min(255,Math.round(v*k*255)).toString(16).padStart(2,'0')).join('');
  const smooth=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<4;k++){const u=k/4,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*(2*v+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
- m.loft(smooth([[-.98,1.52+bob,.015,.025],[-.78,1.56+bob,.28,.31],[-.45,1.53+bob,.33,.32],[-.12,1.50+bob,.30,.28],[.20,1.53+bob,.31,.34],[.43,1.62+bob,.25,.36],[.60,1.72+bob,.14,.25],[.67,1.78+bob,.02,.04]]),col);
+ m.loft(smooth([[-.98,1.52+bob,.015,.025],[-.78,1.56+bob,.32,.33],[-.45,1.53+bob,.36,.34],[-.12,1.50+bob,.30,.28],[.20,1.53+bob,.31,.34],[.43,1.62+bob,.25,.36],[.60,1.72+bob,.14,.25],[.67,1.78+bob,.02,.04]]),col);
  const neck=[];for(let i=0;i<=18;i++){const u=i/18;neck.push([0,1.62+bob+u*.79,.30+u*.26+Math.sin(u*Math.PI)*.105,.26-u*.11]);}tube(neck,col);
- for(const leg of rig.legs){const {side,front,root,middle,distal,ankle,lift,footZ}=leg,x=side*(front>0?.235:.265),bones=[[x*.45,root[1]*.85+.02,root[2]-.08,.025],[x*.70,root[1]*.85,root[2],front>0?.10:.135],[x,middle[1]*.85,middle[2],front>0?.095:.115],[x,distal[1]*.85,distal[2],.068],[x,ankle[1]*.85,ankle[2],.063]];const skinStart=m.data.length;tube(smooth(bones),col);
+ for(const leg of rig.legs){const {side,front,root,middle,distal,ankle,lift,footZ}=leg,x=side*(front>0?.235:.265),bones=[[x*.45,root[1]*.85+.02,root[2]-.08,.025],[x*.70,root[1]*.85,root[2],front>0?.10:.19],[x,middle[1]*.85,middle[2],front>0?.095:.155],[x,distal[1]*.85,distal[2],front>0?.068:.090],[x,ankle[1]*.85,ankle[2],front>0?.063:.078]];const skinStart=m.data.length;tube(smooth(bones),col);
   // Stockings are colour on the leg skin, avoiding a second cylinder over the joints.
   const sock=rgb('#f0ecdf'),coat=rgb(col);for(let i=skinStart;i<m.data.length;i+=9){const y=(m.data[i+1]-m.position[1])/m.size,amount=Math.max(0,Math.min(1,(.69+lift*.85-y)/.10));for(let k=0;k<3;k++)m.data[i+6+k]=coat[k]*(1-amount)+sock[k]*amount;}
-  m.ellipsoid(x,.09+lift*.85,footZ+.025,.087,.09,.12,'#c3b48f',false,18,12);
+  m.ellipsoid(x,.09+lift*.85,footZ+.025,front>0?.087:.105,.09,front>0?.12:.14,'#c3b48f',false,18,12);
  }
- const skull=smooth([[z-.22,h,.015,.025],[z-.09,h+.015,.19,.23],[z+.08,h-.015,.205,.24],[z+.25,h-.12,.17,.19],[z+.40,h-.25,.13,.115],[z+.49,h-.28,.11,.085],[z+.55,h-.28,.015,.02]]);m.loft(skull,col);
+ const skull=smooth([[z-.23,h,.015,.025],[z-.09,h+.015,.23,.27],[z+.08,h-.015,.25,.28],[z+.25,h-.12,.21,.22],[z+.38,h-.245,.165,.14],[z+.47,h-.27,.14,.105],[z+.54,h-.27,.015,.02]]);m.loft(skull,col);
  for(const side of [-1,1]){
-  const k=c.earSize,ear=[[side*.09,h+.13,z-.09],[side*.21,h+.12,z-.10],[side*.265,h+.34*k,z-.10],[side*.225,h+.43*k,z-.09],[side*.13,h+.30*k,z-.06]],center=[side*.18,h+.265*k,z-.055];relief(ear,center,-.03,col);relief(ear,center,.055,col);relief(ear.map(p=>[center[0]+(p[0]-center[0])*.60,center[1]+(p[1]-center[1])*.67,p[2]+.055]),[center[0],center[1],center[2]+.055],.025,'#c4a78f');
-  m.ellipsoid(side*.179,h-.055,z+.205,.022,.045,.022,c.eyeColor,c.glowEyes,16,12);
-  m.ellipsoid(side*.09,h-.28,z+.478,.022,.014,.012,'#8e7562',false,10,6);
-  m.softLink([side*.005,h-.33,z+.514],[side*.075,h-.33,z+.48],.0025,'#9f8a74');
+  const k=c.earSize,ear=[[side*.11,h+.17,z-.09],[side*.235,h+.16,z-.10],[side*.29,h+.38*k,z-.10],[side*.25,h+.47*k,z-.09],[side*.15,h+.34*k,z-.06]],center=[side*.20,h+.305*k,z-.055];relief(ear,center,-.03,col);relief(ear,center,.055,col);relief(ear.map(p=>[center[0]+(p[0]-center[0])*.60,center[1]+(p[1]-center[1])*.67,p[2]+.055]),[center[0],center[1],center[2]+.055],.025,'#c4a78f');
+  m.ellipsoid(side*.220,h-.055,z+.22,.035,.052,.030,c.eyeColor,c.glowEyes,20,14);
+  m.ellipsoid(side*.243,h-.034,z+.237,.007,.009,.005,'#fffaf0',true,10,6);
+  m.ellipsoid(side*.105,h-.265,z+.465,.027,.017,.014,'#8e7562',false,10,6);
+  m.softLink([side*.005,h-.325,z+.507],[side*.095,h-.325,z+.465],.0025,'#9f8a74');
  }
  const strands=WildwoodPerformance.mobile?16:24;
  for(let j=0;j<strands;j++){const f=(j%(strands/2))/(strands/2-1),points=[];for(let i=0;i<=14;i++){const u=i/14,v=1-u,y=1.62+v*.79,r=.26-v*.11,cx=.30+v*.26+Math.sin(v*Math.PI)*.105;points.push([(j<strands*.5?-1:1)*(.10+Math.sin(u*Math.PI)*(.13+f*.12))+Math.sin(u*7+j*.35)*.015,y+bob+.15*(1-u)-f*.23,cx-r*.70-.012+f*.11,Math.max(.003,.036*(1-u*.72))]);}tube(points,shade(mane,.94+(j%4)*.025));}
- for(let j=0;j<6;j++){const points=[];for(let i=0;i<=9;i++){const u=i/9;points.push([-.09+j*.033+Math.sin(u*4+j)*.012,h+.23-u*.37,z-.005+u*.31,Math.max(.003,.025*(1-u*.82))]);}tube(points,shade(mane,.96+(j%3)*.02));}
+ for(let j=0;j<6;j++){const points=[];for(let i=0;i<=9;i++){const u=i/9;points.push([-.09+j*.033+Math.sin(u*4+j)*.012,h+.29-u*.40,z-.005+u*.31,Math.max(.003,.025*(1-u*.82))]);}tube(points,shade(mane,.96+(j%3)*.02));}
  if(c.tail==='natural')for(let j=0;j<strands;j++){const a=j/strands*Math.PI*2,points=[];for(let i=0;i<=14;i++){const u=i/14;points.push([Math.cos(a)*.085+Math.sin(u*Math.PI)*.09+Math.sin(phase*.5-u*2)*.055*u*blend,1.66+bob-u*(.94+.16*c.tailSize),-.85-Math.sin(u*Math.PI)*.22*c.tailSize+Math.sin(a)*.06,Math.max(.003,.047*(1-u*.92))]);}tube(points,shade(mane,.94+(j%4)*.025));}
 }
 function deerFeatherWings(m,c,t,moving,motion){
