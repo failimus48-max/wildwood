@@ -25,14 +25,14 @@ class NightlightBoat {
   for(let i=0;i<5;i++){const y=5.25-i*.10,z=.14,w=.027;const loop=[[.68,y+.055,z],[.68+w,y,z],[.68,y-.055,z],[.68-w,y,z]],inner=loop.map(p=>[.68+(p[0]-.68)*.58,y+(p[1]-y)*.72,z]);for(let j=0;j<4;j++){const k=(j+1)%4;m.triangle(loop[j],inner[j],loop[k],'#8ebcda',true);m.triangle(loop[k],inner[j],inner[k],'#8ebcda',true);}}
   const [lx,ly,lz]=this.tipLanternLocal;m.box(lx,ly-.25,lz,.40,.05,.40,'#6e91ac');m.ellipsoid(lx,ly+.25,lz,.26,.085,.26,'#8ebcda',false,12,6);m.link([lx,ly+.30,lz],[lx,4.80,lz],.018,'#8ebcda',.018);
   for(const x of [-.16,.16])for(const z of [-.16,.16])m.link([lx+x,ly-.22,lz+z],[lx+x,ly+.23,lz+z],.018,'#6e91ac',.018);
-  m.ellipsoid(lx,ly,lz,.13,.20,.13,'#dcf6ff',true,12,8);
+  m.ellipsoid(lx,ly,lz,.13,.20,.13,'#ffb55c',true,12,8);
   this.local=new Float32Array(m.data);this.solid=null;
  }
  seatPosition(t){const p=this.pose(t),cs=Math.cos(p.roll),sn=Math.sin(p.roll),[x,y,z]=this.seat;return [x*cs-y*sn,this.position[1]+p.bob+x*sn+y*cs,this.position[2]+z];}
  pose(t){return {bob:Math.sin(t*.68)*.045+Math.sin(t*.83)*.018,roll:Math.sin(t*.52)*.013};}
  dynamic(t,day,eye){const night=Math.max(0,Math.min(1,1-day*1.7)),pose=this.pose(t),cs=Math.cos(pose.roll),sn=Math.sin(pose.roll),point=p=>[p[0]*cs-p[1]*sn,this.position[1]+pose.bob+p[0]*sn+p[1]*cs,this.position[2]+p[2]];
   if(!this.solid||Math.abs(t-this.lastTime)>.08){const data=new Float32Array(this.local);for(let i=0;i<data.length;i+=9){const p=point([data[i],data[i+1],data[i+2]]);data.set(p,i);if(data[i+4]<2){const x=data[i+3],y=data[i+4];data[i+3]=x*cs-y*sn;data[i+4]=x*sn+y*cs;}}const ropes=new MythicMesh.Mesh();for(const side of [-1,1]){const a=[side*2.5,.8,-52.9],b=point([side*2.1,.75,.55]);let prev=a;for(let i=1;i<=8;i++){const u=i/8,p=a.map((v,k)=>v+(b[k]-v)*u-(k===1?Math.sin(u*Math.PI)*.35:0));ropes.link(prev,p,.018,'#abc5d3',.018);prev=p;}}const joined=new Float32Array(data.length+ropes.data.length);joined.set(data);joined.set(ropes.data,data.length);this.solid=joined;this.lastTime=t;}
-  const glow=[],add=d=>{for(const v of d)glow.push(v);};add(MythicMesh.glow(point(this.lanternLocal),'#a5e4ff',eye,.85,.08+night*.45));add(MythicMesh.glow(point(this.tipLanternLocal),'#b1e9ff',eye,.95,.08+night*.5));if(night>.01){add(MythicMesh.glow(point([0,.55,0]),'#9cdcff',eye,3.3,night*.14));for(const side of [-1,1])add(MythicMesh.glow(point(side<0?[.65,5.3,0]:[2.7,.85,0]),'#b1e9ff',eye,.55,night*(.23+Math.sin(t*.9+side)**2*.08)));}
+  const glow=[],add=d=>{for(const v of d)glow.push(v);};add(MythicMesh.glow(point(this.lanternLocal),'#a5e4ff',eye,.85,.08+night*.45));add(MythicMesh.glow(point(this.tipLanternLocal),'#ff983f',eye,.95,.08+night*.5));if(night>.01){add(MythicMesh.glow(point([0,.55,0]),'#9cdcff',eye,3.3,night*.14));for(const side of [-1,1])add(MythicMesh.glow(point(side<0?[.65,5.3,0]:[2.7,.85,0]),'#b1e9ff',eye,.55,night*(.23+Math.sin(t*.9+side)**2*.08)));}
   return {solid:this.solid,glow:new Float32Array(glow),night,lantern:point(this.lanternLocal),tipLantern:point(this.tipLanternLocal),bob:pose.bob};
  }
  diagnostics(day=1){return {name:this.name,position:[...this.position],mastheadLantern:true,crescentTipLantern:[...this.tipLanternLocal],uprightCrescent:true,seat:[...this.seat],nightGlow:Math.max(0,1-day*1.7),vertices:this.local.length/9,moored:true};}
