@@ -142,3 +142,5 @@ Ivory Cat is a separate selectable character alongside Star Cat, following the c
 Ivory Cat anatomy is refined toward the reference photos: a longer slimmer torso with a tucked waist, narrower chest and neck, a smaller tapered skull and integrated short muzzle, slimmer paws and tail, and articulated stifles/hocks on the hind legs. The low tucked resting pose still blends into the standing gait.
 
 Ivory Cat eyes now have curved upper and lower lids with gently tapered corners and a slight outer tilt, matching the soft almond shape in the references. The resting eyes are a little narrower than the alert standing eyes.
+
+Ivory Cat walks with a four-beat feline gait: hind paw then forepaw on each side, a longer planted phase and a smooth lifted recovery. Paws follow narrow tracks, wrists and hocks flex during the swing, the shoulders and hips roll gently, and the head stays steadier. The upright tail counter-sways with a delay. Running blends toward paired bounds with longer reach and higher paw lift.

@@ -105,15 +105,25 @@ function sculptCat(m,c,t,moving,motion){
  if(c.tail==='natural'){const points=[];for(let i=0;i<=20;i++){const u=i/20,sway=Math.sin(t*1.2-u*.7)*.025+Math.sin(phase-u*1.4)*.05*blend,yy=1.02+bob+u*1.40*c.tailSize,zz=-.69-.14*Math.sin(u*Math.PI*.7)*c.tailSize,xx=sway*u,r=(.095-.022*u)*c.tailSize;points.push([xx,yy,zz,r]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,18,12);}
 }
 // Separate cream figurine cat: tucked loaf at rest, slender standing anatomy in motion.
+function ivoryCatGait({blend=0,run=0,phase=0}={}){
+ const legs=[],tau=Math.PI*2,duty=.68-run*.18,stride=.18+run*.12;
+ for(const side of [-1,1])for(const front of [-1,1]){
+  // Four-beat feline walk: each hind paw is followed by the forepaw on the same side.
+  const walkOffset=((side<0?0:.5)+(front>0?.75:0))%1,runOffset=(front>0?0:.53)+(side>0?.12:0),offset=walkOffset+(runOffset-walkOffset)*run,cycle=((phase/tau+offset)%1+1)%1,planted=cycle<duty,u=planted?cycle/duty:(cycle-duty)/(1-duty),ease=u*u*(3-2*u),reach=planted?1-2*u:-1+2*ease,lift=planted?0:Math.pow(Math.sin(Math.PI*u),2)*(.10+run*.08)*blend;
+  legs.push({side,front,planted,swing:planted?0:Math.sin(Math.PI*u),stride:reach*stride*blend,lift,roll:side*Math.sin(phase+(front>0?0:Math.PI*.7))*.012*blend});
+ }
+ return {legs,sway:Math.sin(phase)*.012*blend};
+}
 function sculptIvoryCat(m,c,t,moving,motion){
- const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,b=blend*blend*(3-2*blend),mix=(a,z)=>a+(z-a)*b,bob=Math.sin(phase*2)*(.012+run*.018)*blend,col=c.bodyColor,inner=c.accentColor,seam='#9b7d70',nose='#bc9184',h=mix(.86,1.37)+bob,z=mix(.57,.66);
+ const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*7,b=blend*blend*(3-2*blend),mix=(a,z)=>a+(z-a)*b,bob=Math.sin(phase*2)*(.004+run*.020)*blend,col=c.bodyColor,inner=c.accentColor,seam='#9b7d70',nose='#bc9184',h=mix(.86,1.37)+bob*.4,z=mix(.57,.66),gait=ivoryCatGait({blend,run,phase});
  const {tube:rawTube,relief}=sculptTools(m),tube=(p,color)=>rawTube(p,color,[1,0,0]);
  const smooth=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<4;k++){const u=k/4,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*(2*v+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
  const rest=[[-.98,.29,.01,.025],[-.77,.36,.23,.29],[-.40,.38,.265,.31],[.02,.38,.245,.29],[.32,.43,.22,.27],[.51,.59,.175,.24],[.60,.73,.14,.19],[.67,.80,.02,.025]],stand=[[-.98,.99,.01,.025],[-.77,1.04,.22,.25],[-.40,1.04,.215,.24],[.02,1.02,.195,.21],[.32,1.05,.225,.265],[.51,1.17,.165,.235],[.60,1.29,.135,.18],[.67,1.34,.02,.025]];
- m.loft(smooth(rest.map((p,j)=>p.map((v,k)=>mix(v,stand[j][k])+(k===1?bob:0)))),col);
+ const torsoStart=m.data.length;m.loft(smooth(rest.map((p,j)=>p.map((v,k)=>mix(v,stand[j][k])+(k===1?bob+Math.sin(phase-p[0]*1.5)*(.006+run*.018)*blend*Math.min(1,Math.abs(p[0])):0)))),col);
+ for(let i=torsoStart;i<m.data.length;i+=9){const shift=gait.sway*m.size;m.data[i]+=Math.cos(m.yaw)*shift;m.data[i+2]-=Math.sin(m.yaw)*shift;}
  for(const side of [-1,1]){
   for(const front of [-1,1]){
-   const walk=phase+(side*front>0?0:Math.PI),gallop=phase+(front>0?0:Math.PI*.7)+(side>0?.25:0),p=walk+(gallop-walk)*run,stride=Math.sin(p)*(.12+run*.14)*blend,lift=Math.max(0,Math.cos(p))*(.07+run*.09)*blend,x=side*mix(.18,.195),footZ=mix(front>0?.40:-.51,front>0?.47:-.62)+stride,root=[x*.83,mix(front>0?.29:.32,front>0?1.05:1.03)+bob,front>0?.37:-.60],knee=[x,mix(.115,front>0?.61:.72)+lift*.35,footZ+(front<0?mix(-.03,.09):-.045)],hock=[x,mix(.105,front>0?.22:.30)+lift*.65,footZ+(front<0?mix(0,-.055):-.015)],ankle=[x,.09+lift,footZ];
+   const leg=gait.legs.find(l=>l.side===side&&l.front===front),{stride,lift}=leg,x=side*mix(.18,front>0?.18:.17),footZ=mix(front>0?.40:-.51,front>0?.47:-.62)+stride,root=[x*.83+gait.sway,mix(front>0?.29:.32,front>0?1.05:1.03)+bob+leg.roll,front>0?.37:-.60],knee=[x,mix(.115,front>0?.61:.72)+lift*.35,footZ+(front<0?mix(-.03,.09):-.045)-leg.swing*.025*blend],hock=[x,mix(.105,front>0?.22:.30)+lift*.72,footZ+(front<0?mix(0,-.055):-.015)-leg.swing*.045*blend],ankle=[x,.09+lift,footZ];
    tube(smooth([[...root,front>0?mix(.07,.095):mix(.12,.125)],[...knee,mix(.065,front>0?.068:.092)],[...hock,mix(.06,.052)],[...ankle,mix(.065,.045)]]),col);
    m.ellipsoid(x,.07+lift,footZ+.055,mix(.115,.075),.07,mix(.13,.115),col,false,20,12);
   }
@@ -132,7 +142,7 @@ function sculptIvoryCat(m,c,t,moving,motion){
  relief([[-.035,h-.12,z+.344],[.035,h-.12,z+.344],[0,h-.16,z+.365]],[0,h-.136,z+.352],.006,nose);
  for(const side of [-1,1])tube([[0,h-.158,z+.355,.0025],[side*.028,h-.19,z+.344,.0025],[side*.061,h-.198,z+.324,.002],[side*.084,h-.189,z+.305,.001]],seam);
  if(c.tail==='natural'){
-  const points=[];for(let i=0;i<=24;i++){const u=i/24,rest=[.29+Math.sin(u*Math.PI)*.035,.27+u*.68,-.65+.29*Math.sin(u*Math.PI*.85)],upright=[Math.sin(t*1.2-u)*.045*u+Math.sin(phase-u)*.04*u,1.12+u*1.30,-.70-.14*Math.sin(u*Math.PI)];points.push([mix(rest[0],upright[0])*c.tailSize,mix(rest[1],upright[1])+bob,mix(rest[2],upright[2]),(.058-.018*u)*c.tailSize]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,16,10);
+  const points=[];for(let i=0;i<=24;i++){const u=i/24,rest=[.29+Math.sin(u*Math.PI)*.035,.27+u*.68,-.65+.29*Math.sin(u*Math.PI*.85)],upright=[Math.sin(t*1.2-u)*.025*u+Math.sin(phase-.8-u*.9)*.065*u*blend,1.12+u*1.30,-.70-.14*Math.sin(u*Math.PI)];points.push([mix(rest[0],upright[0])*c.tailSize,mix(rest[1],upright[1])+bob,mix(rest[2],upright[2]),(.058-.018*u)*c.tailSize]);}tube(points,col);const q=points.at(-1);m.ellipsoid(q[0],q[1],q[2],q[3],q[3],q[3],col,false,16,10);
  }
 }
 function sculptBunny(m,c,t,moving,motion){
@@ -378,5 +388,5 @@ class Preview {
  render(data){if(!data.length)return;const gl=this.gl;gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.DYNAMIC_DRAW);for(const [k,offset] of [['p',0],['n',12],['c',24]]){gl.enableVertexAttribArray(this.loc[k]);gl.vertexAttribPointer(this.loc[k],3,gl.FLOAT,false,36,offset);}gl.drawArrays(gl.TRIANGLES,0,data.length/9);}
  dispose(){this.disposed=true;cancelAnimationFrame(this.frame);this.gl.deleteBuffer(this.buffer);this.gl.deleteProgram(this.program);const extension=this.gl.getExtension('WEBGL_lose_context');if(extension)extension.loseContext();}
 }
-window.MythicMesh={Mesh,creature,soul,glow,Preview,advanceFoxMotion,deerRig,unicornRig};
+window.MythicMesh={Mesh,creature,soul,glow,Preview,advanceFoxMotion,deerRig,unicornRig,ivoryCatGait};
 })();
