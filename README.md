@@ -152,3 +152,5 @@ Porcelain Pony has fuller hindquarters and thicker thighs, hocks, cannons and ba
 Porcelain Pony now has longer curled mane locks cascading down its neck and over the shoulders/back, plus a longer softly wavy tail. Its dedicated pony rig reduces the resting knee bend and aligns the lower legs more vertically; joint flex returns gradually during walking/running. The unicorn rig and other characters remain unchanged.
 
 Porcelain Pony now uses a light gallop whenever moving, with staggered foreleg and hind-leg pairs, gathered recovery, longer reaches and a gentle body rise. Running strengthens the gallop with higher hoof lift and longer strides. Stopping blends back to the straight-legged resting stance.
+
+Pony front-leg joint positions and movement timing are restored to the version before the gallop update. The thicker hind legs, larger face, longer curly mane/tail and hind-leg motion are retained.

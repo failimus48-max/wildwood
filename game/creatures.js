@@ -231,10 +231,14 @@ function sculptUnicorn(m,c,t,moving,motion){
  if(c.tail==='natural')for(let j=0;j<strands;j++){const a=j/strands*Math.PI*2,points=[];for(let i=0;i<=10;i++){const u=i/10;points.push([Math.cos(a)*.095+Math.sin(u*6+j*.32+phase*.3)*.10*u,1.40+bob-u*(1.55+.16*c.tailSize),-.86-u*.40*c.tailSize+Math.sin(u*5+j*.24)*.10,Math.max(.003,(.052-u*.048)*(1+(j%3)*.12))]);}tube(points,shade(mane,.94+(j%4)*.025));}
 }
 function ponyRig({blend=0,run=0,phase=0}={}){
- const rig=unicornRig({blend:0,run:0,phase:0});
+ const rig=unicornRig({blend:0,run:0,phase:0}),previous=unicornRig({blend,run,phase});
  rig.bob=(Math.sin(phase*2)*(.018+run*.012)+Math.max(0,Math.sin(phase-.4))*(.025+run*.025))*blend;
  for(const leg of rig.legs){
-  // Stagger the forelegs as a pair, followed by the hind pair, even at normal speed.
+  if(leg.front>0){
+   // Restore the foreleg pose and timing from before the gallop change.
+   const old=previous.legs.find(l=>l.front===leg.front&&l.side===leg.side);old.distal[2]=old.ankle[2]-.01;const u=(old.root[1]-old.middle[1])/(old.root[1]-old.distal[1]),line=old.root[2]+(old.distal[2]-old.root[2])*u,bend=old.middle[2]-line;old.middle[2]=line+.015*(1-blend)+bend*.40*blend;Object.assign(leg,old);continue;
+  }
+  // Retain the new hind-leg gallop.
   const beat=phase+(leg.front>0?0:Math.PI*.95)+(leg.side>0?.22:0),swing=Math.max(0,Math.cos(beat)),stride=Math.sin(beat)*(.25+run*.11)*blend,lift=swing*swing*(.15+run*.09)*blend;
   leg.lift=lift;leg.footZ=(leg.front>0?.52:-.60)+stride;leg.root[1]+=rig.bob;leg.root[2]+=stride*(leg.front>0?.18:.10);leg.middle[1]+=rig.bob*.55+lift*.30;leg.distal[1]+=lift*.55;leg.distal[2]=leg.footZ-(leg.front>0?.01:.045)-swing*.035*blend;leg.ankle[1]+=lift;leg.ankle[2]=leg.footZ;
   const u=(leg.root[1]-leg.middle[1])/(leg.root[1]-leg.distal[1]),line=leg.root[2]+(leg.distal[2]-leg.root[2])*u;
