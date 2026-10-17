@@ -128,3 +128,5 @@ The ferret now has a low, nearly level back instead of a hump, a slimmer elongat
 The ferret has shorter, softer little legs and smaller rounded paws. Its body, head and tail sit 0.20 units lower, with smaller steps and paw lift to suit its compact stance.
 
 The ferret has larger rounded black eyes with warm white catchlights and a tiny secondary glint. The previous default grey eyes upgrade to black; custom eye colours remain available.
+
+Blue Tit is a new small playable songbird, following the round figurine reference with a compact head, tiny pointed beak, plump breast, short legs and toes, layered folded wings and narrow straight feather tail. It has blue crown/wings, white cheeks with a dark eye stripe, a yellow breast and a muted green back. Species scale is 0.62; custom size, colours, wings, tails, adornments and souls remain available. Its steps, body bob and folded wings move together.

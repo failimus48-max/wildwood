@@ -199,6 +199,36 @@ function deerFeatherWings(m,c,t,moving,motion){
   for(let i=0;i<5;i++){const u=i/4,start=p(.05+u*.36,.13+u*.40,-.015-u*.13),end=p(.1+u*.41,.02+u*.35,-.23-u*.12),mid=start.map((v,j)=>(v+end[j])/2);tube([[...start,.025*k],[...mid,.048*k],[...end,.003]],color);}
  }
 }
+// Small songbird figurine, with a round breast, blue cap and layered folded wings.
+function sculptBlueTit(m,c,t,moving,motion){
+ const blend=motion?.blend??Number(moving),phase=motion?.phase??t*10,run=motion?.run??0,bob=Math.sin(phase*2)*(.02+run*.025)*blend,col=c.bodyColor,blue=c.wingColor,white=c.accentColor,ink='#243442';
+ m.ellipsoid(0,.63+bob,-.06,.36,.40,.50,col,false,24,16);
+ m.ellipsoid(0,.75+bob,-.27,.305,.23,.405,'#8d9f71',false,22,14);
+ m.ellipsoid(0,1.055+bob,.36,.285,.285,.30,white,false,24,16);
+ m.ellipsoid(0,1.225+bob,.32,.254,.13,.25,blue,false,22,14);
+ for(const side of [-1,1]){
+  m.ellipsoid(side*.205,1.025+bob,.435,.095,.135,.15,white,false,20,12);
+  m.softLink([side*.18,1.09+bob,.573],[side*.282,1.10+bob,.39],.029,ink);
+  m.softLink([side*.282,1.10+bob,.39],[side*.265,1.10+bob,.26],.029,ink);
+  m.ellipsoid(side*.234,1.095+bob,.505,.039,.042,.030,c.eyeColor,c.glowEyes,16,10);
+  m.ellipsoid(side*.250,1.111+bob,.524,.009,.010,.006,'#ffffff',true,8,6);
+  m.softLink([side*.27,.97+bob,.31],[side*.26,.93+bob,.40],.025,ink);
+  m.softLink([side*.26,.93+bob,.40],[side*.11,.89+bob,.48],.025,ink);
+  const p=phase+(side>0?0:Math.PI),lift=Math.max(0,Math.cos(p))*.065*blend,stride=Math.sin(p)*.09*blend,x=side*.16,z=-.03+stride;
+  m.softLink([x,.36+bob,-.06],[x,.075+lift,z+.07],.027,'#83919b');
+  for(const toe of [-1,0,1])m.softLink([x,.052+lift,z+.06],[x+toe*.085,.033+lift,z+.22-Math.abs(toe)*.045],.019,'#7c8991');
+  m.softLink([x,.05+lift,z+.06],[x+side*.045,.03+lift,z-.08],.016,'#7c8991');
+  if(c.wings==='angel'){
+   const k=c.wingSize,flex=Math.sin(phase*2-.5)*.012*blend,point=(y,z,layer=0)=>[side*(.30+layer+flex),.75+bob+(y-.75)*k,-.11+(z+.11)*k];
+   m.ellipsoid(side*(.30+flex),.69+bob,-.17,.105,.235*k,.39*k,blue,false,20,12);
+   for(let i=0;i<7;i++)m.softLink(point(.88-i*.027,.03-i*.047,.028),point(.45+i*.018,-.60+i*.042,.026),.045,blue);
+   for(let row=0;row<2;row++)for(let i=0;i<5;i++)m.softLink(point(.89-row*.09-i*.026,.06-i*.09,.065),point(.76-row*.10-i*.025,-.045-i*.09,.078),.042,row===1&&i<4?white:blue);
+  }
+ }
+ m.ellipsoid(0,.875+bob,.46,.073,.075,.048,ink,false,16,10);
+ m.link([0,1.055+bob,.625],[0,1.032+bob,.79],.052,ink,0);
+ if(c.tail==='natural')for(let i=0;i<5;i++)m.softLink([(i-2)*.035,.54+bob,-.39],[(i-2)*.045,.49+bob,-.43-.63*c.tailSize],.033,blue);
+}
 // Low, long-bodied ferret with a level back and a compact rounded face.
 function sculptFerret(m,c,t,moving,motion){
  const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*8,bob=Math.sin(phase*2)*(.012+run*.025)*blend,col=c.bodyColor,a=c.accentColor;
@@ -257,7 +287,7 @@ function sculptOwl(m,c,t,moving,motion){
  if(c.tail==='natural')for(let i=0;i<5;i++)feather([(i-2)*.055,.92+bob,-.36],[(i-2)*.085,.10+bob,-1.12*c.tailSize],.085,.026,i%2?a:c.wingColor,[0,1,0]);
 }
 function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={}){const c=WildwoodModel.appearance(config),m=new Mesh(position,yaw,WildwoodModel.bodyScale(c)),id=c.animal,col=c.bodyColor,a=c.accentColor,step=moving?Math.sin(t*12)*.13:0;
- const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='unicorn'?2.90:id==='deer'?1.94:id==='cat'?1.16:id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
+ const bird=['owl','phoenix','gryphon'].includes(id),pony=['unicorn','pegasus','deer','kirin'].includes(id),rabbit=['bunny','jackalope','chimerabunny'].includes(id),feline=['cat','tiger','snowleopard'].includes(id),long=['ferret','otter','axolotl'].includes(id),headY=id==='bluetit'?1.05:id==='unicorn'?2.90:id==='deer'?1.94:id==='cat'?1.16:id==='wolf'?(2.03-.53*(motion?.blend??Number(moving))):id==='fox'?(1.91-.49*(motion?.blend??Number(moving))):id==='bunny'?(1.46-.26*(motion?.blend??Number(moving))):pony?1.7:bird?1.6:long?1.15:1.35;
  if(id==='spiritbunny'){m.ellipsoid(0,.87,0,.65,.67,.75,col);m.ellipsoid(0,1.48,.53,.68,.58,.55,col);for(const side of [-1,1]){m.ellipsoid(side*.34,2.08,.48,.21,.64*c.earSize,.2,col);m.ellipsoid(side*.34,2.12,.66,.095,.45*c.earSize,.04,a);m.ellipsoid(side*.38,.28,.55,.27,.25,.35,col);m.ellipsoid(side*.4,.24,-.42,.27,.24,.3,col);m.ellipsoid(side*.3,1.59,1.025,.12,.15,.05,c.eyeColor,c.glowEyes);m.ellipsoid(side*.3-.035,1.645,1.073,.039,.046,.015,'#f5ffff',true);m.ellipsoid(side*.48,1.35,.96,.11,.055,.027,'#b4e5ef');}m.ellipsoid(0,1.33,1.08,.26,.17,.1,a);m.ellipsoid(0,1.39,1.177,.07,.05,.025,c.eyeColor);}
 
  else if(id==='fox'||id==='wolf')sculptFox(m,c,t,moving,motion);
@@ -266,6 +296,7 @@ function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={
  else if(id==='deer')sculptDeer(m,c,t,moving,motion);
  else if(id==='unicorn')sculptUnicorn(m,c,t,moving,motion);
  else if(id==='owl')sculptOwl(m,c,t,moving,motion);
+ else if(id==='bluetit')sculptBlueTit(m,c,t,moving,motion);
  else if(id==='ferret')sculptFerret(m,c,t,moving,motion);
  else{
   const trueBird=bird&&id!=='gryphon',canine=['fox','wolf','kitsune','fennec'].includes(id),aquatic=id==='axolotl',bodyY=pony?1.03:long?.64:.86,width=id==='bear'?.58:long?.34:.43,length=long?1.03:pony?.94:.82;
@@ -290,7 +321,7 @@ function creature(config,{position=[0,0,0],yaw=0,t=0,moving=false,motion=null}={
   if(aquatic)for(const side of [-1,1])for(let i=0;i<3;i++){const end=[side*(.76-i*.04),headY-.24+i*.27,.58];m.softLink([side*.38,headY-.15+i*.16,.6],end,.035,a);for(let j=1;j<=3;j++)m.softLink(end,[end[0]+side*.07*j,end[1]+(j-2)*.06,end[2]-.02*j],.012,a);}
  }
 
- if(!['fox','wolf','cat','bunny','deer','unicorn','owl','ferret'].includes(id)||c.tail!=='natural'){const start=m.data.length;tail(m,c,t);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else {const start=m.data.length;if(id==='unicorn'&&c.wings==='angel')deerFeatherWings(m,{...c,wingSize:c.wingSize*1.9},t,moving,motion);else if(id!=='owl'||c.wings!=='angel')wings(m,c,t,moving);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if((id!=='deer'||c.horns!=='antlers')&&(id!=='unicorn'||c.horns!=='unicorn'))horns(m,c,headY);details(m,c,headY);
+ if(!['fox','wolf','cat','bunny','deer','unicorn','owl','ferret','bluetit'].includes(id)||c.tail!=='natural'){const start=m.data.length;tail(m,c,t);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if(id==='deer'&&c.wings==='angel')deerFeatherWings(m,c,t,moving,motion);else {const start=m.data.length;if(id==='unicorn'&&c.wings==='angel')deerFeatherWings(m,{...c,wingSize:c.wingSize*1.9},t,moving,motion);else if(!['owl','bluetit'].includes(id)||c.wings!=='angel')wings(m,c,t,moving);if(id==='unicorn')for(let i=start+1;i<m.data.length;i+=9)m.data[i]+=.58;}if((id!=='deer'||c.horns!=='antlers')&&(id!=='unicorn'||c.horns!=='unicorn'))horns(m,c,headY);details(m,c,headY);
  return new Float32Array(m.data);
 }
 function soul(type,position,t,eye=[4,3,6]){const s=WildwoodModel.souls.find(x=>x.id===type);if(!s)return {solid:new Float32Array(),glow:new Float32Array()};const m=new Mesh(position),g=new Mesh(),color=s.color,co=rgb(color);m.ellipsoid(0,0,0,.19,.22,.19,color,true);m.ellipsoid(0,-.03,.02,.095,.14,.1,'#f5ffff',true);for(let i=0;i<5;i++){const a=t*1.7+i/5*6.283,x=Math.cos(a)*.11,z=Math.sin(a)*.11;m.link([x,-.06,z],[x*.5+Math.sin(t*4+i)*.04,.36+Math.sin(t*3+i)*.08,z*.5],.09,color,0,true);}
@@ -306,7 +337,7 @@ class Preview {
  canvas.addEventListener('pointerdown',e=>{this.drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(!this.drag)return;this.yaw-=(e.clientX-this.drag[0])*.012;this.pitch=Math.max(-.15,Math.min(.8,this.pitch+(e.clientY-this.drag[1])*.006));this.drag=[e.clientX,e.clientY];});canvas.addEventListener('pointerup',()=>this.drag=null);canvas.addEventListener('pointercancel',()=>this.drag=null);canvas.addEventListener('wheel',e=>{e.preventDefault();this.zoom=Math.max(5,Math.min(13,this.zoom+e.deltaY*.008));},{passive:false});
  this.tick=time=>{if(this.disposed)return;if(this.lastFrame&&time-this.lastFrame<1000/WildwoodPerformance.targetFps-1){this.frame=requestAnimationFrame(this.tick);return;}this.lastFrame=time;this.draw(time/1000);this.frame=requestAnimationFrame(this.tick);};this.frame=requestAnimationFrame(this.tick);
  }
- draw(t){const gl=this.gl,c=this.canvas,d=Math.min(devicePixelRatio||1,WildwoodPerformance.mobile?1.2:1.5);const w=Math.round(c.clientWidth*d),h=Math.round(c.clientHeight*d);if(w<1||h<1)return;if(c.width!==w||c.height!==h){c.width=w;c.height=h;}gl.viewport(0,0,w,h);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);const config=this.getConfig(),distance=this.zoom*(config.animal==='unicorn'?1.16:config.animal==='wolf'?1.18:1)*(config.wings!=="none"?(config.animal==='deer'&&config.wings==='angel'?1.08:1.22):1)*Math.max(1,config.size)*Math.max(1,config.wingSize*.8),yaw=this.yaw,eye=[Math.sin(yaw)*distance,2+Math.sin(this.pitch)*distance,Math.cos(yaw)*distance],target=[0,config.animal==='unicorn'?1.15:.65,0],z=normalize(subtract(eye,target)),x=normalize(cross([0,1,0],z)),y=cross(z,x),f=1/Math.tan(.72/2),near=.1,far=50,view=new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,eye),-dot(y,eye),-dot(z,eye),1]),projection=new Float32Array([f/(w/h),0,0,0,0,f,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0]);gl.uniformMatrix4fv(this.loc.vp,false,multiply(projection,view));const pedestal=new Mesh();pedestal.disk(0,.01,0,2.35,'#1d3841');pedestal.ring(0,.02,0,2.3,'#668779');pedestal.ring(0,.03,0,1.8,'#3d6762');this.render(new Float32Array(pedestal.data));this.render(creature(config,{yaw:Math.sin(t*.12)*.15,t}));const orb=soul(config.soul,[1.4,1.55+Math.sin(t*2)*.12,.45],t,eye);this.render(orb.solid);gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.depthMask(false);this.render(orb.glow);gl.depthMask(true);gl.disable(gl.BLEND);this.error=gl.getError();}
+ draw(t){const gl=this.gl,c=this.canvas,d=Math.min(devicePixelRatio||1,WildwoodPerformance.mobile?1.2:1.5);const w=Math.round(c.clientWidth*d),h=Math.round(c.clientHeight*d);if(w<1||h<1)return;if(c.width!==w||c.height!==h){c.width=w;c.height=h;}gl.viewport(0,0,w,h);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);const config=this.getConfig(),distance=this.zoom*(config.animal==='bluetit'?.8:1)*(config.animal==='unicorn'?1.16:config.animal==='wolf'?1.18:1)*(config.wings!=="none"?(config.animal==='deer'&&config.wings==='angel'?1.08:1.22):1)*Math.max(1,config.size)*Math.max(1,config.wingSize*.8),yaw=this.yaw,eye=[Math.sin(yaw)*distance,2+Math.sin(this.pitch)*distance,Math.cos(yaw)*distance],target=[0,config.animal==='bluetit'?.40:config.animal==='unicorn'?1.15:.65,0],z=normalize(subtract(eye,target)),x=normalize(cross([0,1,0],z)),y=cross(z,x),f=1/Math.tan(.72/2),near=.1,far=50,view=new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,eye),-dot(y,eye),-dot(z,eye),1]),projection=new Float32Array([f/(w/h),0,0,0,0,f,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0]);gl.uniformMatrix4fv(this.loc.vp,false,multiply(projection,view));const pedestal=new Mesh();pedestal.disk(0,.01,0,2.35,'#1d3841');pedestal.ring(0,.02,0,2.3,'#668779');pedestal.ring(0,.03,0,1.8,'#3d6762');this.render(new Float32Array(pedestal.data));this.render(creature(config,{yaw:Math.sin(t*.12)*.15,t}));const orb=soul(config.soul,[1.4,1.55+Math.sin(t*2)*.12,.45],t,eye);this.render(orb.solid);gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.depthMask(false);this.render(orb.glow);gl.depthMask(true);gl.disable(gl.BLEND);this.error=gl.getError();}
  render(data){if(!data.length)return;const gl=this.gl;gl.bindBuffer(gl.ARRAY_BUFFER,this.buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.DYNAMIC_DRAW);for(const [k,offset] of [['p',0],['n',12],['c',24]]){gl.enableVertexAttribArray(this.loc[k]);gl.vertexAttribPointer(this.loc[k],3,gl.FLOAT,false,36,offset);}gl.drawArrays(gl.TRIANGLES,0,data.length/9);}
  dispose(){this.disposed=true;cancelAnimationFrame(this.frame);this.gl.deleteBuffer(this.buffer);this.gl.deleteProgram(this.program);const extension=this.gl.getExtension('WEBGL_lose_context');if(extension)extension.loseContext();}
 }
