@@ -150,3 +150,5 @@ Porcelain Pony is a new separate playable character based on the cream figurines
 Porcelain Pony has fuller hindquarters and thicker thighs, hocks, cannons and back hooves to match the reference. The skull, cheeks and muzzle are broader and softer, with slightly larger dark eyes, tiny highlights and ears/forelock repositioned for the bigger face.
 
 Porcelain Pony now has longer curled mane locks cascading down its neck and over the shoulders/back, plus a longer softly wavy tail. Its dedicated pony rig reduces the resting knee bend and aligns the lower legs more vertically; joint flex returns gradually during walking/running. The unicorn rig and other characters remain unchanged.
+
+Porcelain Pony now uses a light gallop whenever moving, with staggered foreleg and hind-leg pairs, gathered recovery, longer reaches and a gentle body rise. Running strengthens the gallop with higher hoof lift and longer strides. Stopping blends back to the straight-legged resting stance.

@@ -230,13 +230,15 @@ function sculptUnicorn(m,c,t,moving,motion){
  if(c.horns==='unicorn'){const points=[],spiral=[];for(let i=0;i<=48;i++){const u=i/48,r=.105*(1-u),angle=u*Math.PI*12,cy=h+.20+u*.85,cz=z+.24+u*.48;if(i%3===0)points.push([0,cy,cz,Math.max(.002,r)]);spiral.push([Math.cos(angle)*r,cy+Math.sin(angle)*r*.49,cz-Math.sin(angle)*r*.87,Math.max(.002,.010*(1-u))]);}tube(points,'#c1aa7b');tube(spiral,'#9e8962');}
  if(c.tail==='natural')for(let j=0;j<strands;j++){const a=j/strands*Math.PI*2,points=[];for(let i=0;i<=10;i++){const u=i/10;points.push([Math.cos(a)*.095+Math.sin(u*6+j*.32+phase*.3)*.10*u,1.40+bob-u*(1.55+.16*c.tailSize),-.86-u*.40*c.tailSize+Math.sin(u*5+j*.24)*.10,Math.max(.003,(.052-u*.048)*(1+(j%3)*.12))]);}tube(points,shade(mane,.94+(j%4)*.025));}
 }
-function ponyRig(motion={}){
- const rig=unicornRig(motion),blend=motion.blend||0;
+function ponyRig({blend=0,run=0,phase=0}={}){
+ const rig=unicornRig({blend:0,run:0,phase:0});
+ rig.bob=(Math.sin(phase*2)*(.018+run*.012)+Math.max(0,Math.sin(phase-.4))*(.025+run*.025))*blend;
  for(const leg of rig.legs){
-  // The reference pony stands nearly straight through its knees and hocks.
-  leg.distal[2]=leg.ankle[2]-(leg.front>0?.01:.045);
-  const u=(leg.root[1]-leg.middle[1])/(leg.root[1]-leg.distal[1]),line=leg.root[2]+(leg.distal[2]-leg.root[2])*u,oldBend=leg.middle[2]-line;
-  leg.middle[2]=line+(leg.front>0?.015:.055)*(1-blend)+oldBend*.40*blend;
+  // Stagger the forelegs as a pair, followed by the hind pair, even at normal speed.
+  const beat=phase+(leg.front>0?0:Math.PI*.95)+(leg.side>0?.22:0),swing=Math.max(0,Math.cos(beat)),stride=Math.sin(beat)*(.25+run*.11)*blend,lift=swing*swing*(.15+run*.09)*blend;
+  leg.lift=lift;leg.footZ=(leg.front>0?.52:-.60)+stride;leg.root[1]+=rig.bob;leg.root[2]+=stride*(leg.front>0?.18:.10);leg.middle[1]+=rig.bob*.55+lift*.30;leg.distal[1]+=lift*.55;leg.distal[2]=leg.footZ-(leg.front>0?.01:.045)-swing*.035*blend;leg.ankle[1]+=lift;leg.ankle[2]=leg.footZ;
+  const u=(leg.root[1]-leg.middle[1])/(leg.root[1]-leg.distal[1]),line=leg.root[2]+(leg.distal[2]-leg.root[2])*u;
+  leg.middle[2]=line+(leg.front>0?.015:.055)*(1-blend)+(leg.front>0?1:-1)*swing*(.12+run*.055)*blend;
  }
  return rig;
 }

@@ -14,4 +14,9 @@ const moved=creature(look,{position:[7,2,-9],yaw:1.2,motion:{blend:0,run:0,phase
 const rig=context.window.MythicMesh.ponyRig;
 for(const leg of rig({blend:0,run:0,phase:0}).legs){const u=(leg.root[1]-leg.middle[1])/(leg.root[1]-leg.distal[1]),line=leg.root[2]+(leg.distal[2]-leg.root[2])*u;assert(Math.abs(leg.middle[2]-line)<.06,'Standing pony knees should have a restrained bend');assert(Math.abs(leg.distal[2]-leg.ankle[2])<.05,'Standing lower legs should align near vertically');}
 for(const blend of [0,.5,1])for(let i=0;i<24;i++)for(const leg of rig({blend,run:blend,phase:i*Math.PI/12}).legs){assert([...leg.root,...leg.middle,...leg.distal,...leg.ankle].every(Number.isFinite));assert(leg.root[1]>leg.middle[1]&&leg.middle[1]>leg.distal[1]&&leg.distal[1]>leg.ankle[1],'Pony joints should descend naturally');}
-console.log('PASS: straighter pony stance, articulated gait, long-legged meshes, attached stockings, appearance options and saved customization');
+const foreBeat=rig({blend:1,run:0,phase:0}).legs,hindBeat=rig({blend:1,run:0,phase:Math.PI}).legs;
+assert(foreBeat.filter(l=>l.front>0).every(l=>l.lift>.12)&&foreBeat.filter(l=>l.front<0).every(l=>l.lift===0),'Normal movement should gather the forelegs as a galloping pair');
+assert(hindBeat.filter(l=>l.front<0).every(l=>l.lift>.12)&&hindBeat.filter(l=>l.front>0).every(l=>l.lift===0),'Hind-leg pair should follow the foreleg beat');
+assert(rig({blend:1,run:1,phase:0}).legs[1].lift>rig({blend:1,run:0,phase:0}).legs[1].lift,'Running should strengthen the gallop');
+assert(rig({blend:0,run:0,phase:1}).legs.every(l=>l.lift===0),'Stopped pony should keep its hooves down');
+console.log('PASS: normal-speed gallop pairs, stronger running, straight idle stance, attached stockings, appearance options and saved customization');
