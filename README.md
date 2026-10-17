@@ -114,3 +114,5 @@ Cloud Unicorn now has a dedicated reference-inspired cream model with a long cur
 The unicorn has substantially longer legs to match the reference silhouette: its shoulders and hips are raised by 0.58 model units, with longer fixed-length upper/lower limbs and longer cannons. Hoof positions stay grounded, the barrel and long neck move upward together, and the flowing tail reaches down to the lower legs. Preview framing and optional adornments follow the taller proportions. The deer rig remains unchanged.
 
 Cloud Unicorn now defaults to cream feathered wings attached at its raised shoulders. Layered feathers sway with its walking/running rhythm. Existing unwinged unicorn saves gain the wings once; custom wing types are preserved, and choosing no wings afterward remains persistent.
+
+The unicorn feathered wings are about 41% larger, with taller feathers and a broader spread that still pivots from the shoulders.
