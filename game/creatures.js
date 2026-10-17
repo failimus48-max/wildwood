@@ -204,7 +204,7 @@ function sculptFerret(m,c,t,moving,motion){
  const blend=motion?.blend??Number(moving),run=motion?.run??0,phase=motion?.phase??t*8,bob=Math.sin(phase*2)*(.012+run*.025)*blend,col=c.bodyColor,a=c.accentColor;
  const {tube:rawTube}=sculptTools(m),tube=(p,color)=>rawTube(p,color,[1,0,0]);
  const smooth=points=>{const out=[];for(let j=0;j<points.length-1;j++)for(let k=0;k<4;k++){const u=k/4,p=points[Math.max(0,j-1)],q=points[j],r=points[j+1],s=points[Math.min(points.length-1,j+2)];out.push(q.map((v,i)=>.5*((2*v)+(-p[i]+r[i])*u+(2*p[i]-5*v+4*r[i]-s[i])*u*u+(-p[i]+3*v-3*r[i]+s[i])*u*u*u)));}out.push(points.at(-1));return out;};
- const sections=[[-1.03,.61,.025,.04],[-.88,.78,.27,.33],[-.65,.97,.35,.43],[-.36,1.06,.36,.40],[-.04,1.01,.32,.33],[.25,.90,.255,.25],[.52,.97,.225,.27],[.74,1.28,.215,.31],[.94,1.53,.23,.28],[1.14,1.56,.24,.235],[1.31,1.45,.185,.17],[1.48,1.37,.085,.08],[1.54,1.36,.008,.012]];
+ const sections=[[-1.03,.61,.025,.04],[-.88,.78,.27,.33],[-.65,.97,.35,.43],[-.36,1.06,.36,.40],[-.04,1.02,.35,.35],[.25,.91,.28,.28],[.49,1.01,.25,.30],[.67,1.32,.24,.32],[.83,1.52,.255,.29],[1.00,1.56,.27,.265],[1.16,1.47,.23,.21],[1.29,1.38,.135,.115],[1.36,1.36,.008,.025]];
  m.loft(smooth(sections).map(p=>[p[0],p[1]+bob+Math.sin(phase-p[0]*2)*run*.025*blend,p[2],p[3]]),col);
  for(const side of [-1,1]){
   for(const front of [-1,1]){
@@ -212,11 +212,11 @@ function sculptFerret(m,c,t,moving,motion){
    tube(smooth([[...hip,front>0?.14:.17],[...knee,front>0?.115:.155],[...ankle,.08]]),col);
    m.ellipsoid(x,.085+lift,z+.17+stride,.105,.085,.205,col,false,20,12);
   }
-  const k=c.earSize;m.ellipsoid(side*.185,1.765+bob,1.035,.085*k,.125*k,.058*k,col,false,20,14);m.ellipsoid(side*.185,1.765+bob,1.082,.045*k,.075*k,.012,a,false,16,10);
+  const k=c.earSize;m.ellipsoid(side*.185,1.775+bob,.875,.075*k,.105*k,.058*k,col,false,20,14);m.ellipsoid(side*.185,1.775+bob,.922,.038*k,.06*k,.012,a,false,16,10);
   // Tiny inset eyes keep the quiet sculptural face of the supplied figurine.
-  m.ellipsoid(side*.18,1.52+bob,1.285,.026,.027,.012,c.eyeColor,c.glowEyes,12,8);
+  m.ellipsoid(side*.217,1.52+bob,1.155,.023,.025,.012,c.eyeColor,c.glowEyes,12,8);
  }
- m.ellipsoid(0,1.37+bob,1.533,.043,.03,.016,a,false,14,8);
+ m.ellipsoid(0,1.37+bob,1.353,.040,.03,.016,a,false,14,8);
  if(c.tail==='natural'){
   const points=[];for(let i=0;i<=24;i++){const u=i/24;points.push([Math.sin(t*1.25-u*2.3)*.06*u+Math.sin(phase-u*2)*.07*blend*u,.63+bob*(1-u)-.12*Math.sin(u*Math.PI)+.04*Math.sin(u*Math.PI*2)-.06*u**4,-.91-u*1.23*c.tailSize,Math.max(.018,Math.sin(Math.PI*(.18+u*.82))*.125*c.tailSize)]);}tube(points,col);
  }

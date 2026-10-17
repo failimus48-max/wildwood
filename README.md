@@ -120,3 +120,5 @@ The unicorn feathered wings are about 41% larger, with taller feathers and a bro
 Snowy Owl replaces the old Moon Owl with a reference-inspired cream figurine: rounded head without ear tufts, pale facial discs, small blue eyes, a horn-coloured beak, sloping pear-shaped breast, scalloped folded feather wings, long layered tail and feathered legs with three forward toes. Its steps alternate with gentle body/wing motion. Custom colours, wing types and saved looks remain supported; the former default purple owl palette upgrades to ivory.
 
 Starlight Ferret now follows the smooth ivory reference figurine: a continuous arched back and raised neck, tiny rounded ears, tapered head, short substantial limbs and an elongated gently curved tail. Walking/running blends into alternating steps with body and tail motion. Custom looks remain available, and the former default tan palette upgrades to ivory.
+
+The reference ferret has a shorter, rounder skull and blunt muzzle, smaller ears moved back above the skull, a fuller neck and rounder mid-body. The face now projects roughly one third less from the neck than the previous version.
