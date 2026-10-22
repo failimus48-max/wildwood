@@ -154,3 +154,5 @@ Porcelain Pony now has longer curled mane locks cascading down its neck and over
 Porcelain Pony now uses a light gallop whenever moving, with staggered foreleg and hind-leg pairs, gathered recovery, longer reaches and a gentle body rise. Running strengthens the gallop with higher hoof lift and longer strides. Stopping blends back to the straight-legged resting stance.
 
 Pony front-leg joint positions and movement timing are restored to the version before the gallop update. The thicker hind legs, larger face, longer curly mane/tail and hind-leg motion are retained.
+
+World camera zoom now reaches 2.8 units for a normal-sized avatar (previously 8), using the mouse wheel or two-finger pinch on mobile. The minimum distance grows with larger avatars, and close framing follows tall/small character proportions and jumping. A pinch does not rotate the camera; returning to one-finger dragging resumes smoothly. The boat retains its wider camera view.
